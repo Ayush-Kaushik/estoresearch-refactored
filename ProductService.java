@@ -1,72 +1,39 @@
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class ProductService {
-    
-    private ArrayList<Product> productList;
-    
+    private HashMap<string, Product> productMap;
+
     public ProductService() {
-        this.productList = new ArrayList<>();
+        this.productList = new HashMap<>();
     }
-    
-    public ProductService(ArrayList<Product> productList) {
-        this.productList = productList;
-    }
-    
-    /**
-     * @return ID - the user input for product ID that is needed to be added to the
-     *         array list
-     *         It uses try and catch block to validate the user input. Also, it asks
-     *         the user to re-enter ID incase it already exists in the array list
-     */
-    public String validateID() {
-        Scanner scanID = new Scanner(System.in);
-        boolean validID = false;
-        String ID = "";
 
-        while (!validID) {
-            try {
-                System.out.println("Enter the ID:");
-                ID = scanID.nextLine();
+    public String validateID(string productId) {
 
-                if (ID.length() == 6 && ID.matches("[0-9]+") == true) {
-                    validID = true;
-                }
-
-                else {
-                    throw new Exception("*** ID can only contain numbers of length 6 ***");
-                }
-
-                for (int i = 0; i < productList.size(); i++) {
-                    if (productList.get(i).getID().contains(ID) == true) {
-                        validID = false;
-                        throw new Exception("*** ID already exists in the list ***");
-                    }
-                }
-            } catch (Exception e) {
-                String message = e.getMessage();
-                System.out.println(message);
-            }
+        if (!productId.length() == 6 && !productId.matches("[0-9]+")) {
+            throw new ArgumentException("Cannot add product: ID must be 6 digits long and contain only numbers");
         }
 
-        return ID;
+        if (productMap.containsKey(productId)) {
+            throw new ArgumentException("Cannot add product: ID already exists");
+        }
+
+        return productId;
     }
-    
+
     public void addProduct(Product product) {
+        validateID(product.getID());
+
         productList.add(product);
     }
-    
-    public ArrayList<Product> getProductList() {
-        return productList;
-    }
-    
+
     public Product findProductById(String id) {
-        for (Product product : productList) {
-            if (product.getID().equals(id)) {
-                return product;
-            }
+        if (productMap.containsKey(id)) {
+            return productMap.get(id);
         }
+
         return null;
     }
 }

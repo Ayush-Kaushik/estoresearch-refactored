@@ -26,8 +26,6 @@ public abstract class Product {
         this.name = name;
     }
 
-    
-
     /**
      * @return year - returns the user input for year that is needed to be added to
      *         the array list
