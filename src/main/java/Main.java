@@ -4,11 +4,7 @@
 
 public class Main {
   public static void main(String[] args) {
-    System.out.println("Hello world!");
+    Product product = new Product("123456", "Book", 12.99, 2020);
   }
 
-  // @Test
-  // void addition() {
-  //     assertEquals(2, 1 + 1);
-  // }
 }
