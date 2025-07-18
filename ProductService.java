@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ProductService {
-    private HashMap<string, Product> productMap;
+    private HashMap<String, Product> productMap;
 
     public ProductService() {
-        this.productList = new HashMap<>();
+        this.productMap = new HashMap<>();
     }
 
-    public String validateID(string productId) {
+    public String validateID(String productId) {
 
-        if (!productId.length() == 6 && !productId.matches("[0-9]+")) {
-            throw new ArgumentException("Cannot add product: ID must be 6 digits long and contain only numbers");
+        if (productId.length() != 6 || !productId.matches("[0-9]+")) {
+            throw new IllegalArgumentException("Cannot add product: ID must be 6 digits long and contain only numbers");
         }
 
         if (productMap.containsKey(productId)) {
-            throw new ArgumentException("Cannot add product: ID already exists");
+            throw new IllegalArgumentException("Cannot add product: ID already exists");
         }
 
         return productId;
@@ -26,7 +26,7 @@ public class ProductService {
     public void addProduct(Product product) {
         validateID(product.getID());
 
-        productList.add(product);
+        productMap.put(product.getID(), product);
     }
 
     public Product findProductById(String id) {

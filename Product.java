@@ -21,9 +21,9 @@ public abstract class Product {
      */
     public Product(String id, String name, double price, int year) {
         this.id = id;
-        this.price = price;
+        this.name = validateNameParameter(name);
+        this.price = validatePrice(price);
         this.year = year;
-        this.name = name;
     }
 
     /**
@@ -101,6 +101,17 @@ public abstract class Product {
         }
 
         return price;
+    }
+
+    /**
+     * @param name - validates the name parameter passed to constructor
+     * @return name - If parameter is valid, returns the name
+     */
+    public static String validateNameParameter(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        return name.trim();
     }
 
     public String datadump() {
