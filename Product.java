@@ -26,46 +26,7 @@ public abstract class Product {
         this.name = name;
     }
 
-    /**
-     * @param productList - The array list is used to check if there is a product ID
-     *                    entered by user that already exists
-     * @return ID - the user input for product ID that is needed to be added to the
-     *         array list
-     *         It uses try and catch block to validate the user input. Also, it asks
-     *         the user to re-enter ID incase it already exists in the array list
-     */
-    public static String validateID(ArrayList<Product> productList) {
-        Scanner scanID = new Scanner(System.in);
-        boolean validID = false;
-        String ID = "";
-
-        while (!validID) {
-            try {
-                System.out.println("Enter the ID:");
-                ID = scanID.nextLine();
-
-                if (ID.length() == 6 && ID.matches("[0-9]+") == true) {
-                    validID = true;
-                }
-
-                else {
-                    throw new Exception("*** ID can only contain numbers of length 6 ***");
-                }
-
-                for (int i = 0; i < productList.size(); i++) {
-                    if (productList.get(i).getID().contains(ID) == true) {
-                        validID = false;
-                        throw new Exception("*** ID already exists in the list ***");
-                    }
-                }
-            } catch (Exception e) {
-                String message = e.getMessage();
-                System.out.println(message);
-            }
-        }
-
-        return ID;
-    }
+    
 
     /**
      * @return year - returns the user input for year that is needed to be added to
@@ -108,7 +69,7 @@ public abstract class Product {
      *         Since name can include numbers, alphabets and in some cases signs.
      *         This method does not require any error checking.
      */
-    public static String validateName(string name) {
+    public static String validateName() {
         Scanner scanName = new Scanner(System.in);
         boolean validName = false;
         String name = "";
@@ -138,7 +99,7 @@ public abstract class Product {
      */
     public static double validatePrice(double price) {
         if (price < 0) {
-            throw new ArgumentException("Price cannot be negative");
+            throw new IllegalArgumentException("Price cannot be negative");
         }
 
         return price;
@@ -154,16 +115,16 @@ public abstract class Product {
      *            member of instance object of electronic/book subclass
      */
     public void setID(String ID_) {
-        this.ID = ID_;
+        this.id = ID_;
     }
 
     /**
-     * @return this.ID - this returns the member (product ID) of instance object of
+     * @return this.id - this returns the member (product ID) of instance object of
      *         type Electronic or Book
      */
     public String getID() {
 
-        return this.ID;
+        return this.id;
 
     }
 

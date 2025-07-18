@@ -12,12 +12,12 @@ public class Book extends Product {
      *             to create member of instance object of book class
      */
     public Book(
-            final string ID,
-            final string name,
+            final String ID,
+            final String name,
             final double price,
             final int year,
-            final string author,
-            final string publisher) {
+            final String author,
+            final String publisher) {
         super(ID, name, price, year);
 
         this.author = validateAuthor(author);
@@ -29,9 +29,9 @@ public class Book extends Product {
      *               used to create member of instance object of book class
      * @return author - If user input is valid, it returns user input - author name
      */
-    public static String validateAuthor(final string author) {
+    public static String validateAuthor(final String author) {
         if (author.isEmpty()) {
-            throw new ArgumentException("Author cannot be empty");
+            throw new IllegalArgumentException("Author cannot be empty");
         }
 
         return author;
@@ -47,7 +47,7 @@ public class Book extends Product {
     public static String validatePublisher(final String publisher) {
 
         if (publisher.isEmpty()) {
-            throw new ArgumentException("Publisher cannot be empty");
+            throw new IllegalArgumentException("Publisher cannot be empty");
         }
 
         return publisher;
