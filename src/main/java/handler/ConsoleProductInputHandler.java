@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import constants.AppConstants;
 import io.ProductDataExporter;
 import model.Book;
 import model.Electronics;
@@ -312,21 +313,28 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
 
     }
 
-    private String getCommand() {
+    private int getCommand() {
         while (true) {
             System.out.println("Enter command: (1) Add (2) Search (3) Quit");
 
-            String option = scanner.nextLine();
-            option = option.toLowerCase().trim();
+            try {
+                String selection = scanner.nextLine();
+                selection = selection.toLowerCase().trim();
 
-            if (option.equals("1") || option.equals("2") || option.equals("3") || option.equals("q")
-                    || option.equals("quit") || option.equals("add") || option.equals("search")
-                    || option.equals("a") || option.equals("s")) {
-                return option;
-            } else {
+                int command = Integer.parseInt(selection);
+
+                if (command >= 1 && command <= 3) {
+                    return command;
+                } else {
+                    System.out.println("Invalid command");
+                    continue;
+                }
+
+            } catch (NumberFormatException exception) {
                 System.out.println("Invalid command");
                 continue;
             }
+
         }
     }
 
@@ -334,20 +342,18 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
         System.out.println("\n-------Welcome to E-Search --------");
 
         while (true) {
-            String command = getCommand();
+            int command = getCommand();
 
             switch (command) {
-                case "1":
-                    System.out.println("Selected option: Add\n");
+                case AppConstants.MENU_OPTION_ADD:
                     this.addProduct();
                     break;
 
-                case "2":
-                    System.out.println("Selected option: Search\n");
+                case AppConstants.MENU_OPTION_SEARCH:
                     this.search();
                     break;
 
-                case "3":
+                case AppConstants.MENU_OPTION_QUIT:
                     System.out.println("Selected option: Quit\n");
                     this.ProductDataExporter.export(arguments[0]);
                     System.exit(0);
