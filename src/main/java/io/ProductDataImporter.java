@@ -7,7 +7,7 @@ import model.Book;
 import model.Electronics;
 import service.ProductService;
 
-public class ProductDataImporter {
+public class ProductDataImporter implements IProductDataImporter {
     private HashMap<String, String> inputMap;
     private Scanner scanner;
     private ProductService productService;

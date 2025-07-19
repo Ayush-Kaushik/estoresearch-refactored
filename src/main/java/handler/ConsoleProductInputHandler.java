@@ -3,6 +3,8 @@ package handler;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import io.ProductDataExporter;
 import model.Book;
 import model.Electronics;
 import model.Product;
@@ -11,12 +13,13 @@ import service.ProductService;
 public class ConsoleProductInputHandler implements IProductInputHandler {
 
     private ProductService productService;
-
+    private ProductDataExporter ProductDataExporter;
     private Scanner scanner;
 
-    public ConsoleProductInputHandler(ProductService productService) {
+    public ConsoleProductInputHandler(ProductService productService, ProductDataExporter productDataExporter) {
         this.scanner = new Scanner(System.in);
         this.productService = productService;
+        this.ProductDataExporter = productDataExporter;
     }
 
     private String getProductId() {
@@ -24,12 +27,12 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
 
         while (true) {
             try {
-                System.out.println("Enter product id:");
+                System.out.println("Enter product id (6 digits):");
                 productId = scanner.nextLine();
                 Product.validateID(productId);
 
                 if (this.productService.productExists(productId)) {
-                    System.out.println("Product with ID " + productId + " already exists");
+                    System.out.println("Product with id " + productId + " already exists.");
                     continue;
                 }
 
@@ -136,12 +139,22 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
         int option = 0;
 
         while (true) {
-            System.out.print("Enter numbers corresponding to the options:\n(1)Book\n(2)Electronics\n");
-            option = scanner.nextInt();
 
-            if (option >= 1 && option <= 2) {
-                break;
-            } else {
+            System.out.println("Enter product type: (1) Book\n(2) Electronics");
+
+            try {
+                String selection = scanner.nextLine();
+                option = Integer.parseInt(selection);
+
+                if (option >= 1 && option <= 2) {
+                    break;
+                } else {
+                    System.out.println("Invalid option, Try again.");
+                    continue;
+                }
+
+            } catch (NumberFormatException exception) {
+                System.out.println("Invalid option, Try again.");
                 continue;
             }
         }
@@ -155,12 +168,13 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
             case 1:
                 String author = getBookAuthor();
                 String publisher = getBookPublisher();
-                Book book = new Book(productID, name, price, year, author, publisher);
+                Product book = new Book(productID, name, price, year, author, publisher);
                 this.productService.addProduct(book);
                 break;
+
             case 2:
                 String maker = getElectronicsMaker();
-                Electronics electronic = new Electronics(productID, name, price, year, maker);
+                Product electronic = new Electronics(productID, name, price, year, maker);
                 this.productService.addProduct(electronic);
                 break;
         }
@@ -298,4 +312,47 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
 
     }
 
+    private String getCommand() {
+        while (true) {
+            System.out.println("Enter command: (1) Add (2) Search (3) Quit");
+
+            String option = scanner.nextLine();
+            option = option.toLowerCase().trim();
+
+            if (option.equals("1") || option.equals("2") || option.equals("3") || option.equals("q")
+                    || option.equals("quit") || option.equals("add") || option.equals("search")
+                    || option.equals("a") || option.equals("s")) {
+                return option;
+            } else {
+                System.out.println("Invalid command");
+                continue;
+            }
+        }
+    }
+
+    public void start(String[] arguments) {
+        System.out.println("\n-------Welcome to E-Search --------");
+
+        while (true) {
+            String command = getCommand();
+
+            switch (command) {
+                case "1":
+                    System.out.println("Selected option: Add\n");
+                    this.addProduct();
+                    break;
+
+                case "2":
+                    System.out.println("Selected option: Search\n");
+                    this.search();
+                    break;
+
+                case "3":
+                    System.out.println("Selected option: Quit\n");
+                    this.ProductDataExporter.export(arguments[0]);
+                    System.exit(0);
+                    break;
+            }
+        }
+    }
 }

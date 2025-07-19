@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import service.ProductService;
 import model.Product;
 
-public class ProductDataExporter {
+public class ProductDataExporter implements IProductDataExporter {
 
   private ProductService productService;
   private PrintWriter outputStream;
@@ -25,9 +25,7 @@ public class ProductDataExporter {
 
       System.out.println("Successful write to file");
       outputStream.close();
-    }
-
-    catch (FileNotFoundException e) {
+    } catch (FileNotFoundException e) {
       // TODO: this needs a retry mechanism for failing safely
       System.out.println("Unable to open file");
       System.exit(0);
