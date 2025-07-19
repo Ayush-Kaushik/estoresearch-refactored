@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Book extends Product {
 
     private String author;
@@ -21,7 +19,7 @@ public class Book extends Product {
         super(ID, name, price, year);
 
         this.author = validateAuthor(author);
-        this.publisher = publisher;
+        this.publisher = validatePublisher(publisher);
     }
 
     /**
