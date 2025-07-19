@@ -1,5 +1,6 @@
 package io;
 
+import java.util.logging.Logger;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -11,10 +12,12 @@ public class ProductDataImporter implements IProductDataImporter {
     private HashMap<String, String> inputMap;
     private Scanner scanner;
     private ProductService productService;
+    private Logger logger;
 
     public ProductDataImporter(ProductService productService) {
         this.inputMap = new HashMap<String, String>();
         this.productService = productService;
+        this.logger = Logger.getLogger(ProductDataImporter.class.getName());
     }
 
     public void load(String filePath) {
@@ -52,7 +55,7 @@ public class ProductDataImporter implements IProductDataImporter {
                         this.productService.addProduct(book);
                         this.inputMap.clear();
 
-                        System.out.println("Adding new entry in list: " + book.datadump());
+                        logger.info("Adding new entry in list: " + book.datadump());
                     } else if (type.equals("electronics")) {
 
                         String maker = inputMap.get("maker") == null ? inputMap.get("maker") : "";

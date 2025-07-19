@@ -1,7 +1,6 @@
 package handler;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import constants.AppConstants;
@@ -24,12 +23,10 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
     }
 
     private String getProductId() {
-        String productId = "";
-
         while (true) {
             try {
                 System.out.println("Enter product id (6 digits):");
-                productId = scanner.nextLine();
+                String productId = scanner.nextLine();
                 Product.validateID(productId);
 
                 if (this.productService.productExists(productId)) {
@@ -37,25 +34,23 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
                     continue;
                 }
 
-                break;
+                return productId;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
-
-        return productId;
     }
 
     private int getProductYear() {
         while (true) {
             try {
-
                 System.out.println("Enter product year: ");
-                int year = scanner.nextInt();
+                String input = scanner.nextLine();
+                int year = Integer.parseInt(input);
+
                 Product.validateYear(year);
                 return year;
-
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -66,8 +61,8 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
             try {
                 System.out.println("Enter product name: ");
                 String name = scanner.nextLine();
-                Product.validateName(name);
 
+                Product.validateName(name);
                 return name;
 
             } catch (Exception e) {
@@ -141,7 +136,7 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
 
         while (true) {
 
-            System.out.println("Enter product type: (1) Book\n(2) Electronics");
+            System.out.println("Enter product type: (1) Book (2) Electronics");
 
             try {
                 String selection = scanner.nextLine();
@@ -278,8 +273,7 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
     }
 
     public void search() {
-
-        System.out.println("Enter product name and year to narrow down search: ");
+        System.out.println("Build search query: ");
 
         String name = getProductName();
 
@@ -339,7 +333,7 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
     }
 
     public void start(String[] arguments) {
-        System.out.println("\n-------Welcome to E-Search --------");
+        System.out.println("\n-------Welcome to EStoreSearch --------");
 
         while (true) {
             int command = getCommand();
@@ -354,7 +348,6 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
                     break;
 
                 case AppConstants.MENU_OPTION_QUIT:
-                    System.out.println("Selected option: Quit\n");
                     this.ProductDataExporter.export(arguments[0]);
                     System.exit(0);
                     break;

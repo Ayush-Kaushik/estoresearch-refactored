@@ -1,3 +1,5 @@
+import java.util.logging.Logger;
+
 import handler.IProductInputHandler;
 import io.ProductDataExporter;
 import io.ProductDataImporter;
@@ -6,6 +8,7 @@ public class EStore {
 
     private ProductDataImporter productDataImporter;
     private IProductInputHandler productInputHandler;
+    private Logger logger;
 
     public EStore(
             IProductInputHandler productInputHandler,
@@ -13,13 +16,14 @@ public class EStore {
             ProductDataExporter productDataExporter) {
         this.productDataImporter = fileLoader;
         this.productInputHandler = productInputHandler;
+        this.logger = Logger.getLogger(EStore.class.getName());
     }
 
     public void start(String[] arguments) {
         if (arguments.length != 1) {
-            System.out.println("Info: Input file not provided, store will start without loading existing data");
+            logger.warning("Input file not provided, store will start without loading existing data.");
         } else {
-            System.out.println("Info: Loading input file");
+            logger.info("Loading input file.");
             this.productDataImporter.load(arguments[0]);
         }
 
