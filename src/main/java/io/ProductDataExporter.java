@@ -1,6 +1,10 @@
+package io;
+
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import service.ProductService;
+import model.Product;
 
 public class ProductDataExporter {
 
@@ -24,7 +28,7 @@ public class ProductDataExporter {
     }
 
     catch (FileNotFoundException e) {
-      // this needs a retry mechanism for failing safely
+      // TODO: this needs a retry mechanism for failing safely
       System.out.println("Unable to open file");
       System.exit(0);
     }

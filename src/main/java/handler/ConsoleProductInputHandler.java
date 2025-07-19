@@ -1,11 +1,18 @@
+package handler;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import model.Book;
+import model.Electronics;
+import model.Product;
+import service.ProductService;
 
 public class ConsoleProductInputHandler implements IProductInputHandler {
 
-    private Scanner scanner;
     private ProductService productService;
+
+    private Scanner scanner;
 
     public ConsoleProductInputHandler(ProductService productService) {
         this.scanner = new Scanner(System.in);

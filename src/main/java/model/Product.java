@@ -1,3 +1,5 @@
+package model;
+
 public abstract class Product {
 
     private String id;
@@ -72,51 +74,29 @@ public abstract class Product {
     }
 
     public String getID() {
-
         return this.id;
-
     }
 
     public void setName(String name_) {
         this.name = name_;
     }
 
-    /**
-     * @return this.name - this returns the member (name of item) of instance object
-     *         of type Electronic or Book
-     */
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @param price - this receives a variable from add method which is used to
-     *              create member of instance object of book or electronics
-     */
     public void setPrice(double price) {
         this.price = price;
     }
 
-    /**
-     * @return this.price - this returns the member (Price of item - double data
-     *         type) of instance object of type Electronic or Book
-     */
     public double getPrice() {
         return this.price;
     }
 
-    /**
-     * @param year_ - this receives a variable from add method which is used to
-     *              create member of instance object of book or electronics
-     */
     public void setYear(int year_) {
         this.year = year_;
     }
 
-    /**
-     * @return this.year - this returns the member (year of the item) of instance
-     *         object of type Electronic or Book
-     */
     public int getYear() {
         return this.year;
     }

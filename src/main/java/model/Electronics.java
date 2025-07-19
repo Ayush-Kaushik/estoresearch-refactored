@@ -1,3 +1,5 @@
+package model;
+
 public class Electronics extends Product {
 
     private String maker;

@@ -1,6 +1,11 @@
+package io;
+
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Scanner;
+import model.Book;
+import model.Electronics;
+import service.ProductService;
 
 public class ProductDataImporter {
     private HashMap<String, String> inputMap;

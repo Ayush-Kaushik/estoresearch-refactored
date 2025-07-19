@@ -1,14 +1,10 @@
+package model;
+
 public class Book extends Product {
 
     private String author;
     private String publisher;
 
-    /**
-     * @param ID   - receives a variable (String ID) from add method which is used
-     *             to create member of instance object of book class
-     * @param name - receives a variable (String name) from add method which is used
-     *             to create member of instance object of book class
-     */
     public Book(
             final String ID,
             final String name,
@@ -22,11 +18,6 @@ public class Book extends Product {
         this.publisher = validatePublisher(publisher);
     }
 
-    /**
-     * @param author - receives a variable (String author) from add method which is
-     *               used to create member of instance object of book class
-     * @return author - If user input is valid, it returns user input - author name
-     */
     public static String validateAuthor(final String author) {
         if (author.isEmpty()) {
             throw new IllegalArgumentException("Author cannot be empty");
@@ -35,13 +26,6 @@ public class Book extends Product {
         return author;
     }
 
-    /**
-     * @param publisher - receives a variable (String publisher) from add method
-     *                  which is used to create member of instance object of book
-     *                  class
-     * @return publisher - If user input is valid, it returns user input - publisher
-     *         name
-     */
     public static String validatePublisher(final String publisher) {
 
         if (publisher.isEmpty()) {
@@ -51,41 +35,22 @@ public class Book extends Product {
         return publisher;
     }
 
-    /**
-     * @param author_ - this receives a variable from add method which is used to
-     *                create member of instance object of book class
-     */
     public void setAuthor(final String author) {
         this.author = author;
     }
 
-    /**
-     * @return this.author - this returns the member of instance object of type Book
-     *         created
-     */
     public String getAuthor() {
         return this.author;
     }
 
-    /**
-     * @param publisher_ - this receives a variable from add method which is used to
-     *                   create member of instance object of book class
-     */
     public void setPublisher(final String publisher_) {
         this.publisher = publisher_;
     }
 
-    /**
-     * @return publisher - this returns the member of instance object of type
-     *         Book created
-     */
     public String getPublisher() {
         return this.publisher;
     }
 
-    /**
-     * @return special string format which is used to write output to text file
-     */
     @Override
     public String toString() {
         return String.format(
@@ -93,9 +58,6 @@ public class Book extends Product {
                 getID(), getName(), getPrice(), getYear(), getAuthor(), getPublisher());
     }
 
-    /**
-     * @return special string format which is used to display the result of search
-     */
     @Override
     public String datadump() {
         return "item ID: " + getID() + ", " + "Name of item:" + ", " + getName() + ", " + "Year: " + getYear() + ", "

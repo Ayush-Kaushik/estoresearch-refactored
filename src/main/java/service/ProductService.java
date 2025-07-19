@@ -1,5 +1,8 @@
+package service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import model.Product;
 
 public class ProductService {
     private ArrayList<Product> productList;
