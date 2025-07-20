@@ -3,8 +3,8 @@ package constants;
 import java.util.HashMap;
 
 public enum ProductType {
-  BOOK(0),
-  ELECTRONICS(1);
+  BOOK(1),
+  ELECTRONICS(2);
 
   private final int index;
 
@@ -20,22 +20,17 @@ public enum ProductType {
   private static final HashMap<Integer, ProductType> productTypeMap = new HashMap<Integer, ProductType>();
 
   static {
+    StringBuilder sb = new StringBuilder();
+
     for (ProductType type : ProductType.values()) {
       productTypeMap.put(type.getIndex(), type);
-    }
-
-    StringBuilder sb = new StringBuilder();
-    int counter = 0;
-
-    for (ProductType productType : ProductType.values()) {
-      sb.append("[" + counter + "] " + productType.name()).append(" ");
-      counter++;
+      sb.append("[" + type.getIndex() + "] " + type.name()).append(" ");
     }
 
     productTypes = sb.toString();
   }
 
-  public static String getProductTypeOptions() {
+  public static String getOptions() {
     return productTypes;
   }
 
