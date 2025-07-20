@@ -1,29 +1,45 @@
 package constants;
 
+import java.util.HashMap;
+
 public enum ProductType {
-  BOOK,
-  ELECTRONICS;
+  BOOK(0),
+  ELECTRONICS(1);
 
-  private static String productTypes;
+  private final int index;
 
-  public static ProductType fromString(int type) {
-    return ProductType.valueOf(type);
+  ProductType(int value) {
+    this.index = value;
   }
 
-  public static String getProductTypes() {
+  public int getIndex() {
+    return this.index;
+  }
 
-    if (productTypes == null) {
-      StringBuilder sb = new StringBuilder();
-      int counter = 0;
+  private static String productTypes = "";
+  private static final HashMap<Integer, ProductType> productTypeMap = new HashMap<Integer, ProductType>();
 
-      for (ProductType productType : ProductType.values()) {
-        sb.append("[" + counter + "] " + productType.name()).append(" ");
-        counter++;
-      }
-
-      productTypes = sb.toString();
+  static {
+    for (ProductType type : ProductType.values()) {
+      productTypeMap.put(type.getIndex(), type);
     }
 
+    StringBuilder sb = new StringBuilder();
+    int counter = 0;
+
+    for (ProductType productType : ProductType.values()) {
+      sb.append("[" + counter + "] " + productType.name()).append(" ");
+      counter++;
+    }
+
+    productTypes = sb.toString();
+  }
+
+  public static String getProductTypeOptions() {
     return productTypes;
+  }
+
+  public static ProductType findByType(int type) {
+    return productTypeMap.get(type);
   }
 }

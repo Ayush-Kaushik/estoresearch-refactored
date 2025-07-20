@@ -7,11 +7,6 @@ public final class AppConstants {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
-    // Command constants
-    public static final String COMMAND_ADD = "1";
-    public static final String COMMAND_SEARCH = "2";
-    public static final String COMMAND_QUIT = "3";
-
     // Product validation constants
     public static final int PRODUCT_ID_LENGTH = 6;
     public static final int PRODUCT_YEAR_MIN = 1000;

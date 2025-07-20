@@ -134,19 +134,22 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
 
     public void addProduct() {
         int option = 0;
+        ProductType productType = null;
 
         while (true) {
-            System.out.println("Enter product type " + ProductType.getProductTypes());
+            System.out.println("Enter product type " + ProductType.getProductTypeOptions());
 
             try {
                 String selection = scanner.nextLine();
-                option = Integer.parseInt(selection);
 
-                if (option == ProductType.BOOK || option == ProductType.ELECTRONICS) {
-                    break;
-                } else {
+                option = Integer.parseInt(selection);
+                productType = ProductType.findByType(option);
+
+                if (productType == null) {
                     System.out.println("Invalid option, Try again.");
                     continue;
+                } else {
+                    break;
                 }
 
             } catch (NumberFormatException exception) {
@@ -160,15 +163,15 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
         int year = getProductYear();
         double price = getProductPrice();
 
-        switch (option) {
-            case 1:
+        switch (productType) {
+            case BOOK:
                 String author = getBookAuthor();
                 String publisher = getBookPublisher();
                 Product book = new Book(productID, name, price, year, author, publisher);
                 this.productService.addProduct(book);
                 break;
 
-            case 2:
+            case ELECTRONICS:
                 String maker = getElectronicsMaker();
                 Product electronic = new Electronics(productID, name, price, year, maker);
                 this.productService.addProduct(electronic);
