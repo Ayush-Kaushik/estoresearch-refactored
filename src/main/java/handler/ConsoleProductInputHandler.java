@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import constants.AppConstants;
+import constants.ProductType;
 import io.ProductDataExporter;
 import model.Book;
 import model.Electronics;
@@ -135,14 +136,13 @@ public class ConsoleProductInputHandler implements IProductInputHandler {
         int option = 0;
 
         while (true) {
-
-            System.out.println("Enter product type: (1) Book (2) Electronics");
+            System.out.println("Enter product type " + ProductType.getProductTypes());
 
             try {
                 String selection = scanner.nextLine();
                 option = Integer.parseInt(selection);
 
-                if (option >= 1 && option <= 2) {
+                if (option == ProductType.BOOK || option == ProductType.ELECTRONICS) {
                     break;
                 } else {
                     System.out.println("Invalid option, Try again.");
