@@ -30,10 +30,12 @@ public abstract class Product {
         return year;
     }
 
-    public static void validateName(String name) {
+    public static String validateName(String name) {
         if (name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
+
+        return name;
     }
 
     public static double validatePrice(double inputPrice) {

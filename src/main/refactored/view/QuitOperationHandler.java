@@ -1,4 +1,4 @@
-package view;
+package main.refactored.view;
 
 import java.util.Scanner;
 
@@ -19,7 +19,7 @@ public class QuitOperationHandler implements IOperationHandler {
 
   public void execute() {
     // TODO: pass the file name as an argument to the export method
-    this.ProductDataExporter.export(); // arguments[0]
+    this.ProductDataExporter.export("temp/path"); // arguments[0]
     System.exit(0);
   }
 }
