@@ -1,4 +1,4 @@
-package main.refactored.handler;
+package refactored.handler;
 
 public class SearchQueryBuilder {
   private String ID;

@@ -1,9 +1,9 @@
-package main.refactored.view;
+package refactored.view;
 
 import java.util.Scanner;
 import java.util.Map;
 
-import main.refactored.constants.Command;
+import refactored.constants.Command;
 
 public class ConsoleApplicationRunner implements IApplicationRunner {
 

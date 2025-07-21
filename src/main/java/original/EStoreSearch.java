@@ -1,4 +1,4 @@
-package main.original;
+package original;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,14 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
-import main.original.Book;
-import main.original.Electronics;
-import main.original.Product;
-
 public class EStoreSearch {
 
-    public static HashMap<String, ArrayList<Integer>> map = new HashMap<>();
-    public static ArrayList<Product> productList = new ArrayList<>();
+    public static HashMap<String, ArrayList<Integer>> map = new HashMap<String, ArrayList<Integer>>();
+    public static ArrayList<Product> productList = new ArrayList<Product>();
 
     public static void main(String[] args) {
         if (args.length == 1) {
@@ -36,7 +32,7 @@ public class EStoreSearch {
     public static void fileRead(String[] args) {
         Scanner inputStream = null;
         try {
-            HashMap<String, String> inputMap = new HashMap<>();
+            HashMap<String, String> inputMap = new HashMap<String, String>();
 
             inputStream = new Scanner(new FileInputStream(args[0]));
 
@@ -101,7 +97,8 @@ public class EStoreSearch {
                                 if (map.containsKey(token)) {
                                     map.get(token).add(number);
                                 } else {
-                                    map.put(token.toLowerCase(), new ArrayList<>()); // key and new array of value
+                                    map.put(token.toLowerCase(), new ArrayList<Integer>()); // key and new array of
+                                                                                            // value
                                     map.get(token.toLowerCase()).add(number);
                                 }
                             }
@@ -110,7 +107,7 @@ public class EStoreSearch {
                                 map.get(name.toLowerCase()).add(number);
 
                             else {
-                                map.put(name.toLowerCase(), new ArrayList<>());
+                                map.put(name.toLowerCase(), new ArrayList<Integer>());
                                 map.get(name).add(number);
                             }
                         }
@@ -145,7 +142,8 @@ public class EStoreSearch {
                                 if (map.containsKey(token)) {
                                     map.get(token).add(number);
                                 } else {
-                                    map.put(token.toLowerCase(), new ArrayList<>()); // key and new array of value
+                                    map.put(token.toLowerCase(), new ArrayList<Integer>()); // key and new array of
+                                                                                            // value
                                     map.get(token.toLowerCase()).add(number);
                                 }
                             }
@@ -154,7 +152,7 @@ public class EStoreSearch {
                                 map.get(name.toLowerCase()).add(number);
 
                             else {
-                                map.put(name.toLowerCase(), new ArrayList<>());
+                                map.put(name.toLowerCase(), new ArrayList<Integer>());
                                 map.get(name).add(number);
                             }
                         }
@@ -323,7 +321,7 @@ public class EStoreSearch {
                     if (map.containsKey(token)) {
                         map.get(token).add(number);
                     } else {
-                        map.put(token.toLowerCase(), new ArrayList<>()); // key and new array of value
+                        map.put(token.toLowerCase(), new ArrayList<Integer>()); // key and new array of value
                         map.get(token.toLowerCase()).add(number);
                     }
                 }
@@ -332,7 +330,7 @@ public class EStoreSearch {
                     map.get(name.toLowerCase()).add(number);
 
                 else {
-                    map.put(name.toLowerCase(), new ArrayList<>());
+                    map.put(name.toLowerCase(), new ArrayList<Integer>());
                     map.get(name).add(number);
                 }
             }
@@ -377,7 +375,7 @@ public class EStoreSearch {
                     if (map.containsKey(token)) {
                         map.get(token).add(number);
                     } else {
-                        map.put(token.toLowerCase(), new ArrayList<>()); // key and new array of value
+                        map.put(token.toLowerCase(), new ArrayList<Integer>()); // key and new array of value
                         map.get(token).add(number);
                     }
                 }
@@ -387,7 +385,7 @@ public class EStoreSearch {
                 if (map.containsKey(name.toLowerCase())) {
                     map.get(name.toLowerCase()).add(number);
                 } else {
-                    map.put(name.toLowerCase(), new ArrayList<>());
+                    map.put(name.toLowerCase(), new ArrayList<Integer>());
                     map.get(name).add(number);
                 }
             }
@@ -458,7 +456,7 @@ public class EStoreSearch {
 
         // This list stores the indexes returned from the list and comapres them to
         // other returned lists using retain all
-        ArrayList<Integer> returnedList = new ArrayList<>();
+        ArrayList<Integer> returnedList = new ArrayList<Integer>();
 
         if (name.isEmpty() == false)
             ;

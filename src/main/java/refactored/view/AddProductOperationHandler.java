@@ -1,12 +1,12 @@
-package main.refactored.view;
+package refactored.view;
 
 import java.util.Scanner;
 
-import main.refactored.constants.ProductType;
-import main.refactored.model.Book;
-import main.refactored.model.Electronics;
-import main.refactored.model.Product;
-import main.refactored.service.ProductService;
+import refactored.constants.ProductType;
+import refactored.model.Book;
+import refactored.model.Electronics;
+import refactored.model.Product;
+import refactored.service.ProductService;
 
 public class AddProductOperationHandler implements IOperationHandler {
 

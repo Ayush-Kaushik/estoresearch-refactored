@@ -1,8 +1,6 @@
-package main.original;
+package original;
 
 import java.util.Scanner;
-
-import main.original.Product;
 
 public class Electronics extends Product {
     private String maker;

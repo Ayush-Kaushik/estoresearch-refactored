@@ -1,4 +1,4 @@
-package main.refactored.constants;
+package refactored.constants;
 
 import java.util.HashMap;
 

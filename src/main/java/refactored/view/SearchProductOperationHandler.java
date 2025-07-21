@@ -1,9 +1,9 @@
-package main.refactored.view;
+package refactored.view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import main.refactored.service.ProductService;
+import refactored.service.ProductService;
 
 public class SearchProductOperationHandler implements IOperationHandler {
 

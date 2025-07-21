@@ -1,13 +1,6 @@
-package main.refactored.view;
+package refactored.view;
 
-import java.util.Scanner;
-
-import main.refactored.constants.ProductType;
-import main.refactored.io.IProductDataExporter;
-import main.refactored.model.Book;
-import main.refactored.model.Electronics;
-import main.refactored.model.Product;
-import main.refactored.service.ProductService;
+import refactored.io.IProductDataExporter;
 
 public class QuitOperationHandler implements IOperationHandler {
 

@@ -1,13 +1,13 @@
-package main.refactored.io;
+package refactored.io;
 
 import java.util.logging.Logger;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import main.refactored.model.Book;
-import main.refactored.model.Electronics;
-import main.refactored.service.ProductService;
+import refactored.model.Book;
+import refactored.model.Electronics;
+import refactored.service.ProductService;
 
 public class ProductDataImporter implements IProductDataImporter {
     private HashMap<String, String> inputMap;
