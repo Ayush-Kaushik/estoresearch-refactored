@@ -1,4 +1,4 @@
-package model;
+package main.refactored.model;
 
 public class Book extends Product {
 

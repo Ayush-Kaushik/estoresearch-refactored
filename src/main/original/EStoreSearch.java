@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
+import original.Book;
+import original.Electronics;
+import original.Product;
+
 public class EStoreSearch {
 
     public static HashMap<String, ArrayList<Integer>> map = new HashMap<>();

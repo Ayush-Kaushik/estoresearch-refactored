@@ -193,7 +193,7 @@ public abstract class Product {
      *            member of instance object of electronic/book subclass
      */
     public void setID(String ID_) {
-        this.ID = ID_;
+        this.id = ID_;
     }
 
     /**
@@ -201,9 +201,7 @@ public abstract class Product {
      *         type Electronic or Book
      */
     public String getID() {
-
-        return this.ID;
-
+        return this.id;
     }
 
     // -------------- SET NAME AND GET NAME ----------------//

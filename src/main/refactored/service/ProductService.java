@@ -1,8 +1,9 @@
-package service;
+package main.refactored.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import model.Product;
+
+import main.refactored.model.Product;
 
 public class ProductService {
     private ArrayList<Product> productList;

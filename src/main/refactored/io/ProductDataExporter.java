@@ -1,10 +1,11 @@
-package io;
+package main.refactored.io;
 
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import service.ProductService;
-import model.Product;
+
+import main.refactored.service.ProductService;
+import main.refactored.model.Product;
 
 public class ProductDataExporter implements IProductDataExporter {
 

@@ -1,3 +1,5 @@
+package main.refactored.handler;
+
 public class SearchQueryBuilder {
   private String ID;
   private String name;

@@ -1,16 +1,16 @@
 import java.util.logging.Logger;
 import java.util.HashMap;
 
-import constants.Command;
-import io.ProductDataExporter;
-import io.ProductDataImporter;
-import service.ProductService;
-import view.ConsoleApplicationRunner;
-import view.IApplicationRunner;
-import view.IOperationHandler;
-import view.AddProductOperationHandler;
-import view.QuitOperationHandler;
-import view.SearchProductOperationHandler;
+import refactored.constants.Command;
+import refactored.io.ProductDataExporter;
+import refacctored.io.ProductDataImporter;
+import refactored.service.ProductService;
+import refactored.view.ConsoleApplicationRunner;
+import refactored.view.IApplicationRunner;
+import refactored.view.IOperationHandler;
+import refactored.view.AddProductOperationHandler;
+import refactored.view.QuitOperationHandler;
+import refactored.view.SearchProductOperationHandler;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package model;
+package main.refactored.model;
 
 public abstract class Product {
 
