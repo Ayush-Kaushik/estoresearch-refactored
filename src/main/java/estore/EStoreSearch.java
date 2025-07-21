@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
-import original.Book;
-import original.Electronics;
-import original.Product;
+import main.original.Book;
+import main.original.Electronics;
+import main.original.Product;
 
 public class EStoreSearch {
 

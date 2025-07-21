@@ -2,7 +2,7 @@ package main.original;
 
 import java.util.Scanner;
 
-import original.Product;
+import main.original.Product;
 
 public class Book extends Product {
     private String author;
