@@ -22,11 +22,13 @@ public class ProductDataImporter implements IProductDataImporter {
     }
 
     public void load(String filePath) {
+
         try {
             this.scanner = new Scanner(new FileInputStream(filePath));
             while (this.scanner.hasNextLine()) {
                 String line = this.scanner.nextLine();
                 String[] parts = line.split("=");
+
                 if (parts.length == 2) {
 
                     String key = parts[0].trim();

@@ -1,24 +1,28 @@
+package refactored;
+
 import java.util.logging.Logger;
 import java.util.HashMap;
 
-import main.refactored.constants.Command;
-import main.refactored.io.ProductDataExporter;
-import main.refactored.io.ProductDataImporter;
-import main.refactored.service.ProductService;
-import main.refactored.view.ConsoleApplicationRunner;
-import main.refactored.view.IApplicationRunner;
-import main.refactored.view.IOperationHandler;
-import main.refactored.view.AddProductOperationHandler;
-import main.refactored.view.QuitOperationHandler;
-import main.refactored.view.SearchProductOperationHandler;
+import refactored.constants.Command;
+import refactored.io.IProductDataExporter;
+import refactored.io.IProductDataImporter;
+import refactored.io.ProductDataExporter;
+import refactored.io.ProductDataImporter;
+import refactored.service.ProductService;
+import refactored.view.ConsoleApplicationRunner;
+import refactored.view.IApplicationRunner;
+import refactored.view.IOperationHandler;
+import refactored.view.AddProductOperationHandler;
+import refactored.view.QuitOperationHandler;
+import refactored.view.SearchProductOperationHandler;
 
 public class Main {
 
   public static void main(String[] args) {
 
     ProductService productService = new ProductService();
-    ProductDataExporter productDataExporter = new ProductDataExporter(productService);
-    ProductDataImporter productDataImporter = new ProductDataImporter(productService);
+    IProductDataExporter productDataExporter = new ProductDataExporter(productService);
+    IProductDataImporter productDataImporter = new ProductDataImporter(productService);
 
     HashMap<Command, IOperationHandler> operations = new HashMap<Command, IOperationHandler>();
     operations.put(Command.ADD, new AddProductOperationHandler(productService));

@@ -1,6 +1,5 @@
 package refactored.view;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import refactored.service.ProductService;
@@ -15,7 +14,7 @@ public class SearchProductOperationHandler implements IOperationHandler {
     this.productService = productService;
   }
 
-  private String getUnvalidatedProductName() {
+  private String getProductName() {
     System.out.println("Enter product name: ");
     String name = scanner.nextLine();
     return name;
@@ -139,19 +138,20 @@ public class SearchProductOperationHandler implements IOperationHandler {
     // now pass the query object to the search service
     // search service will execute the query and return the results
 
-    String name = getUnvalidatedProductName();
+    String name = getProductName();
 
     // the year is supposed to be like this: 2001-2008, -2001. 2001-
     String year = getSearchYearQuery();
     int[] values = breakYear(year);
 
-    if (!name.isEmpty()) {
-      String[] searchTokens = name.toLowerCase().split(" ");
+    // if (!name.isEmpty()) {
+    // String[] searchTokens = name.toLowerCase().split(" ");
 
-      for (String searchToken : searchTokens) {
-        ArrayList<Integer> returnedList = this.productService.getProductIndexes(searchToken);
-      }
-    }
+    // for (String searchToken : searchTokens) {
+    // ArrayList<Integer> returnedList =
+    // this.productService.getProductIndexes(searchToken);
+    // }
+    // }
 
     // for (Integer item : returnedList) {
     // if (ID.equals(productList.get(p).getID()) || ID.isEmpty()) {
