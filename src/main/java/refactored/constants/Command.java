@@ -5,7 +5,8 @@ import java.util.HashMap;
 public enum Command {
   ADD(1),
   SEARCH(2),
-  QUIT(3);
+  QUIT(3),
+  VIEW(4);
 
   private final int index;
 

@@ -121,7 +121,7 @@ public class EStoreSearch {
 
 public class Main {
     public static void main(String[] args) {
-        ProductService productService = new ProductService();
+        IProductService productService = new ProductService();
         IProductDataExporter productDataExporter = new ProductDataExporter(productService);
         IProductDataImporter productDataImporter = new ProductDataImporter(productService);
 
@@ -133,13 +133,6 @@ public class Main {
         IApplicationRunner applicationRunner = new ConsoleApplicationRunner(operations);
         Logger logger = Logger.getLogger(Main.class.getName());
 
-        if (args.length != 1) {
-            logger.warning("Input file not provided, store will start without loading existing data.");
-        } else {
-            logger.info("Loading input file.");
-            productDataImporter.load(args[0]);
-        }
-
         applicationRunner.start(args);
     }
 }
@@ -150,7 +143,6 @@ public class Main {
 - **DIP**: Depends on abstractions (interfaces) not concrete implementations
 - **OCP**: Easy to add new operations without modifying existing code
 - Clear dependency injection pattern
-- Proper logging implementation
 
 ---
 
@@ -159,6 +151,7 @@ public class Main {
 ### ❌ Before: Hard-coded Switch Statement
 ```java
 // original/EStoreSearch.java (excerpt)
+
 public static void userInput(String[] args) {
     Scanner keyboard = new Scanner(System.in);
     String option = "-1";

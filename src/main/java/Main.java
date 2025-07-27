@@ -15,6 +15,7 @@ import refactored.view.IOperationHandler;
 import refactored.view.AddProductOperationHandler;
 import refactored.view.QuitOperationHandler;
 import refactored.view.SearchProductOperationHandler;
+import refactored.view.ViewProductOperationHandler;
 
 public class Main {
 
@@ -28,6 +29,7 @@ public class Main {
     operations.put(Command.ADD, new AddProductOperationHandler(productService));
     operations.put(Command.SEARCH, new SearchProductOperationHandler(productService));
     operations.put(Command.QUIT, new QuitOperationHandler(productDataExporter));
+    operations.put(Command.VIEW, new ViewProductOperationHandler(productService));
 
     IApplicationRunner applicationRunner = new ConsoleApplicationRunner(productDataImporter, operations);
 
