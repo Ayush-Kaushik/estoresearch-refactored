@@ -4,15 +4,15 @@ import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import refactored.service.ProductService;
+import refactored.service.IProductService;
 import refactored.model.Product;
 
 public class ProductDataExporter implements IProductDataExporter {
 
-  private ProductService productService;
+  private IProductService productService;
   private PrintWriter outputStream;
 
-  public ProductDataExporter(ProductService productService) {
+  public ProductDataExporter(IProductService productService) {
     this.productService = productService;
   }
 
@@ -27,6 +27,7 @@ public class ProductDataExporter implements IProductDataExporter {
       System.out.println("Successful write to file");
       outputStream.close();
     } catch (FileNotFoundException e) {
+
       // TODO: this needs a retry mechanism for failing safely
       System.out.println("Unable to open file");
       System.exit(0);

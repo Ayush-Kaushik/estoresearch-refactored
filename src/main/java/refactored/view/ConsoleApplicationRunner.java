@@ -2,17 +2,25 @@ package refactored.view;
 
 import java.util.Scanner;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import refactored.constants.Command;
+import refactored.io.IProductDataImporter;
 
 public class ConsoleApplicationRunner implements IApplicationRunner {
 
   private final Map<Command, IOperationHandler> operations;
+  private IProductDataImporter productDataImporter;
   private Scanner scanner;
+  private Logger logger;
 
-  public ConsoleApplicationRunner(Map<Command, IOperationHandler> operations) {
+  public ConsoleApplicationRunner(
+      IProductDataImporter productDataImporter,
+      Map<Command, IOperationHandler> operations) {
     this.operations = operations;
+    this.productDataImporter = productDataImporter;
     this.scanner = new Scanner(System.in);
+    this.logger = Logger.getLogger(ConsoleApplicationRunner.class.getName());
   }
 
   private Command getCommand() {
@@ -40,6 +48,14 @@ public class ConsoleApplicationRunner implements IApplicationRunner {
   }
 
   public void start(String[] arguments) {
+
+    if (arguments.length != 1) {
+      logger.warning("Input file not provided, store will start without loading existing data.");
+    } else {
+      logger.info("Loading input file.");
+      productDataImporter.load(arguments[0]);
+    }
+
     System.out.println("\n------- Welcome to EStoreSearch --------");
 
     while (true) {

@@ -2,14 +2,14 @@ package refactored.view;
 
 import java.util.Scanner;
 
-import refactored.service.ProductService;
+import refactored.service.IProductService;
 
 public class SearchProductOperationHandler implements IOperationHandler {
 
   private Scanner scanner;
-  private ProductService productService;
+  private IProductService productService;
 
-  public SearchProductOperationHandler(ProductService productService) {
+  public SearchProductOperationHandler(IProductService productService) {
     this.scanner = new Scanner(System.in);
     this.productService = productService;
   }

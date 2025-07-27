@@ -7,7 +7,7 @@ import refactored.data.InvertedIndex;
 
 import refactored.model.Product;
 
-public class ProductService {
+public class ProductService implements IProductService {
     private ArrayList<Product> productList;
     private IInvertedIndex nameSearchInvertedIndex;
 

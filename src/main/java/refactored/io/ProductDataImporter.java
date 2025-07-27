@@ -7,15 +7,15 @@ import java.util.Scanner;
 
 import refactored.model.Book;
 import refactored.model.Electronics;
-import refactored.service.ProductService;
+import refactored.service.IProductService;
 
 public class ProductDataImporter implements IProductDataImporter {
     private HashMap<String, String> inputMap;
     private Scanner scanner;
-    private ProductService productService;
+    private IProductService productService;
     private Logger logger;
 
-    public ProductDataImporter(ProductService productService) {
+    public ProductDataImporter(IProductService productService) {
         this.inputMap = new HashMap<String, String>();
         this.productService = productService;
         this.logger = Logger.getLogger(ProductDataImporter.class.getName());

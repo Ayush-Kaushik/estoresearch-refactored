@@ -16,7 +16,7 @@ This project is a refactored version of my university Java project, originally d
 | Naming              | Inconsistent, ambiguous names              | Clear, descriptive class and method names   |
 | Code Duplication    | Repeated logic across classes              | Utility/helper methods introduced           |
 | Enums/Constants     | Hard-coded strings                         | Type-safe enums with centralized constants  |
-| Input Handling      | Inline logic with business logic           | Separated input logic into dedicated classes|
+| Input Handling      | Input logic with business logic           | Separated input logic into dedicated classes|
 | Object-Oriented Use | Minimal encapsulation                      | Encapsulated fields, added polymorphism     |
 
 ---
@@ -30,8 +30,6 @@ This project was originally built as part of a university course. The refactored
 - ✅ To reduce **code duplication** and increase reusability.
 - ✅ To introduce **testability** and future extensibility.
 - ✅ To follow **Java best practices** (e.g., naming conventions, immutability, access modifiers).
-
----
 
 ---
 
@@ -68,7 +66,7 @@ original/
 ### After: Layered Architecture
 ```
 refactored/
-├── constants/          # Centralized constants
+├── constants/         # Centralized constants
 ├── data/              # Data access layer
 ├── handler/           # Business logic handlers
 ├── io/                # Input/Output operations
@@ -87,6 +85,7 @@ refactored/
 ### ❌ Before: Monolithic God Class
 ```java
 // original/EStoreSearch.java (excerpt)
+
 public class EStoreSearch {
     public static HashMap<String, ArrayList<Integer>> map = new HashMap<String, ArrayList<Integer>>();
     public static ArrayList<Product> productList = new ArrayList<Product>();
@@ -119,6 +118,7 @@ public class EStoreSearch {
 ### ✅ After: Clean Separation of Concerns
 ```java
 // refactored/Main.java
+
 public class Main {
     public static void main(String[] args) {
         ProductService productService = new ProductService();

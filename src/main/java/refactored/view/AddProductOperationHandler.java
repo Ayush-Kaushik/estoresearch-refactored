@@ -2,23 +2,23 @@ package refactored.view;
 
 import java.util.Scanner;
 
+import refactored.service.IProductService;
 import refactored.constants.ProductType;
 import refactored.model.Book;
 import refactored.model.Electronics;
 import refactored.model.Product;
-import refactored.service.ProductService;
 
 public class AddProductOperationHandler implements IOperationHandler {
 
   private Scanner scanner;
-  private ProductService productService;
+  private IProductService productService;
 
-  public AddProductOperationHandler(ProductService productService) {
+  public AddProductOperationHandler(IProductService productService) {
     this.scanner = new Scanner(System.in);
     this.productService = productService;
   }
 
-  public AddProductOperationHandler(Scanner scanner, ProductService productService) {
+  public AddProductOperationHandler(Scanner scanner, IProductService productService) {
     this.scanner = scanner;
     this.productService = productService;
   }
