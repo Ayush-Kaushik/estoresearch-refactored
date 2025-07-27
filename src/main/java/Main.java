@@ -1,5 +1,3 @@
-package refactored;
-
 import java.util.HashMap;
 
 import refactored.constants.Command;
