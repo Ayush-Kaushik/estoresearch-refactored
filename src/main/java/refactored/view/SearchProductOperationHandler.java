@@ -2,62 +2,24 @@ package refactored.view;
 
 import java.util.Scanner;
 
-import refactored.service.IProductService;
+import refactored.service.ProductService;
 
 public class SearchProductOperationHandler implements IOperationHandler {
 
   private Scanner scanner;
-  private IProductService productService;
+  private ProductService productService;
 
-  public SearchProductOperationHandler(IProductService productService) {
+  public SearchProductOperationHandler(ProductService productService) {
     this.scanner = new Scanner(System.in);
     this.productService = productService;
   }
 
-  private String getProductName() {
-    System.out.println("Enter product name: ");
-    String name = scanner.nextLine();
-    return name;
+  private String promptName() {
+    System.out.println("Enter product name (or press Enter to skip):");
+    return scanner.nextLine().trim();
   }
 
-  // NOTE: Look at this method again and fix it, the loop logic is no
-  public String getSearchYearQuery() {
-    String productYear = "";
-
-    System.out.println("Do you wish to enter product year:\n(1)Yes (2)No");
-
-    int option;
-
-    do {
-      while (!scanner.hasNextInt()) {
-        scanner.next();
-        System.out.print("Please enter one of the options: ");
-      }
-
-      option = scanner.nextInt();
-      scanner.nextLine();
-
-      if (option == 1) {
-        do {
-          System.out.println("Enter the product year: ");
-          productYear = scanner.nextLine();
-
-          if (!productYear.isEmpty() && !productYear.matches("[a-zA-Z]+")) {
-            break;
-          }
-        } while (productYear.isEmpty() == true && productYear.matches("[a-zA-Z]+") == true);
-      }
-
-      if (option == 2) {
-        productYear = "";
-        break;
-      }
-
-      else {
-        System.out.println("Wrong input");
-      }
-
-    } while (option != 1 || option != 2);
+  public String promptYear() {
 
     return productYear;
   }
@@ -117,57 +79,37 @@ public class SearchProductOperationHandler implements IOperationHandler {
   }
 
   public void execute() {
-    System.out.println("[Search Product] Build search query: ");
 
-    // the search happens based on three criteria: ID, name and year
-    // first ask user to enter ID - they can leave it blank if they dont want to
-    // search
-    // then ask them for name - they can leave it blank if they dont want to search
-    // then ask them for year - they can leave it blank if they dont want to search
-    // if all three are blank, then print all the items in the list
+  }
+}
 
-    // use builder pattern to build search query
-    // use strategy pattern to execute search query
+public class YearRangeParser {
+  public static YearRange parse(String input) {
+    if (input == null || input.trim().isEmpty()) {
+      return new YearRange(YearRangeMode.EMPTY, 0, 0);
+    }
 
-    // QueryBuilder addName
-    // QueryBuilder addID
-    // QueryBuilder addYear
-    // build
-    // returns a query object
+    input = input.trim();
+    if (input.matches("^\\d{4}$")) {
+      return new YearRange(YearRangeMode.EXACT, Integer.parseInt(input), 0);
+    }
 
-    // now pass the query object to the search service
-    // search service will execute the query and return the results
+    if (input.matches("^\\d{4}-$")) {
+      return new YearRange(YearRangeMode.FROM, Integer.parseInt(input.substring(0, 4)), 0);
+    }
 
-    String name = getProductName();
+    if (input.matches("^-\\d{4}$")) {
+      return new YearRange(YearRangeMode.UNTIL, 0, Integer.parseInt(input.substring(1)));
+    }
 
-    // the year is supposed to be like this: 2001-2008, -2001. 2001-
-    String year = getSearchYearQuery();
-    int[] values = breakYear(year);
+    if (input.matches("^\\d{4}-\\d{4}$")) {
+      String[] parts = input.split("-");
+      return new YearRange(
+          YearRangeMode.RANGE,
+          Integer.parseInt(parts[0]),
+          Integer.parseInt(parts[1]));
+    }
 
-    // if (!name.isEmpty()) {
-    // String[] searchTokens = name.toLowerCase().split(" ");
-
-    // for (String searchToken : searchTokens) {
-    // ArrayList<Integer> returnedList =
-    // this.productService.getProductIndexes(searchToken);
-    // }
-    // }
-
-    // for (Integer item : returnedList) {
-    // if (ID.equals(productList.get(p).getID()) || ID.isEmpty()) {
-    // if (year.isEmpty()
-    // || (year.length() == 5 && productList.get(p).getYear() <= values[0] &&
-    // values[1] == 0)
-    // || (year.length() == 5 && productList.get(p).getYear() >= values[0] &&
-    // values[1] == 4)
-    // || (year.length() == 9 && productList.get(p).getYear() >= values[0]
-    // && productList.get(p).getYear() <= values[2] && values[1] == 4)
-    // || (year.length() == 4 && productList.get(p).getYear() == values[0] &&
-    // values[1] == 1)) {
-    // System.out.println(productList.get(p).datadump());
-    // }
-    // }
-    // }
-
+    throw new IllegalArgumentException("Invalid year format: " + input);
   }
 }
