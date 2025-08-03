@@ -62,3 +62,15 @@ mainClass = "Main"
 build = ["javac", "-classpath", ".:target/dependency/*", "-d", ".", "$(find . -type f -name '*.java')"]
 run = ["java", "-classpath", ".:target/dependency/*", "Main"]
 deploymentTarget = "cloudrun"
+
+[workflows]
+runButton = "Run with import data"
+
+[[workflows.workflow]]
+name = "Run with import data"
+mode = "sequential"
+author = 45220282
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "java -classpath .:target/dependency/* Main /home/runner/workspace/src/resources/import.txt"

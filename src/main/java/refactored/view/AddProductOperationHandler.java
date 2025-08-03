@@ -13,8 +13,8 @@ public class AddProductOperationHandler implements IOperationHandler {
   private Scanner scanner;
   private IProductService productService;
 
-  public AddProductOperationHandler(IProductService productService) {
-    this.scanner = new Scanner(System.in);
+  public AddProductOperationHandler(IProductService productService, Scanner scanner) {
+    this.scanner = scanner;
     this.productService = productService;
   }
 
@@ -23,7 +23,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     this.productService = productService;
   }
 
-  private String getProductId() {
+  private String promptId() {
     while (true) {
       try {
         System.out.println("Enter product id (6 digits):");
@@ -42,7 +42,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     }
   }
 
-  private int getProductYear() {
+  private int promptYear() {
     while (true) {
       try {
         System.out.println("Enter product year: ");
@@ -57,7 +57,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     }
   }
 
-  private String getProductName() {
+  private String promptName() {
     while (true) {
       try {
         System.out.println("Enter product name: ");
@@ -72,7 +72,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     }
   }
 
-  public double getProductPrice() {
+  private double promptPrice() {
     while (true) {
       try {
         System.out.println("Enter the price of item: ");
@@ -87,7 +87,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     }
   }
 
-  public String getBookPublisher() {
+  private String promptPublisher() {
     while (true) {
       try {
         System.out.println("Enter book publisher: ");
@@ -101,8 +101,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     }
   }
 
-  public String getBookAuthor() {
-
+  private String promptAuthor() {
     while (true) {
       try {
         System.out.println("Enter book author: ");
@@ -116,8 +115,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     }
   }
 
-  public String getElectronicsMaker() {
-
+  private String promptMaker() {
     while (true) {
       try {
         System.out.println("Enter electronics maker: ");
@@ -151,27 +149,27 @@ public class AddProductOperationHandler implements IOperationHandler {
           break;
         }
 
-      } catch (NumberFormatException exception) {
+      } catch (Exception exception) {
         System.out.println("Invalid option, Try again.");
         continue;
       }
     }
 
-    String productID = getProductId();
-    String name = getProductName();
-    int year = getProductYear();
-    double price = getProductPrice();
+    String productID = this.promptId();
+    String name = this.promptName();
+    int year = this.promptYear();
+    double price = this.promptPrice();
 
     switch (productType) {
       case BOOK:
-        String author = getBookAuthor();
-        String publisher = getBookPublisher();
+        String author = this.promptAuthor();
+        String publisher = this.promptPublisher();
         Product book = new Book(productID, name, price, year, author, publisher);
         this.productService.addProduct(book);
         break;
 
       case ELECTRONICS:
-        String maker = getElectronicsMaker();
+        String maker = this.promptMaker();
         Product electronic = new Electronics(productID, name, price, year, maker);
         this.productService.addProduct(electronic);
         break;

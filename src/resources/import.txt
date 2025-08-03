@@ -1,0 +1,599 @@
+type=Book
+id=100001
+name=Leading with Empathy
+price=33.99
+year=2025
+
+type=Book
+id=100002
+name=Design Principles
+price=33.99
+year=2025
+
+type=Book
+id=100003
+name=Mastering Clean Code
+price=27.50
+year=2023
+
+type=Book
+id=100004
+name=The Pragmatic Developer
+price=42.00
+year=2024
+
+type=Book
+id=100005
+name=Java Performance Tuning
+price=38.75
+year=2022
+
+type=Book
+id=100006
+name=Building Microservices
+price=45.00
+year=2025
+
+type=Book
+id=100007
+name=Effective Unit Testing
+price=29.99
+year=2021
+
+type=Book
+id=100008
+name=Domain-Driven Design Patterns
+price=49.50
+year=2025
+
+type=Book
+id=100009
+name=Refactoring to Patterns
+price=31.75
+year=2023
+
+type=Book
+id=100010
+name=Clean Architecture
+price=39.99
+year=2024
+
+type=Book
+id=100011
+name=Test Driven Development
+price=26.50
+year=2023
+
+type=Book
+id=100012
+name=Effective Java
+price=45.00
+year=2025
+
+type=Book
+id=100013
+name=Continuous Delivery
+price=40.00
+year=2024
+
+type=Book
+id=100014
+name=Release It!
+price=34.99
+year=2022
+
+type=Book
+id=100015
+name=Design Patterns Explained
+price=28.99
+year=2023
+
+type=Book
+id=100016
+name=Working Effectively with Legacy Code
+price=42.50
+year=2024
+
+type=Book
+id=100017
+name=Head First Java
+price=35.00
+year=2021
+
+type=Book
+id=100018
+name=Practical Object-Oriented Design
+price=44.99
+year=2025
+
+type=Book
+id=100019
+name=Agile Estimating and Planning
+price=38.00
+year=2023
+
+type=Book
+id=100020
+name=Domain-Driven Design
+price=50.00
+year=2024
+
+type=Book
+id=100021
+name=Spring in Action
+price=41.25
+year=2025
+
+type=Book
+id=100022
+name=The Clean Coder
+price=32.99
+year=2023
+
+type=Book
+id=100023
+name=Patterns of Enterprise Application Architecture
+price=39.75
+year=2024
+
+type=Book
+id=100024
+name=Java Concurrency in Practice
+price=46.00
+year=2022
+
+type=Book
+id=100025
+name=Lean Software Development
+price=29.50
+year=2023
+
+type=Book
+id=100026
+name=Software Architecture Patterns
+price=35.75
+year=2024
+
+type=Book
+id=100027
+name=Working Effectively with Legacy Code
+price=43.00
+year=2025
+
+type=Book
+id=100028
+name=Domain-Driven Design Reference
+price=30.00
+year=2021
+
+type=Book
+id=100029
+name=Building Evolutionary Architectures
+price=39.99
+year=2024
+
+type=Book
+id=100030
+name=Design It!
+price=33.50
+year=2023
+
+type=Book
+id=100031
+name=Java: The Complete Reference
+price=45.00
+year=2025
+
+type=Book
+id=100032
+name=Clean Code
+price=37.50
+year=2024
+
+type=Book
+id=100033
+name=Effective Unit Testing
+price=29.99
+year=2023
+
+type=Book
+id=100034
+name=Practical Java Performance
+price=42.00
+year=2022
+
+type=Book
+id=100035
+name=Java Generics and Collections
+price=38.50
+year=2024
+
+type=Book
+id=100036
+name=Head First Design Patterns
+price=31.75
+year=2023
+
+type=Book
+id=100037
+name=Refactoring
+price=41.00
+year=2025
+
+type=Book
+id=100038
+name=Domain-Driven Design Distilled
+price=36.00
+year=2024
+
+type=Book
+id=100039
+name=The Art of Unit Testing
+price=29.50
+year=2023
+
+type=Book
+id=100040
+name=Clean Agile
+price=34.00
+year=2025
+
+type=Book
+id=100041
+name=Pragmatic Programmer
+price=40.00
+year=2024
+
+type=Book
+id=100042
+name=Test-Driven Java Development
+price=33.99
+year=2023
+
+type=Book
+id=100043
+name=Java Performance
+price=44.50
+year=2022
+
+type=Book
+id=100044
+name=Continuous Integration
+price=30.00
+year=2024
+
+type=Book
+id=100045
+name=Working Effectively with Legacy Code
+price=43.50
+year=2025
+
+type=Book
+id=100046
+name=Design Patterns
+price=38.00
+year=2023
+
+type=Book
+id=100047
+name=Agile Software Development
+price=37.25
+year=2024
+
+type=Book
+id=100048
+name=Spring Microservices in Action
+price=39.99
+year=2023
+
+type=Book
+id=100049
+name=Java Cookbook
+price=35.50
+year=2025
+
+type=Book
+id=100050
+name=Test-Driven Development by Example
+price=31.00
+year=2024
+
+type=Book
+id=100051
+name=Clean Architecture
+price=42.00
+year=2023
+
+type=Book
+id=100052
+name=Refactoring
+price=40.99
+year=2025
+
+type=Book
+id=100053
+name=Domain-Driven Design Reference
+price=30.50
+year=2024
+
+type=Book
+id=100054
+name=The Clean Coder
+price=35.99
+year=2023
+
+type=Book
+id=100055
+name=Effective Java
+price=45.00
+year=2025
+
+type=Book
+id=100056
+name=Working Effectively with Legacy Code
+price=43.00
+year=2024
+
+type=Book
+id=100057
+name=Java Performance Tuning
+price=38.00
+year=2023
+
+type=Book
+id=100058
+name=Head First Java
+price=35.75
+year=2022
+
+type=Book
+id=100059
+name=Pragmatic Programmer
+price=40.99
+year=2024
+
+type=Book
+id=100060
+name=Design It!
+price=33.00
+year=2023
+
+type=Book
+id=100061
+name=Mastering Clean Code
+price=28.50
+year=2025
+
+type=Book
+id=100062
+name=Clean Agile
+price=34.25
+year=2024
+
+type=Book
+id=100063
+name=Continuous Delivery
+price=41.00
+year=2023
+
+type=Book
+id=100064
+name=Java Concurrency in Practice
+price=46.50
+year=2025
+
+type=Book
+id=100065
+name=Effective Unit Testing
+price=30.00
+year=2024
+
+type=Book
+id=100066
+name=Patterns of Enterprise Application Architecture
+price=40.00
+year=2023
+
+type=Book
+id=100067
+name=Domain-Driven Design Distilled
+price=35.00
+year=2025
+
+type=Book
+id=100068
+name=Lean Software Development
+price=29.99
+year=2024
+
+type=Book
+id=100069
+name=Spring in Action
+price=42.25
+year=2023
+
+type=Book
+id=100070
+name=Test Driven Development
+price=26.99
+year=2025
+
+type=Book
+id=100071
+name=Building Evolutionary Architectures
+price=38.50
+year=2024
+
+type=Book
+id=100072
+name=Java Generics and Collections
+price=39.00
+year=2023
+
+type=Book
+id=100073
+name=Practical Object-Oriented Design
+price=44.99
+year=2025
+
+type=Book
+id=100074
+name=Release It!
+price=34.50
+year=2024
+
+type=Book
+id=100075
+name=Working Effectively with Legacy Code
+price=42.00
+year=2023
+
+type=Book
+id=100076
+name=Clean Code
+price=37.00
+year=2025
+
+type=Book
+id=100077
+name=Domain-Driven Design
+price=49.99
+year=2024
+
+type=Book
+id=100078
+name=Effective Java
+price=45.00
+year=2023
+
+type=Book
+id=100079
+name=The Pragmatic Developer
+price=41.00
+year=2025
+
+type=Book
+id=100080
+name=Java Performance Tuning
+price=39.50
+year=2024
+
+type=Book
+id=100081
+name=Leading with Empathy
+price=34.00
+year=2023
+
+type=Book
+id=100082
+name=Design Principles
+price=33.99
+year=2025
+
+type=Book
+id=100083
+name=Clean Architecture
+price=39.50
+year=2024
+
+type=Book
+id=100084
+name=Practical Java Performance
+price=41.50
+year=2023
+
+type=Book
+id=100085
+name=Head First Design Patterns
+price=32.00
+year=2025
+
+type=Book
+id=100086
+name=Test-Driven Java Development
+price=34.99
+year=2024
+
+type=Book
+id=100087
+name=Continuous Integration
+price=30.50
+year=2023
+
+type=Book
+id=100088
+name=Java Cookbook
+price=35.75
+year=2025
+
+type=Book
+id=100089
+name=Agile Estimating and Planning
+price=38.99
+year=2024
+
+type=Book
+id=100090
+name=Software Architecture Patterns
+price=36.50
+year=2023
+
+type=Book
+id=100091
+name=Refactoring to Patterns
+price=31.50
+year=2025
+
+type=Book
+id=100092
+name=Design Patterns Explained
+price=29.99
+year=2024
+
+type=Book
+id=100093
+name=The Art of Unit Testing
+price=30.00
+year=2023
+
+type=Book
+id=100094
+name=Working Effectively with Legacy Code
+price=42.75
+year=2025
+
+type=Book
+id=100095
+name=Building Microservices
+price=45.00
+year=2024
+
+type=Book
+id=100096
+name=Domain-Driven Design Reference
+price=30.00
+year=2023
+
+type=Book
+id=100097
+name=Clean Agile
+price=33.50
+year=2025
+
+type=Book
+id=100098
+name=Pragmatic Programmer
+price=40.00
+year=2024
+
+type=Book
+id=100099
+name=Java: The Complete Reference
+price=45.00
+year=2023
+
+type=Book
+id=100100
+name=Release It!
+price=35.00
+year=2025

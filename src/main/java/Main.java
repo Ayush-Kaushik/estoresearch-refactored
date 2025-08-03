@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Scanner;
 
 import refactored.constants.Command;
 
@@ -20,19 +21,23 @@ import refactored.view.ViewProductOperationHandler;
 public class Main {
 
   public static void main(String[] args) {
+    if (args.length > 0 && args[0] == "old") {
+      original.EStoreSearch.main(args);
+    } else {
+      Scanner scanner = new Scanner(System.in);
+      IProductService productService = new ProductService();
+      IProductDataExporter productDataExporter = new ProductDataExporter(productService);
+      IProductDataImporter productDataImporter = new ProductDataImporter(productService);
 
-    IProductService productService = new ProductService();
-    IProductDataExporter productDataExporter = new ProductDataExporter(productService);
-    IProductDataImporter productDataImporter = new ProductDataImporter(productService);
+      HashMap<Command, IOperationHandler> operations = new HashMap<Command, IOperationHandler>();
+      operations.put(Command.ADD, new AddProductOperationHandler(productService, scanner));
+      operations.put(Command.SEARCH, new SearchProductOperationHandler(productService));
+      operations.put(Command.QUIT, new QuitOperationHandler(productDataExporter));
+      operations.put(Command.VIEW, new ViewProductOperationHandler(productService));
 
-    HashMap<Command, IOperationHandler> operations = new HashMap<Command, IOperationHandler>();
-    operations.put(Command.ADD, new AddProductOperationHandler(productService));
-    operations.put(Command.SEARCH, new SearchProductOperationHandler(productService));
-    operations.put(Command.QUIT, new QuitOperationHandler(productDataExporter));
-    operations.put(Command.VIEW, new ViewProductOperationHandler(productService));
+      IApplicationRunner applicationRunner = new ConsoleApplicationRunner(productDataImporter, operations);
 
-    IApplicationRunner applicationRunner = new ConsoleApplicationRunner(productDataImporter, operations);
-
-    applicationRunner.start(args);
+      applicationRunner.start(args);
+    }
   }
 }

@@ -1,12 +1,18 @@
 # Refactored eStoreSearch (Java Project)
 
-## 📌 Overview
+## 📌 Why did I build this project?
 
-This project is a refactored version of my university Java project, originally designed as a simple console-based eStore search system. Over time, I restructured and improved the code to reflect best practices, better maintainability, and cleaner architecture.
+I built this project to showcase my progress, experience and learnings as a Java developer. I have explained my approach and learnings below.
 
-> The goal was to modernize the codebase and demonstrate improved coding standards, readability, modularity, and extensibility.
+## What did I learn from this exercise?
 
----
+- Divide and Conquer: Break large refactoring tasks into smaller, focused and easily testable changes. This reduces complexity and makes it easier to verify correctness step-by-step.
+- Context matters: Principles like YAGNI, SOC, and DRY are valuable, but their real impact comes when applied in the right context, not blindly enforced. This doesn't mean they are not valuable, for example: while future requirements should influence design, YAGNI reminds us not to over-engineer for speculative use cases. Build for what you know, not what you guess.
+- Design patterns and best practices are tools, not goals. Evaluate their fit before adopting — complexity without purpose is just noise.
+- Unit tests are essential for validating behaviour, but overly specific tests that bind too tightly to implementation details can become a maintenance burden. Aim for tests that verify behaviour at a higher level, without assuming internal structure.
+- Refactoring isn’t just about readability — it’s also an opportunity to improve space and time complexity, making the code faster and more efficient.
+- Sometimes, starting fresh is faster and cleaner than endlessly patching unmaintainable code. Don’t be afraid to rewrite — just make it a deliberate choice, not a habit.
+
 
 ## 🔄 Refactoring Summary
 

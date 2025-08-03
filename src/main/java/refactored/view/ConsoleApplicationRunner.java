@@ -40,7 +40,7 @@ public class ConsoleApplicationRunner implements IApplicationRunner {
           return commandType;
         }
 
-      } catch (NumberFormatException exception) {
+      } catch (Exception exception) {
         System.out.println("Invalid command");
         continue;
       }
@@ -48,7 +48,6 @@ public class ConsoleApplicationRunner implements IApplicationRunner {
   }
 
   public void start(String[] arguments) {
-
     if (arguments.length != 1) {
       logger.warning("Input file not provided, store will start without loading existing data.");
     } else {

@@ -2,14 +2,14 @@ package refactored.view;
 
 import java.util.Scanner;
 
-import refactored.service.ProductService;
+import refactored.service.IProductService;
 
 public class SearchProductOperationHandler implements IOperationHandler {
 
   private Scanner scanner;
-  private ProductService productService;
+  private IProductService productService;
 
-  public SearchProductOperationHandler(ProductService productService) {
+  public SearchProductOperationHandler(IProductService productService) {
     this.scanner = new Scanner(System.in);
     this.productService = productService;
   }
@@ -19,9 +19,9 @@ public class SearchProductOperationHandler implements IOperationHandler {
     return scanner.nextLine().trim();
   }
 
-  public String promptYear() {
+  public void promptYear() {
 
-    return productYear;
+    // return productYear;
   }
 
   public int[] breakYear(String productSearchYearQuery) {
@@ -83,33 +83,35 @@ public class SearchProductOperationHandler implements IOperationHandler {
   }
 }
 
-public class YearRangeParser {
-  public static YearRange parse(String input) {
-    if (input == null || input.trim().isEmpty()) {
-      return new YearRange(YearRangeMode.EMPTY, 0, 0);
-    }
+// public class YearRangeParser {
+// public static YearRange parse(String input) {
+// if (input == null || input.trim().isEmpty()) {
+// return new YearRange(YearRangeMode.EMPTY, 0, 0);
+// }
 
-    input = input.trim();
-    if (input.matches("^\\d{4}$")) {
-      return new YearRange(YearRangeMode.EXACT, Integer.parseInt(input), 0);
-    }
+// input = input.trim();
+// if (input.matches("^\\d{4}$")) {
+// return new YearRange(YearRangeMode.EXACT, Integer.parseInt(input), 0);
+// }
 
-    if (input.matches("^\\d{4}-$")) {
-      return new YearRange(YearRangeMode.FROM, Integer.parseInt(input.substring(0, 4)), 0);
-    }
+// if (input.matches("^\\d{4}-$")) {
+// return new YearRange(YearRangeMode.FROM, Integer.parseInt(input.substring(0,
+// 4)), 0);
+// }
 
-    if (input.matches("^-\\d{4}$")) {
-      return new YearRange(YearRangeMode.UNTIL, 0, Integer.parseInt(input.substring(1)));
-    }
+// if (input.matches("^-\\d{4}$")) {
+// return new YearRange(YearRangeMode.UNTIL, 0,
+// Integer.parseInt(input.substring(1)));
+// }
 
-    if (input.matches("^\\d{4}-\\d{4}$")) {
-      String[] parts = input.split("-");
-      return new YearRange(
-          YearRangeMode.RANGE,
-          Integer.parseInt(parts[0]),
-          Integer.parseInt(parts[1]));
-    }
+// if (input.matches("^\\d{4}-\\d{4}$")) {
+// String[] parts = input.split("-");
+// return new YearRange(
+// YearRangeMode.RANGE,
+// Integer.parseInt(parts[0]),
+// Integer.parseInt(parts[1]));
+// }
 
-    throw new IllegalArgumentException("Invalid year format: " + input);
-  }
-}
+// throw new IllegalArgumentException("Invalid year format: " + input);
+// }
+// }

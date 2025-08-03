@@ -22,6 +22,7 @@ public class ProductDataImporter implements IProductDataImporter {
     }
 
     public void load(String filePath) {
+        this.logger.finest("Loading data from file: " + filePath);
 
         try {
             this.scanner = new Scanner(new FileInputStream(filePath));
@@ -38,7 +39,7 @@ public class ProductDataImporter implements IProductDataImporter {
                 } else {
 
                     String type = this.inputMap.get("type");
-                    String productId = this.inputMap.get("productID");
+                    String productId = this.inputMap.get("id");
                     String name = this.inputMap.get("name");
                     String price = this.inputMap.get("price");
                     String year = this.inputMap.get("year");
