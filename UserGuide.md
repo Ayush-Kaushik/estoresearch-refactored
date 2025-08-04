@@ -1,5 +1,5 @@
 
-# eStoreSearch Program - User Documentation
+# eStoreSearch Program - User Guide
 
 ## Overview
 
@@ -16,16 +16,16 @@ The eStoreSearch program is a command-line application that manages an electroni
 ### 1. Compilation
 First, compile the Java files:
 ```bash
-javac -d . original/*.java
+javac -d . src/main/java/*.java
 ```
 
 ### 2. Execution
 Run the program with an input file:
 ```bash
-java original.EStoreSearch input_file.txt
+java Main input_file.txt
 ```
 
-**Important:** The program requires exactly one command-line argument (the input file path). If no file is provided, the program will exit with an error message.
+> The program requires exactly one command-line argument (the input file path). If no file is provided, the program will highlight that file is not provided and continue running.
 
 ## Input File Format
 

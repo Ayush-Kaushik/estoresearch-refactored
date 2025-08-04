@@ -64,6 +64,7 @@ run = ["java", "-classpath", ".:target/dependency/*", "Main"]
 deploymentTarget = "cloudrun"
 
 [workflows]
+runButton = "Test"
 
 [[workflows.workflow]]
 name = "Run with import data"
