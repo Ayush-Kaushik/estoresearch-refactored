@@ -20,7 +20,7 @@ public class ProductDataImporterTest {
     importer.load("/resources/import.txt");
 
     int actual = service.getProductList().size();
-    Assert.assertEquals(100, actual);
+    assertEquals(100, actual);
   }
 
 }
