@@ -57,7 +57,7 @@ public class ProductDataExporterTest {
     service.addProduct(new Book("123456", "Effective Java", 49.99, 2023, "Joshua Bloch", "Addison-Wesley"));
     service.addProduct(new Electronics("654321", "Smartphone", 599.99, 2022, "Samsung"));
 
-    IProductDataExporter exporter = new ProductDataExporter(service);
+    IProductDataExporter exporter = new ProductDataExporter(service, logger);
     exporter.export(filePath);
 
     IProductService service2 = new ProductService();

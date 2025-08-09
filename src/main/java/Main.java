@@ -29,7 +29,8 @@ public class Main {
     IProductService productService = new ProductService();
     IProductFactory productFactory = new ProductFactory(Logger.getLogger(Main.class.getName()));
 
-    IProductDataExporter productDataExporter = new ProductDataExporter(productService);
+    IProductDataExporter productDataExporter = new ProductDataExporter(productService,
+        Logger.getLogger(Main.class.getName()));
     IProductDataImporter productDataImporter = new ProductDataImporter(
         productService,
         Logger.getLogger(Main.class.getName()),

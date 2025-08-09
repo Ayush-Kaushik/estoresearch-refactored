@@ -64,14 +64,6 @@ public abstract class Product {
         return price;
     }
 
-    public String datadump() {
-        return String.format("type=Product\nid=%s\nname=%s\nyear=%d\nprice=%f\n\n",
-                getID(),
-                getName(),
-                getYear(),
-                getPrice());
-    }
-
     public String getID() {
         return this.id;
     }
@@ -86,5 +78,17 @@ public abstract class Product {
 
     public int getYear() {
         return this.year;
+    }
+
+    /**
+     * @return "String formatted in accordance to the output to text file before
+     *         quitting"
+     */
+    public String datadump() {
+        return String.format("type=Product\nid=%s\nname=%s\nyear=%d\nprice=%f\n\n",
+                getID(),
+                getName(),
+                getYear(),
+                getPrice());
     }
 }

@@ -18,22 +18,17 @@ public class Book extends Product {
         this.publisher = publisher;
     }
 
-    public void setAuthor(final String author) {
-        this.author = author;
-    }
-
     public String getAuthor() {
         return this.author;
-    }
-
-    public void setPublisher(final String publisher) {
-        this.publisher = publisher;
     }
 
     public String getPublisher() {
         return this.publisher;
     }
 
+    /**
+     * @return special string format which is used to display the result of search
+     */
     @Override
     public String toString() {
         return String.format(
@@ -46,6 +41,10 @@ public class Book extends Product {
                 getPublisher());
     }
 
+    /**
+     * @return "String formatted in accordance to the output to text file before
+     *         quitting"
+     */
     @Override
     public String datadump() {
         return String.format(

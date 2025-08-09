@@ -18,8 +18,7 @@ public class Electronics extends Product {
     }
 
     /**
-     * @return "String formatted in accordance to the output to text file before
-     *         quitting"
+     * @return special string format which is used to display the result of search
      */
     @Override
     public String toString() {
@@ -32,7 +31,8 @@ public class Electronics extends Product {
     }
 
     /**
-     * @return special string format which is used to display the result of search
+     * @return "String formatted in accordance to the output to text file before
+     *         quitting"
      */
     @Override
     public String datadump() {
