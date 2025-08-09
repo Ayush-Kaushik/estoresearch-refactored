@@ -20,11 +20,17 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Run tests with Maven
-        run: mvn clean test surefire-report:report
+      - name: Run tests with coverage
+        run: mvn clean test surefire-report:report jacoco:report
 
       - name: Upload HTML test report
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: target/reports/
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: target/site/jacoco/
