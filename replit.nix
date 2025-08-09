@@ -1,5 +1,6 @@
 { pkgs }: {
     deps = [
+      pkgs.nano
       pkgs.python39Packages.softlayer
         pkgs.graalvm17-ce
         pkgs.maven
