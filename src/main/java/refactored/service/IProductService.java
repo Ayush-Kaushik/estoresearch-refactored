@@ -16,6 +16,11 @@ public interface IProductService {
   void addProduct(Product product);
 
   /**
+   * Tries to add a new product to the product list.
+   */
+  boolean tryAddProduct(Product product);
+
+  /**
    * Returns the list of all products.
    */
   ArrayList<Product> getProductList();

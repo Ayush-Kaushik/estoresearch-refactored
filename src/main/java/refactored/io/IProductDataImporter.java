@@ -1,5 +1,5 @@
 package refactored.io;
 
 public interface IProductDataImporter {
-    public void load(String path);
+    public void importData(String path);
 }

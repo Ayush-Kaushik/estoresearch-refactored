@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import refactored.constants.Command;
 
@@ -22,9 +23,11 @@ public class Main {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
+
     IProductService productService = new ProductService();
     IProductDataExporter productDataExporter = new ProductDataExporter(productService);
-    IProductDataImporter productDataImporter = new ProductDataImporter(productService);
+    IProductDataImporter productDataImporter = new ProductDataImporter(productService,
+        Logger.getLogger(Main.class.getName()));
 
     HashMap<Command, IOperationHandler> operations = new HashMap<Command, IOperationHandler>();
     operations.put(Command.ADD, new AddProductOperationHandler(productService, scanner));

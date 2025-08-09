@@ -14,25 +14,8 @@ public class Book extends Product {
             final String publisher) {
         super(ID, name, price, year);
 
-        this.author = validateAuthor(author);
-        this.publisher = validatePublisher(publisher);
-    }
-
-    public static String validateAuthor(final String author) {
-        if (author.isEmpty()) {
-            throw new IllegalArgumentException("Author cannot be empty");
-        }
-
-        return author;
-    }
-
-    public static String validatePublisher(final String publisher) {
-
-        if (publisher.isEmpty()) {
-            throw new IllegalArgumentException("Publisher cannot be empty");
-        }
-
-        return publisher;
+        this.author = author;
+        this.publisher = publisher;
     }
 
     public void setAuthor(final String author) {

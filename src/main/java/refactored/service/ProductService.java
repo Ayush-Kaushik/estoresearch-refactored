@@ -25,7 +25,19 @@ public class ProductService implements IProductService {
         return false;
     }
 
+    public boolean tryAddProduct(Product product) {
+        if (productExists(product.getID())) {
+            return false;
+        }
+        addProduct(product);
+        return true;
+    }
+
     public void addProduct(Product product) {
+        if (productExists(product.getID())) {
+            throw new IllegalArgumentException("Product with id " + product.getID() + " already exists.");
+        }
+
         productList.add(product);
         String[] searchTokens = product.getName().toLowerCase().split(" ");
         this.nameSearchInvertedIndex.add(searchTokens, productList.size() - 1);
@@ -42,9 +54,5 @@ public class ProductService implements IProductService {
             }
         }
         return null;
-    }
-
-    public int getSize() {
-        return productList.size();
     }
 }

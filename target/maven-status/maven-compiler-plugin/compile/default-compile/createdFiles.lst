@@ -1,1 +1,14 @@
+original/EStoreSearch.class
+refactored/model/Product.class
+refactored/service/IProductService.class
+refactored/data/InvertedIndex.class
+Main.class
+refactored/data/IInvertedIndex.class
 refactored/view/AddProductOperationHandler$1.class
+refactored/constants/ProductType.class
+refactored/view/IApplicationRunner.class
+refactored/constants/Command.class
+refactored/model/SearchQuery.class
+original/Product.class
+refactored/model/Book.class
+original/Book.class

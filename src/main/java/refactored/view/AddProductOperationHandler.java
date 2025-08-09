@@ -91,9 +91,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     while (true) {
       try {
         System.out.println("Enter book publisher: ");
-        String publisher = this.scanner.nextLine();
-        Book.validatePublisher(publisher);
-        return publisher;
+        return this.scanner.nextLine().trim();
 
       } catch (Exception e) {
         System.out.println(e.getMessage());
@@ -105,10 +103,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     while (true) {
       try {
         System.out.println("Enter book author: ");
-        String author = this.scanner.nextLine();
-        Book.validateAuthor(author);
-        return author;
-
+        return this.scanner.nextLine().trim();
       } catch (Exception e) {
         System.out.println(e.getMessage());
       }
@@ -119,10 +114,7 @@ public class AddProductOperationHandler implements IOperationHandler {
     while (true) {
       try {
         System.out.println("Enter electronics maker: ");
-        String maker = this.scanner.nextLine();
-        Electronics.validateMaker(maker);
-        return maker;
-
+        return this.scanner.nextLine().trim();
       } catch (Exception e) {
         System.out.println(e.getMessage());
       }

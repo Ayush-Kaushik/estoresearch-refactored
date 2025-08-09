@@ -6,11 +6,11 @@ I built this project to showcase my progress, experience and learnings as a Java
 
 ## What did I learn from this exercise?
 
-- Divide and Conquer: Break large refactoring tasks into smaller, focused and easily testable changes. This reduces complexity and makes it easier to verify correctness step-by-step.
-- Context matters: Principles like YAGNI, SOC, and DRY are valuable, but their real impact comes when applied in the right context, not blindly enforced. This doesn't mean they are not valuable, for example: while future requirements should influence design, YAGNI reminds us not to over-engineer for speculative use cases. Build for what you know, not what you guess.
+- **Divide and Conquer**: Break large refactoring tasks into smaller, focused and easily testable changes. This reduces complexity and makes it easier to verify correctness.
+- **Context matters**: Principles like YAGNI, SOC, and DRY are valuable, but their real impact comes when applied in the right context, not blindly enforced. This doesn't mean they are not valuable, for example: while future requirements should influence design, YAGNI reminds us not to over-engineer for speculative use cases. Build for what you know, not what you guess.
 - Design patterns and best practices are tools, not goals. Evaluate their fit before adopting — complexity without purpose is just noise.
-- Unit tests are essential for validating behaviour, but overly specific tests that bind too tightly to implementation details can become a maintenance burden. Aim for tests that verify behaviour at a higher level, without assuming internal structure.
-- Refactoring isn’t just about readability — it’s also an opportunity to improve space and time complexity, making the code faster and more efficient.
+- **Test behaviour not implementation** - Unit tests are essential for validating behaviour, but overly specific tests that bind too tightly to implementation details can become an inplicit contract and maintenance burden. Aim for tests that verify behaviour at a higher level, without assuming internal structure.
+- **O notation** - Refactoring isn’t just about readability — it’s also an opportunity to improve space and time complexity, making the code faster and more efficient.
 - Sometimes, starting fresh is faster and cleaner than endlessly patching unmaintainable code. Don’t be afraid to rewrite — just make it a deliberate choice, not a habit.
 
 
@@ -22,20 +22,8 @@ I built this project to showcase my progress, experience and learnings as a Java
 | Naming              | Inconsistent, ambiguous names              | Clear, descriptive class and method names   |
 | Code Duplication    | Repeated logic across classes              | Utility/helper methods introduced           |
 | Enums/Constants     | Hard-coded strings                         | Type-safe enums with centralized constants  |
-| Input Handling      | Input logic with business logic           | Separated input logic into dedicated classes|
+| Input Handling      | Input logic with business logic           | Separated input logic into dedicated classes |
 | Object-Oriented Use | Minimal encapsulation                      | Encapsulated fields, added polymorphism     |
-
----
-
-## 🧠 Why the Refactor?
-
-This project was originally built as part of a university course. The refactored version is a personal initiative to document my growth as a Java developer and designer.
-
-- ✅ To improve **code readability** and make onboarding easier.
-- ✅ To promote **clean architecture principles** (e.g., separation of concerns).
-- ✅ To reduce **code duplication** and increase reusability.
-- ✅ To introduce **testability** and future extensibility.
-- ✅ To follow **Java best practices** (e.g., naming conventions, immutability, access modifiers).
 
 ---
 
@@ -74,7 +62,6 @@ original/
 refactored/
 ├── constants/         # Centralized constants
 ├── data/              # Data access layer
-├── handler/           # Business logic handlers
 ├── io/                # Input/Output operations
 ├── model/             # Domain models
 ├── service/           # Business services

@@ -4,78 +4,68 @@ import java.util.logging.Logger;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Optional;
 
-import refactored.model.Book;
-import refactored.model.Electronics;
+import refactored.factory.IProductFactory;
+import refactored.model.Product;
 import refactored.service.IProductService;
+
+import java.util.logging.Level;
 
 public class ProductDataImporter implements IProductDataImporter {
     private HashMap<String, String> inputMap;
     private Scanner scanner;
     private IProductService productService;
+    private IProductFactory productFactory;
     private Logger logger;
 
-    public ProductDataImporter(IProductService productService) {
+    public ProductDataImporter(IProductService productService, Logger logger, IProductFactory productFactory) {
         this.inputMap = new HashMap<String, String>();
         this.productService = productService;
-        this.logger = Logger.getLogger(ProductDataImporter.class.getName());
+        this.logger = logger;
+        this.productFactory = productFactory;
     }
 
-    public void load(String filePath) {
-        this.logger.finest("Loading data from file: " + filePath);
+    public void importData(String filePath) {
+        this.logger.info("Loading data from file: " + filePath);
 
         try {
             this.scanner = new Scanner(new FileInputStream(filePath));
+
             while (this.scanner.hasNextLine()) {
                 String line = this.scanner.nextLine();
+
+                this.logger.log(Level.FINE, "Processing line: {0}", line);
+
                 String[] parts = line.split("=");
 
+                // TODO: Support edge case: if there are two delimeters in a line
+                // TODO: support edge case: if there are no delimeters in a line
+                // TODO: support edge case: if there are no key value pairs in a line
                 if (parts.length == 2) {
-
                     String key = parts[0].trim();
                     String value = parts[1].trim();
                     this.inputMap.put(key, value);
 
-                } else {
+                } else if (parts.length == 1) {
+                    logger.log(Level.FINE, "Setting up new product");
 
-                    String type = this.inputMap.get("type");
-                    String productId = this.inputMap.get("id");
-                    String name = this.inputMap.get("name");
-                    String price = this.inputMap.get("price");
-                    String year = this.inputMap.get("year");
+                    Optional<Product> output = this.productFactory.fromMap(inputMap);
+                    Product product = output.get();
 
-                    if (type.equals("book")) {
-                        String author = inputMap.get("author") == null ? inputMap.get("author") : "";
-                        String publisher = inputMap.get("publisher") == null ? inputMap.get("publisher") : "";
-
-                        Book book = new Book(
-                                productId,
-                                name,
-                                Double.parseDouble(price),
-                                Integer.parseInt(year),
-                                author,
-                                publisher);
-
-                        this.productService.addProduct(book);
-                        this.inputMap.clear();
-
-                        logger.info("Adding new entry in list: " + book.datadump());
-                    } else if (type.equals("electronics")) {
-
-                        String maker = inputMap.get("maker") == null ? inputMap.get("maker") : "";
-                        Electronics electronic = new Electronics(
-                                productId,
-                                name,
-                                Double.parseDouble(price),
-                                Integer.parseInt(year),
-                                maker);
-
-                        this.productService.addProduct(electronic);
+                    if (!this.productService.tryAddProduct(product)) {
+                        logger.log(Level.WARNING, "Product with id {0} already exists, skipping", product.getID());
+                    } else {
+                        logger.log(Level.FINE, "Added new product: {0}", product.datadump());
                     }
+
+                    this.inputMap.clear();
+
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error loading file: " + e.getMessage());
+            logger.log(Level.SEVERE, "Error reading file", e.getStackTrace());
+            System.out.println("Error reading file: " + e.getMessage());
         }
     }
 }

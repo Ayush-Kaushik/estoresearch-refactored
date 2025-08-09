@@ -6,16 +6,7 @@ public class Electronics extends Product {
 
     public Electronics(String ID, String name, double price, int year, String maker) {
         super(ID, name, price, year);
-
         this.maker = maker;
-    }
-
-    public static String validateMaker(String maker) {
-        if (maker.trim().isEmpty()) {
-            throw new IllegalArgumentException("Maker cannot be empty");
-        }
-
-        return maker;
     }
 
     public void setMaker(String maker) {

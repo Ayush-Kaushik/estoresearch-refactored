@@ -52,7 +52,7 @@ public class ConsoleApplicationRunner implements IApplicationRunner {
       logger.warning("Input file not provided, store will start without loading existing data.");
     } else {
       logger.info("Loading input file.");
-      productDataImporter.load(arguments[0]);
+      productDataImporter.importData(arguments[0]);
     }
 
     System.out.println("\n------- Welcome to EStoreSearch --------");
