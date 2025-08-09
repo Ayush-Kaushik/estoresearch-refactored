@@ -26,8 +26,8 @@ public class Book extends Product {
         return this.author;
     }
 
-    public void setPublisher(final String publisher_) {
-        this.publisher = publisher_;
+    public void setPublisher(final String publisher) {
+        this.publisher = publisher;
     }
 
     public String getPublisher() {
@@ -37,14 +37,24 @@ public class Book extends Product {
     @Override
     public String toString() {
         return String.format(
-                "type = \"book\"\nproductID = \"%s\"\nname = \"%s\"\nprice = \"%f\"\nyear = \"%d\"\nauthors = \"%s\"\npublisher = \"%s\"\n ",
-                getID(), getName(), getPrice(), getYear(), getAuthor(), getPublisher());
+                "type=book\nid=%s\nname=%s\nprice=%f\nyear=%d\nauthors=%s\npublisher=%s\n\n",
+                getID(),
+                getName(),
+                getPrice(),
+                getYear(),
+                getAuthor(),
+                getPublisher());
     }
 
     @Override
     public String datadump() {
-        return "item ID: " + getID() + ", " + "Name of item:" + ", " + getName() + ", " + "Year: " + getYear() + ", "
-                + "Price: " + getPrice() + ", " + "Author: " + getAuthor() + ", " + "Publisher: " + getPublisher();
+        return String.format(
+                "type=book\nid=%s\nname=%s\nprice=%f\nyear=%d\nauthors=%s\npublisher=%s\n\n",
+                getID(),
+                getName(),
+                getPrice(),
+                getYear(),
+                getAuthor(),
+                getPublisher());
     }
-
 }

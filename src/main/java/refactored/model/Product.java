@@ -65,8 +65,11 @@ public abstract class Product {
     }
 
     public String datadump() {
-        return "item ID: " + getID() + ", " + "Name of item: " + ", " + getName() + ", " + "Year: " + getYear() + ", "
-                + "Price: " + getPrice();
+        return String.format("type=Product\nid=%s\nname=%s\nyear=%d\nprice=%f\n\n",
+                getID(),
+                getName(),
+                getYear(),
+                getPrice());
     }
 
     public void setID(String ID_) {

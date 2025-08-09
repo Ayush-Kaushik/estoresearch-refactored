@@ -23,9 +23,12 @@ public class Electronics extends Product {
      */
     @Override
     public String toString() {
-        return String.format(
-                "type = \"electronics\"\nproductID = \"%s\"\nname = \"%s\"\nprice = \"%f\"\nyear = \"%d\"\nmaker = \"%s\"\n ",
-                getID(), getName(), getPrice(), getYear(), getMaker());
+        return String.format("type=electronics\nid=%s\nname=%s\nprice=%f\nyear=%d\nmaker=%s\n\n",
+                getID(),
+                getName(),
+                getPrice(),
+                getYear(),
+                getMaker());
     }
 
     /**
@@ -33,8 +36,11 @@ public class Electronics extends Product {
      */
     @Override
     public String datadump() {
-        return "item ID: " + getID() + ", " + "Name of item: " + getName() + ", " + "Year: " + getYear() + ", "
-                + "Price: " + getPrice() + ", " + "Maker: " + getMaker();
+        return String.format("type=electronics\nid=%s\nname=%s\nprice=%f\nyear=%d\nmaker=%s\n\n",
+                getID(),
+                getName(),
+                getPrice(),
+                getYear(),
+                getMaker());
     }
-
 }

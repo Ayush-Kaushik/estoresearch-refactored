@@ -42,12 +42,14 @@ public class ProductDataImporter implements IProductDataImporter {
                 // TODO: Support edge case: if there are two delimeters in a line
                 // TODO: support edge case: if there are no delimeters in a line
                 // TODO: support edge case: if there are no key value pairs in a line
+
                 if (parts.length == 2) {
                     String key = parts[0].trim();
                     String value = parts[1].trim();
                     this.inputMap.put(key, value);
+                }
 
-                } else if (parts.length == 1) {
+                if (parts.length == 1) {
                     logger.log(Level.FINE, "Setting up new product");
 
                     Optional<Product> output = this.productFactory.fromMap(inputMap);

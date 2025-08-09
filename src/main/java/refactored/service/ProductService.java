@@ -34,11 +34,16 @@ public class ProductService implements IProductService {
         if (productExists(product.getID())) {
             return false;
         }
+
         addProduct(product);
         return true;
     }
 
     public void addProduct(Product product) {
+        if (Objects.isNull(product)) {
+            throw new IllegalArgumentException("Product cannot be null.");
+        }
+
         if (productExists(product.getID())) {
             throw new IllegalArgumentException("Product with id " + product.getID() + " already exists.");
         }
