@@ -51,20 +51,19 @@ public class ProductDataImporter implements IProductDataImporter {
                     logger.log(Level.FINE, "Setting up new product");
 
                     Optional<Product> output = this.productFactory.fromMap(inputMap);
-                    Product product = output.get();
+                    Product product = output.orElse(null);
 
                     if (!this.productService.tryAddProduct(product)) {
-                        logger.log(Level.WARNING, "Product with id {0} already exists, skipping", product.getID());
+                        logger.log(Level.WARNING, "Unable to add product, skipping...");
                     } else {
                         logger.log(Level.FINE, "Added new product: {0}", product.datadump());
                     }
 
                     this.inputMap.clear();
-
                 }
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error reading file", e.getStackTrace());
+            logger.log(Level.SEVERE, "Error reading file", e);
             System.out.println("Error reading file: " + e.getMessage());
         }
     }

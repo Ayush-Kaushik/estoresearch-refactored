@@ -1,6 +1,7 @@
 package refactored.service;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import refactored.data.IInvertedIndex;
 import refactored.data.InvertedIndex;
@@ -26,6 +27,10 @@ public class ProductService implements IProductService {
     }
 
     public boolean tryAddProduct(Product product) {
+        if (Objects.isNull(product)) {
+            return false;
+        }
+
         if (productExists(product.getID())) {
             return false;
         }

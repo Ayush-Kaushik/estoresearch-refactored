@@ -7,6 +7,8 @@ import refactored.constants.Command;
 import refactored.io.IProductDataExporter;
 import refactored.io.IProductDataImporter;
 import refactored.service.IProductService;
+import refactored.factory.IProductFactory;
+import refactored.factory.ProductFactory;
 
 import refactored.io.ProductDataExporter;
 import refactored.io.ProductDataImporter;
@@ -25,9 +27,13 @@ public class Main {
     Scanner scanner = new Scanner(System.in);
 
     IProductService productService = new ProductService();
+    IProductFactory productFactory = new ProductFactory(Logger.getLogger(Main.class.getName()));
+
     IProductDataExporter productDataExporter = new ProductDataExporter(productService);
-    IProductDataImporter productDataImporter = new ProductDataImporter(productService,
-        Logger.getLogger(Main.class.getName()));
+    IProductDataImporter productDataImporter = new ProductDataImporter(
+        productService,
+        Logger.getLogger(Main.class.getName()),
+        productFactory);
 
     HashMap<Command, IOperationHandler> operations = new HashMap<Command, IOperationHandler>();
     operations.put(Command.ADD, new AddProductOperationHandler(productService, scanner));

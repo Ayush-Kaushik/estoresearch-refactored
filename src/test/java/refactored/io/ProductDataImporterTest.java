@@ -62,6 +62,8 @@ public class ProductDataImporterTest {
   @Test
   public void givenValidImportFile_ImporterMustLoadFile() throws Exception {
 
+    logger.log(Level.FINE, "\n\nstart givenValidImportFile_ImporterMustLoadFile");
+
     List<String> lines = List.of(
         "type=book",
         "id=123456",
@@ -82,7 +84,7 @@ public class ProductDataImporterTest {
     String filePath = createTempFile("product-data-", lines);
 
     IProductService service = new ProductService();
-    IProductfactory factory = new ProductFactory();
+    IProductFactory factory = new ProductFactory(logger);
 
     IProductDataImporter importer = new ProductDataImporter(service, logger, factory);
     importer.importData(filePath);
@@ -107,6 +109,8 @@ public class ProductDataImporterTest {
   @Test
   public void givenInValidImportFile_WithDuplicateEntries_ImporterMustSkipDuplicates() throws Exception {
 
+    logger.log(Level.FINE, "\n\nstart givenInValidImportFile_WithDuplicateEntries_ImporterMustSkipDuplicates");
+
     List<String> lines = List.of(
         "type=book",
         "id=123456",
@@ -135,7 +139,7 @@ public class ProductDataImporterTest {
     String filePath = createTempFile("product-data-", lines);
 
     IProductService service = new ProductService();
-    IProductFactory factory = new ProductFactory();
+    IProductFactory factory = new ProductFactory(logger);
 
     IProductDataImporter importer = new ProductDataImporter(service, logger, factory);
     importer.importData(filePath);
@@ -146,6 +150,8 @@ public class ProductDataImporterTest {
 
   @Test
   public void givenInValidImportFile_WithCorruptData_ImporterMustSkipCorruptedData() throws Exception {
+
+    logger.log(Level.FINE, "\n\nstart givenInValidImportFile_WithCorruptData_ImporterMustSkipCorruptedData");
 
     List<String> lines = List.of(
         "type=book",
@@ -163,7 +169,7 @@ public class ProductDataImporterTest {
         "year=2023",
         "author=Joshua Bloch",
         "publisher=Addison-Wesley",
-        "=",
+        "",
         "type=electronics",
         "id=654321",
         "name=Smartphone",
@@ -175,7 +181,7 @@ public class ProductDataImporterTest {
     String filePath = createTempFile("product-data-", lines);
 
     IProductService service = new ProductService();
-    IProductFactory factory = new ProductFactory();
+    IProductFactory factory = new ProductFactory(logger);
 
     IProductDataImporter importer = new ProductDataImporter(service, logger, factory);
     importer.importData(filePath);
