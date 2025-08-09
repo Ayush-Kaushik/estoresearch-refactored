@@ -72,36 +72,19 @@ public abstract class Product {
                 getPrice());
     }
 
-    public void setID(String ID_) {
-        this.id = ID_;
-    }
-
     public String getID() {
         return this.id;
-    }
-
-    public void setName(String name_) {
-        this.name = name_;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public double getPrice() {
         return this.price;
-    }
-
-    public void setYear(int year_) {
-        this.year = year_;
     }
 
     public int getYear() {
         return this.year;
     }
-
 }

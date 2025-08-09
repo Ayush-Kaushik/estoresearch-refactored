@@ -18,12 +18,13 @@ public class ProductService implements IProductService {
     }
 
     public boolean productExists(String productId) {
-        for (Product product : productList) {
-            if (product.getID().equals(productId)) {
-                return true;
-            }
+        Product product = findProductById(productId);
+
+        if (Objects.isNull(product)) {
+            return false;
         }
-        return false;
+
+        return true;
     }
 
     public boolean tryAddProduct(Product product) {
