@@ -1,6 +1,5 @@
 package estore;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -34,136 +33,10 @@ public class EStoreSearch {
      */
 
     public static void fileRead(String[] args) {
-        Scanner inputStream = null;
         try {
-            HashMap<String, String> inputMap = new HashMap<>();
-
-            inputStream = new Scanner(new FileInputStream(args[0]));
-
-            String line = null;
-
-            while (inputStream.hasNextLine()) {
-                line = inputStream.nextLine();
-                // System.out.println("The output from file read is:" + line);
-
-                String[] values = line.split("=");
-                if (values.length == 2) {
-
-                    // This block of code trims the quotations around the value
-                    String key = values[0].trim();
-                    char[] array = values[1].trim().toCharArray();
-                    array[0] = ' ';
-                    array[array.length - 1] = ' ';
-                    String value = new String(array).trim();
-
-                    // System.out.println("Key: " + key + " Value: " + value);
-
-                    inputMap.put(key, value); // adding the value to the map
-                }
-
-                else {
-                    String type = inputMap.get("type");
-                    String ID = inputMap.get("productID");
-                    String name = inputMap.get("name");
-                    String price = inputMap.get("price");
-                    String year = inputMap.get("year");
-
-                    if (type.equals("book")) {
-                        String author = inputMap.get("authors");
-
-                        if (author == null) {
-                            author = "";
-                        }
-
-                        String publisher = inputMap.get("publisher");
-
-                        if (publisher == null) {
-                            publisher = "";
-                        }
-
-                        Book book = new Book(ID, name, Double.parseDouble(price), Integer.parseInt(year), author,
-                                publisher);
-                        productList.add(book);
-                        inputMap.clear();
-
-                        // ----- Checking for the index of the value added -------
-                        int number = returnIndex(book, productList);
-                        // System.out.println("Index of the value added in array list: " + number);
-
-                        // This is the method for adding values as mentioned in the project specs -->
-                        // the values are index of the items in array list that contains the same
-                        // keyword in their names
-                        boolean validSpace = spaceCount(name);
-                        if (validSpace == true) {
-                            String[] tokens = name.toLowerCase().split(" "); // adding the keys in lowercase so it can
-                                                                             // find java and JAVA
-                            for (String token : tokens) {
-                                if (map.containsKey(token)) {
-                                    map.get(token).add(number);
-                                } else {
-                                    map.put(token.toLowerCase(), new ArrayList<>()); // key and new array of value
-                                    map.get(token.toLowerCase()).add(number);
-                                }
-                            }
-                        } else {
-                            if (map.containsKey(name.toLowerCase()))
-                                map.get(name.toLowerCase()).add(number);
-
-                            else {
-                                map.put(name.toLowerCase(), new ArrayList<>());
-                                map.get(name).add(number);
-                            }
-                        }
-
-                    }
-
-                    if (type.equals("electronics")) {
-                        String maker = inputMap.get("maker");
-
-                        if (maker == null) {
-                            maker = "";
-                        }
-
-                        Electronics electronic = new Electronics(ID, name, Double.parseDouble(price),
-                                Integer.parseInt(year), maker);
-                        productList.add(electronic);
-                        inputMap.clear();
-
-                        // ----- Checking for the index of the value added -------
-                        int number = returnIndex(electronic, productList);
-                        // System.out.println("Index of the value added in array list: " + number);
-
-                        // This is the method for adding values as mentioned in the project specs -->
-                        // the values are index of the items in array list that contains the same
-                        // keyword in their names
-                        boolean validSpace = spaceCount(name);
-
-                        if (validSpace == true) {
-                            String[] tokens = name.toLowerCase().split(" "); // adding the keys in lowercase so it can
-                                                                             // find java and JAVA
-                            for (String token : tokens) {
-                                if (map.containsKey(token)) {
-                                    map.get(token).add(number);
-                                } else {
-                                    map.put(token.toLowerCase(), new ArrayList<>()); // key and new array of value
-                                    map.get(token.toLowerCase()).add(number);
-                                }
-                            }
-                        } else {
-                            if (map.containsKey(name.toLowerCase()))
-                                map.get(name.toLowerCase()).add(number);
-
-                            else {
-                                map.put(name.toLowerCase(), new ArrayList<>());
-                                map.get(name).add(number);
-                            }
-                        }
-
-                    }
-
-                }
-
-            }
+            
+            CatalogFileReader catalogFileReader = new CatalogFileReader(productList, map);
+            catalogFileReader.read(args[0]);
 
         } catch (FileNotFoundException e) {
             System.out.println("Problem opening files");
@@ -190,13 +63,14 @@ public class EStoreSearch {
                 try {
                     System.out.println("\n-------Welcome to E-Search --------");
                     System.out.print(
-                            "Select the numbers or type command corresponding to the options below: (1)Add (2)Search (3)Quit\n");
+                            "Select the numbers or type command corresponding to the options below: (1)Add (2)Search (3)Quit (4)View Metadata\n");
                     option = keyboard.nextLine();
 
                     option = option.toLowerCase().trim();
                     // System.out.println(option);
 
-                    if (option.equals("1") || option.equals("2") || option.equals("3") || option.equals("q")
+                    if (option.equals("1") || option.equals("2") || option.equals("3") || option.equals("4")
+                            || option.equals("metadata") || option.equals("m") || option.equals("q")
                             || option.equals("quit") || option.equals("add") || option.equals("search")
                             || option.equals("a") || option.equals("s")) {
                         done = true;
@@ -228,6 +102,13 @@ public class EStoreSearch {
                     search(productList, map);
                     break;
 
+                case "4":
+                case "metadata":
+                case "m":
+                    System.out.println("Selected option: View Metadata\n");
+                    printMetadata(productList);
+                    break;
+
                 case "3":
                 case "q":
                 case "quit":
@@ -243,6 +124,35 @@ public class EStoreSearch {
 
         }
 
+    }
+
+    /**
+     * Displays summary information about the products currently in the catalog.
+     * The catalog is kept as a list of polymorphic Product instances, so the
+     * concrete type can be counted without changing the product model classes.
+     *
+     * @param productList the in-memory catalog
+     */
+    public static void printMetadata(ArrayList<Product> productList) {
+        if (productList.isEmpty()) {
+            System.out.println("Catalog is empty");
+            return;
+        }
+
+        int bookCount = 0;
+        int electronicsCount = 0;
+        for (Product product : productList) {
+            if (product instanceof Book) {
+                bookCount++;
+            } else if (product instanceof Electronics) {
+                electronicsCount++;
+            }
+        }
+
+        System.out.println("Catalog metadata");
+        System.out.println("Total products: " + productList.size());
+        System.out.println("Books: " + bookCount);
+        System.out.println("Electronics: " + electronicsCount);
     }
 
     /**

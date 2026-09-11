@@ -20,6 +20,7 @@ public class EStoreSearchWorld {
     private Path catalogFile;
     private Path workingDirectory;
     private final List<String> stdinLines = new ArrayList<String>();
+    private final List<String> catalogProducts = new ArrayList<String>();
     private String output = "";
     private Integer exitCode;
     private boolean started;
@@ -30,8 +31,46 @@ public class EStoreSearchWorld {
         Files.write(catalogFile, new byte[0]);
     }
 
+    public void createCatalogWithProducts() throws IOException {
+        createEmptyCatalog();
+    }
+
+    public void addBookProduct() {
+        catalogProducts.add(product("book", "book-" + (catalogProducts.size() + 1))
+                + "authors={Test Author}\n" + "publisher={Test Publisher}\n");
+    }
+
+    public void addElectronicsProduct() {
+        catalogProducts.add(product("electronics", "electronics-" + (catalogProducts.size() + 1))
+                + "maker={Test Maker}\n");
+    }
+
+    private String product(String type, String id) {
+        return "type={" + type + "}\n"
+                + "productID={" + id + "}\n"
+                + "name={Test Product " + (catalogProducts.size() + 1) + "}\n"
+                + "price={10.00}\n"
+                + "year={2024}\n";
+    }
+
     public void startProgram() {
+        if (!catalogProducts.isEmpty()) {
+            try {
+                StringBuilder contents = new StringBuilder();
+                for (String product : catalogProducts) {
+                    contents.append(product).append("\n");
+                }
+                Files.write(catalogFile, contents.toString().getBytes(StandardCharsets.UTF_8));
+            } catch (IOException exception) {
+                throw new IllegalStateException("Could not write catalog fixture", exception);
+            }
+        }
         started = true;
+    }
+
+    public void viewMetadata() {
+        typeLine("4");
+        typeLine("3");
     }
 
     public void typeLine(String line) {

@@ -83,7 +83,7 @@ A product is printed only if it matches all provided filters. Omitted filters do
 
 Write the full catalog to `java.txt` in the working directory (overwrite). Format is the quoted `type` / `productID` / … blocks from each product’s `toString()`. Print `Successful write to file` (or `Unable to open file` and exit). Then process exits.
 
-## Out of scope (this baseline)
+## Out of scope (this baseline)s
 
 - GUI, web API, multi-user, or database.
 - Search by author, publisher, or maker.
