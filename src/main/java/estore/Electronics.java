@@ -1,4 +1,4 @@
-package main.original;
+package estore;
 
 import java.util.Scanner;
 
