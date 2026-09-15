@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "classpath:estore",
         glue = "estore",
-        plugin = {"pretty", "summary"},
+        plugin = {"pretty", "summary", "html:target/cucumber-report.html"},
         snippets = io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE)
-public class RunCucumberTest {
+public class TestRunnerIT {
 }

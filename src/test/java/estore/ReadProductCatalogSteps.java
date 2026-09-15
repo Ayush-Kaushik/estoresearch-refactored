@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ReadProductCatalogSteps {
 
-    private final EStoreSearchWorld world = new EStoreSearchWorld();
+    private final EStoreSearchWorld world = EStoreSearchWorld.current();
 
     @Given("a new catalog file with products")
     public void aNewCatalogFileWithProducts() throws Exception {
@@ -57,7 +57,7 @@ public class ReadProductCatalogSteps {
 
     @Then("catalog metadata should indicate {int} electronics products")
     public void catalogMetadataShouldIndicateElectronics(int count) throws Exception {
-        assertOutputContains("Electronics: " + count);
+        assertOutputContains("Electronics: " + count, world);
     }
 
     @Then("catalog metadata should indicate {int} electronics product")
@@ -66,7 +66,6 @@ public class ReadProductCatalogSteps {
     }
 
     private static void assertOutputContains(String expected, EStoreSearchWorld world) throws Exception {
-        world.runIfNeeded();
         assertTrue("Expected output to contain [" + expected + "] but was:\n" + world.getOutput(),
                 world.getOutput().contains(expected));
     }

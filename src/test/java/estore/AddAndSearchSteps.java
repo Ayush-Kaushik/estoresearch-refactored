@@ -5,13 +5,14 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.And;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
 public class AddAndSearchSteps {
 
-    private final EStoreSearchWorld world = new EStoreSearchWorld();
+    private final EStoreSearchWorld world = EStoreSearchWorld.current();
 
     @Given("a catalog file with no products")
     public void aCatalogFileWithNoProducts() throws Exception {
@@ -19,7 +20,7 @@ public class AddAndSearchSteps {
     }
 
     @When("the operator starts E-Search")
-    public void theOperatorStartsESearch() {
+    public void theOperatorStartsESearch() throws IOException {
         world.startProgram();
     }
 
@@ -47,7 +48,6 @@ public class AddAndSearchSteps {
 
     @Then("the program output includes {string}")
     public void theProgramOutputIncludes(String expected) throws Exception {
-        world.runIfNeeded();
         assertTrue(
                 "Expected output to contain [" + expected + "] but was:\n" + world.getOutput(),
                 world.getOutput().contains(expected));
@@ -55,7 +55,6 @@ public class AddAndSearchSteps {
 
     @And("the search results include product id {string}")
     public void theSearchResultsIncludeProductId(String productId) throws Exception {
-        world.runIfNeeded();
         assertTrue(
                 "Expected search results to include product id [" + productId + "] but was:\n" + world.getOutput(),
                 world.getOutput().contains(productId));
@@ -63,7 +62,6 @@ public class AddAndSearchSteps {
 
     @And("the search results include {string}")
     public void theSearchResultsInclude(String text) throws Exception {
-        world.runIfNeeded();
         assertTrue(
                 "Expected search results to include [" + text + "] but was:\n" + world.getOutput(),
                 world.getOutput().contains(text));

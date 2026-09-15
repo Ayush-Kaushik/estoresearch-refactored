@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import estore.dataaccess.Book;
+import estore.dataaccess.Electronics;
+import estore.dataaccess.Product;
+
 /**
  * Loads catalog products from the application's text-file format and builds the
  * name index for the products that were loaded.
