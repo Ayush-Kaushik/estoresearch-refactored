@@ -11,6 +11,8 @@ import estore.dataaccess.Book;
 import estore.dataaccess.Electronics;
 import estore.dataaccess.InMemoryProductCatalogRepository;
 import estore.dataaccess.Product;
+import estore.logging.ConsoleLogger;
+import estore.logging.ILogger;
 import estore.presentation.ProductAddView;
 import estore.presentation.ConsoleView;
 import estore.presentation.validation.NameRule;
@@ -24,11 +26,12 @@ public class EStoreSearch {
             productList, map);
     private static final IProductService productService = new ProductService(catalogRepository);
     private static final ConsoleView consoleView = new ConsoleView();
+    private static final ILogger logger = new ConsoleLogger();
 
     public static void main(String[] args) {
 
         if (args.length == 0) {
-            System.out.println("Please provide the catalog file name as a command line argument.");
+            logger.log("Please provide the catalog file name as a command line argument.");
             System.exit(0);
         }
 
@@ -41,7 +44,7 @@ public class EStoreSearch {
             CatalogFileReader catalogFileReader = new CatalogFileReader(productList, map);
             catalogFileReader.read(args[0]);
         } catch (FileNotFoundException e) {
-            System.out.println("Problem opening file: " + args[0]);
+            logger.log("Problem opening file: " + args[0]);
             System.exit(0);
         }
     }
@@ -53,8 +56,8 @@ public class EStoreSearch {
             boolean done = false;
             while (!done) {
                 try {
-                    System.out.println("\n-------Welcome to E-Search --------");
-                    System.out.print(
+                    logger.log("\n-------Welcome to E-Search --------");
+                    logger.print(
                             "Select the numbers or type command corresponding to the options below: (1)Add (2)Search (3)Quit (4)View Metadata\n");
                     option = consoleView.readInput();
                     option = option.toLowerCase().trim();
@@ -72,7 +75,7 @@ public class EStoreSearch {
                     }
 
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    logger.log(e.getMessage());
                 }
             }
 
@@ -80,12 +83,13 @@ public class EStoreSearch {
                 case "1":
                 case "add":
                 case "a":
-                    System.out.println("Selected option: Add\n");
+                    logger.log("Selected option: Add\n");
                     ProductAdditionService productAdditionService = new ProductAdditionService(productService);
                     ProductAddView productAddView = new ProductAddView(
                         productAdditionService, 
                         productList,
-                        consoleView);
+                        consoleView,
+                        logger);
 
                     productAddView.add();
                     break;
@@ -93,22 +97,22 @@ public class EStoreSearch {
                 case "2":
                 case "search":
                 case "s":
-                    System.out.println("Selected option: Search\n");
+                    logger.log("Selected option: Search\n");
                     search(productList, map);
                     break;
 
                 case "4":
                 case "metadata":
                 case "m":
-                    System.out.println("Selected option: View Metadata\n");
+                    logger.log("Selected option: View Metadata\n");
                     printMetadata(productList);
                     break;
 
                 case "3":
                 case "q":
                 case "quit":
-                    System.out.println("Selected option Quit\n");
-                    CatalogFileWriter catalogFileWriter = new CatalogFileWriter(productList);
+                    logger.log("Selected option Quit\n");
+                    CatalogFileWriter catalogFileWriter = new CatalogFileWriter(productList, logger);
                     catalogFileWriter.write();
                     System.exit(0);
                     break;
@@ -128,7 +132,7 @@ public class EStoreSearch {
      */
     public static void printMetadata(ArrayList<Product> productList) {
         if (productList.isEmpty()) {
-            System.out.println("Catalog is empty");
+            logger.log("Catalog is empty");
             return;
         }
 
@@ -142,10 +146,10 @@ public class EStoreSearch {
             }
         }
 
-        System.out.println("Catalog metadata");
-        System.out.println("Total products: " + productList.size());
-        System.out.println("Books: " + bookCount);
-        System.out.println("Electronics: " + electronicsCount);
+        logger.log("Catalog metadata");
+        logger.log("Total products: " + productList.size());
+        logger.log("Books: " + bookCount);
+        logger.log("Electronics: " + electronicsCount);
     }
 
     /**
@@ -162,7 +166,7 @@ public class EStoreSearch {
      */
     public static void search(ArrayList<Product> productList, HashMap map) {
 
-        System.out.println("Enter the specs and find the matching product");
+        logger.log("Enter the specs and find the matching product");
 
         String ID = search_ID();
         String name = search_Name();
@@ -178,7 +182,6 @@ public class EStoreSearch {
         boolean validSpace = spaceCount(name);
 
         // Set set = map.entrySet();
-        // System.out.println("Set values: " + set);
 
         // This list stores the indexes returned from the list and comapres them to
         // other returned lists using retain all
@@ -212,7 +215,7 @@ public class EStoreSearch {
                             || (year.length() == 9 && productList.get(p).getYear() >= values[0]
                                     && productList.get(p).getYear() <= values[2] && values[1] == 4)
                             || (year.length() == 4 && productList.get(p).getYear() == values[0] && values[1] == 1)) {
-                        System.out.println(productList.get(p).datadump());
+                        logger.log(productList.get(p).datadump());
                     }
                 }
             }
@@ -228,7 +231,7 @@ public class EStoreSearch {
                             || (year.length() == 9 && productList.get(i).getYear() >= values[0]
                                     && productList.get(i).getYear() <= values[2] && values[1] == 4)
                             || (year.length() == 4 && productList.get(i).getYear() == values[0] && values[1] == 1)) {
-                        System.out.println(productList.get(i).datadump());
+                        logger.log(productList.get(i).datadump());
                     }
 
                 }
@@ -253,7 +256,7 @@ public class EStoreSearch {
     }
 
     public static String search_ID() {
-        System.out.println("Do you wish to enter the product ID: (1) Yes (2) No ");
+        logger.log("Do you wish to enter the product ID: (1) Yes (2) No ");
         int option = readIntegerOption();
         String product_ID = "";
 
@@ -270,7 +273,7 @@ public class EStoreSearch {
     }
 
     public static String search_Name() {
-        System.out.println("Do you wish to enter product name: (1)Yes (2)No");
+        logger.log("Do you wish to enter product name: (1)Yes (2)No");
         int option = readIntegerOption();
         String product_name = "";
 
@@ -294,7 +297,7 @@ public class EStoreSearch {
      */
     public static String search_Year() {
         String product_year = "";
-        System.out.println("Do you wish to enter product year:\n(1)Yes (2)No");
+        logger.log("Do you wish to enter product year:\n(1)Yes (2)No");
 
         int option;
 
@@ -304,7 +307,7 @@ public class EStoreSearch {
             if (option == 1) {
                 do {
 
-                    System.out.println("Enter the product year: ");
+                    logger.log("Enter the product year: ");
                     product_year = consoleView.readInput();
 
                     if ((product_year.isEmpty() == false) && (product_year.matches("[a-zA-Z]+") == false)) {
@@ -321,7 +324,7 @@ public class EStoreSearch {
             }
 
             else {
-                System.out.println("Wrong input");
+                logger.log("Wrong input");
             }
 
         } while (option != 1 || option != 2);
@@ -335,7 +338,7 @@ public class EStoreSearch {
             try {
                 return Integer.parseInt(consoleView.readInput().trim());
             } catch (NumberFormatException exception) {
-                System.out.print("Please enter one of the options: ");
+                logger.print("Please enter one of the options: ");
             }
         }
     }
@@ -363,7 +366,6 @@ public class EStoreSearch {
                 val[0] = Integer.parseInt(substr1);
                 val[2] = 0;
                 val[1] = 1;// No - sign
-                // System.out.println("year without - sign: " + substr1);
             }
 
             if (product_year.contains("-")) {
@@ -375,7 +377,6 @@ public class EStoreSearch {
                         val[0] = Integer.parseInt(substr1);
                         val[2] = 0;
                         val[1] = 0; // - found at index 0
-                        // System.out.println(substr1);
                     }
 
                     if (product_year.indexOf('-') == 4) // if - placed at the end of the string
@@ -385,7 +386,6 @@ public class EStoreSearch {
                         val[0] = Integer.parseInt(substr1);
                         val[1] = 4; // - found at index 4
                         val[2] = 0;
-                        // System.out.println(substr1);
                     }
                 }
 

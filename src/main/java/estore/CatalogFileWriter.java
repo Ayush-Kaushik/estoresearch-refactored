@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import estore.dataaccess.Product;
+import estore.logging.ConsoleLogger;
+import estore.logging.ILogger;
 
 /**
  * Writes the in-memory product catalog in the application's text-file format.
@@ -13,9 +15,15 @@ import estore.dataaccess.Product;
 public class CatalogFileWriter {
 
     private final ArrayList<Product> _productList;
+    private final ILogger logger;
 
     public CatalogFileWriter(ArrayList<Product> productList) {
+        this(productList, new ConsoleLogger());
+    }
+
+    public CatalogFileWriter(ArrayList<Product> productList, ILogger logger) {
         this._productList = productList;
+        this.logger = logger;
     }
 
     /**
@@ -30,10 +38,10 @@ public class CatalogFileWriter {
                 outputStream.println(this._productList.get(i).toString());
             }
 
-            System.out.println("Successful write to file");
+            logger.log("Successful write to file");
             outputStream.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to open file");
+            logger.log("Unable to open file");
             System.exit(0);
         }
     }

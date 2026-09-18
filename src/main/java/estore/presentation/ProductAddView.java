@@ -4,6 +4,7 @@ import java.util.List;
 
 import estore.business.ProductAdditionService;
 import estore.dataaccess.Product;
+import estore.logging.ILogger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;
 import estore.presentation.validation.ProductIDRule;
@@ -14,14 +15,17 @@ public class ProductAddView {
     private final ProductAdditionService productAdditionService;
     private final List<Product> products;
     private final ConsoleView consoleView;
+    private final ILogger logger;
 
     public ProductAddView(
         ProductAdditionService productAdditionService, 
         List<Product> products, 
-        ConsoleView consoleView) {
+        ConsoleView consoleView,
+        ILogger logger) {
         this.productAdditionService = productAdditionService;
         this.products = products;
         this.consoleView = consoleView;
+        this.logger = logger;
     }
 
     public void add() {
@@ -30,17 +34,17 @@ public class ProductAddView {
 
         while (!done) {
             try {
-                System.out.print("Select the numbers corresponding to the options below: (1)Book (2)Electronics \n");
+                logger.print("Select the numbers corresponding to the options below: (1)Book (2)Electronics \n");
                 option = Integer.parseInt(consoleView.readInput());
 
                 if (option == 1 || option == 2) {
                     done = true;
                 } else {
-                    System.out.println("*** Invalid option ***");
+                    logger.log("*** Invalid option ***");
                     continue;
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                logger.log(e.getMessage());
             }
         }
 
@@ -58,8 +62,8 @@ public class ProductAddView {
             String publisher = readPublisher();
             productAdditionService.addBook(productId, year, name, price, author, publisher);
 
-            System.out.println("*** ----------------------------------------------------------------------------------------------------- ***");
-            System.out.println("Adding this entry in list:" + " " + productId + " " + name + " "
+            logger.log("*** ----------------------------------------------------------------------------------------------------- ***");
+            logger.log("Adding this entry in list:" + " " + productId + " " + name + " "
                     + price + " " + year + " " + author + " " + publisher);
         }
 
@@ -68,8 +72,8 @@ public class ProductAddView {
             productAdditionService.addElectronics(productId, year, name, price, maker);
 
             int number = products.size() - 1;
-            System.out.println("Index of the value added in array list: " + number);
-            System.out.print("Adding this entry in list: " + productId + " " + name + " "
+            logger.log("Index of the value added in array list: " + number);
+            logger.print("Adding this entry in list: " + productId + " " + name + " "
                     + price + " " + year + " " + maker);
         }
     }
@@ -88,10 +92,10 @@ public class ProductAddView {
 
     private String readOptionalValue(String prompt) {
         try {
-            System.out.println(prompt);
+            logger.log(prompt);
             return consoleView.readInput();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.log(e.getMessage());
             return "";
         }
     }
@@ -101,7 +105,7 @@ public class ProductAddView {
             String productId = consoleView.readValidatedInput(
                     "Enter the ID:\n", new ProductIDRule(), "*** ID can only contain numbers of length 6 ***");
             if (containsProductId(productId)) {
-                System.out.println("*** ID already exists in the list ***");
+                logger.log("*** ID already exists in the list ***");
             } else {
                 return productId;
             }

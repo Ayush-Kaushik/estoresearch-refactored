@@ -2,6 +2,8 @@ package estore.presentation;
 
 import java.util.Scanner;
 
+import estore.logging.ConsoleLogger;
+import estore.logging.ILogger;
 import estore.presentation.validation.Rule;
 
 /**
@@ -12,9 +14,15 @@ import estore.presentation.validation.Rule;
  */
 public class ConsoleView {
     private final Scanner scanner;
+    private final ILogger logger;
 
     public ConsoleView() {
+        this(new ConsoleLogger());
+    }
+
+    public ConsoleView(ILogger logger) {
         this.scanner = new Scanner(System.in);
+        this.logger = logger;
     }
 
     public String readInput() {
@@ -33,10 +41,10 @@ public class ConsoleView {
     }
 
     public void printMessage(String message) {
-        System.out.println(message);
+        logger.log(message);
     }
 
     public void printPrompt(String prompt) {
-        System.out.print(prompt);
+        logger.print(prompt);
     }
 }
