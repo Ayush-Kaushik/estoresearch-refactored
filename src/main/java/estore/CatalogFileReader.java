@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import estore.dataaccess.Book;
-import estore.dataaccess.Electronics;
-import estore.dataaccess.Product;
+import estore.data.Book;
+import estore.data.Electronics;
+import estore.data.Product;
 
 /**
  * Loads catalog products from the application's text-file format and builds the

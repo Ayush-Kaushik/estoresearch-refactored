@@ -1,4 +1,4 @@
-package estore.dataaccess;
+package estore.data;
 
 public abstract class Product {
     private String id;

@@ -1,4 +1,4 @@
-package estore.dataaccess;
+package estore.data;
 
 import java.util.ArrayList;
 import java.util.Collections;

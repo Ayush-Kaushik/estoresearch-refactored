@@ -2,7 +2,7 @@ package estore.business;
 
 import java.util.List;
 
-import estore.dataaccess.Product;
+import estore.data.Product;
 
 /**
  * Business-layer contract for managing catalog operations.

@@ -1,4 +1,4 @@
-package estore.dataaccess;
+package estore.data;
 
 public class Electronics extends Product {
     private String maker;

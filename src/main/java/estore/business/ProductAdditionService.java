@@ -1,7 +1,7 @@
 package estore.business;
 
-import estore.dataaccess.Book;
-import estore.dataaccess.Electronics;
+import estore.data.Book;
+import estore.data.Electronics;
 
 /** TODO: Move the creation of product to a factory */
 public class ProductAdditionService {

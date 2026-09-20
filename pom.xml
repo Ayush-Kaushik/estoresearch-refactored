@@ -1,7 +1,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>mygroupid</groupId>
-  <artifactId>myartifactid</artifactId>
+  <artifactId>estore</artifactId>
   <version>0.0-SNAPSHOT</version>
   <name>estore</name>
 

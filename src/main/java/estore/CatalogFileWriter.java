@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import estore.dataaccess.Product;
+import estore.data.Product;
 import estore.logging.ConsoleLogger;
 import estore.logging.ILogger;
 

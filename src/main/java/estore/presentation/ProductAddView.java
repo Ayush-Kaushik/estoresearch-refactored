@@ -3,7 +3,7 @@ package estore.presentation;
 import java.util.List;
 
 import estore.business.ProductAdditionService;
-import estore.dataaccess.Product;
+import estore.data.Product;
 import estore.logging.ILogger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;

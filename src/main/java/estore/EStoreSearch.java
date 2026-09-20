@@ -3,20 +3,25 @@ package estore;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-import estore.business.ProductAdditionService;
 import estore.business.IProductService;
+import estore.business.ProductAdditionService;
+import estore.business.ProductSearchService;
 import estore.business.ProductService;
-import estore.dataaccess.Book;
-import estore.dataaccess.Electronics;
-import estore.dataaccess.InMemoryProductCatalogRepository;
-import estore.dataaccess.Product;
+import estore.command.AddOperationHandler;
+import estore.command.Command;
+import estore.command.IOperationHandler;
+import estore.command.QuitOperationHandler;
+import estore.command.SearchOperationHandler;
+import estore.command.ViewOperationHandler;
+import estore.data.InMemoryProductCatalogRepository;
+import estore.data.Product;
 import estore.logging.ConsoleLogger;
 import estore.logging.ILogger;
-import estore.presentation.ProductAddView;
 import estore.presentation.ConsoleView;
-import estore.presentation.validation.NameRule;
-import estore.presentation.validation.ProductIDRule;
+import estore.presentation.validation.MenuOptionRule;
+import estore.presentation.validation.Rule;
 
 public class EStoreSearch {
 
@@ -36,7 +41,7 @@ public class EStoreSearch {
         }
 
         readCatalog(args);
-        runProgram(args);
+        runProgram();
     }
 
     public static void readCatalog(String[] args) {
@@ -49,360 +54,51 @@ public class EStoreSearch {
         }
     }
 
-    public static void runProgram(String[] args) {
+    public static void runProgram() {
         String option = "-1";
+        Map<Command, IOperationHandler> operationHandlers = createOperationHandlers();
 
         while (!option.equals("3")) {
-            boolean done = false;
-            while (!done) {
-                try {
-                    logger.log("\n-------Welcome to E-Search --------");
-                    logger.print(
-                            "Select the numbers or type command corresponding to the options below: (1)Add (2)Search (3)Quit (4)View Metadata\n");
-                    option = consoleView.readInput();
-                    option = option.toLowerCase().trim();
+            do {
+                logger.log("\n-------Welcome to E-Search --------");
+                logger.print(
+                            "Select the numbers or type command corresponding to the options below:" + "\n" +
+                            "(1)Add" + "\n" +
+                            "(2)Search" + "\n" +
+                            "(3)Quit" + "\n" +
+                            "(4)View Metadata" + "\n");
+                
+                option = consoleView.readInput();
+                Rule rule = new MenuOptionRule();
 
-                    if (option.equals("1") || option.equals("2") || option.equals("3") || option.equals("4")
-                            || option.equals("metadata") || option.equals("m") || option.equals("q")
-                            || option.equals("quit") || option.equals("add") || option.equals("search")
-                            || option.equals("a") || option.equals("s")) {
-                        done = true;
-                    }
-
-                    else {
-                        done = false;
-                        throw new Exception("*** enter only numbers or commands ***");
-                    }
-
-                } catch (Exception e) {
-                    logger.log(e.getMessage());
+                if (!rule.validate(option)) {
+                    logger.log("*** Invalid option selected ***");
+                    continue;
                 }
-            }
 
-            switch (option) {
-                case "1":
-                case "add":
-                case "a":
-                    logger.log("Selected option: Add\n");
-                    ProductAdditionService productAdditionService = new ProductAdditionService(productService);
-                    ProductAddView productAddView = new ProductAddView(
-                        productAdditionService, 
-                        productList,
-                        consoleView,
-                        logger);
-
-                    productAddView.add();
-                    break;
-
-                case "2":
-                case "search":
-                case "s":
-                    logger.log("Selected option: Search\n");
-                    search(productList, map);
-                    break;
-
-                case "4":
-                case "metadata":
-                case "m":
-                    logger.log("Selected option: View Metadata\n");
-                    printMetadata(productList);
-                    break;
-
-                case "3":
-                case "q":
-                case "quit":
-                    logger.log("Selected option Quit\n");
-                    CatalogFileWriter catalogFileWriter = new CatalogFileWriter(productList, logger);
-                    catalogFileWriter.write();
-                    System.exit(0);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Displays summary information about the products currently in the catalog.
-     * The catalog is kept as a list of polymorphic Product instances, so the
-     * concrete type can be counted without changing the product model classes.
-     *
-     * @param productList the in-memory catalog
-     */
-    public static void printMetadata(ArrayList<Product> productList) {
-        if (productList.isEmpty()) {
-            logger.log("Catalog is empty");
-            return;
-        }
-
-        int bookCount = 0;
-        int electronicsCount = 0;
-        for (Product product : productList) {
-            if (product instanceof Book) {
-                bookCount++;
-            } else if (product instanceof Electronics) {
-                electronicsCount++;
-            }
-        }
-
-        logger.log("Catalog metadata");
-        logger.log("Total products: " + productList.size());
-        logger.log("Books: " + bookCount);
-        logger.log("Electronics: " + electronicsCount);
-    }
-
-    /**
-     * @param productList - The array list that consists of book and electronic
-     *                    entries is used to search and return an item based on user
-     *                    values
-     * @param map         - The hash-map created and updated previously is used here
-     *                    for searching the right name based on the index where they
-     *                    appear on the array list.
-     *                    This method performs the search operation using
-     *                    combination of Array list productList and Hash-map map to
-     *                    return the right entry based on user input.
-     *                    methods called = search_ID(), search_name(), spaceCount(),
-     */
-    public static void search(ArrayList<Product> productList, HashMap map) {
-
-        logger.log("Enter the specs and find the matching product");
-
-        String ID = search_ID();
-        String name = search_Name();
-        String year = search_Year();
-
-        int values[] = new int[3];
-
-        values = breakYear(year);
-
-        // This method calls the breakYear method which splits the user input to filter
-        // right values from the list
-
-        boolean validSpace = spaceCount(name);
-
-        // Set set = map.entrySet();
-
-        // This list stores the indexes returned from the list and comapres them to
-        // other returned lists using retain all
-        ArrayList<Integer> returnedList = new ArrayList<>();
-
-        if (name.isEmpty() == false)
-            ;
-        {
-
-            if (validSpace == true) {
-                String[] searchTokens = name.toLowerCase().split(" ");
-                for (int j = 0; j < searchTokens.length; j++) {
-                    if (map.containsKey(searchTokens[j])) {
-                        returnedList = (ArrayList<Integer>) map.get(searchTokens[j]);
-                        returnedList.retainAll((ArrayList<Integer>) map.get(searchTokens[j]));
-                    }
-                }
-            }
-
-            if (validSpace == false) {
-                if (map.containsKey(name.toLowerCase())) {
-                    returnedList = (ArrayList<Integer>) map.get(name.toLowerCase());
-                }
-            }
-
-            for (Integer p : returnedList) {
-                if (ID.equals(productList.get(p).getID()) || ID.isEmpty()) {
-                    if (year.isEmpty()
-                            || (year.length() == 5 && productList.get(p).getYear() <= values[0] && values[1] == 0)
-                            || (year.length() == 5 && productList.get(p).getYear() >= values[0] && values[1] == 4)
-                            || (year.length() == 9 && productList.get(p).getYear() >= values[0]
-                                    && productList.get(p).getYear() <= values[2] && values[1] == 4)
-                            || (year.length() == 4 && productList.get(p).getYear() == values[0] && values[1] == 1)) {
-                        logger.log(productList.get(p).datadump());
-                    }
-                }
-            }
-        }
-
-        if (name.isEmpty() == true) {
-
-            for (int i = 0; i < productList.size(); i++) {
-                if (ID.equals(productList.get(i).getID()) || ID.isEmpty()) {
-                    if (year.isEmpty()
-                            || (year.length() == 5 && productList.get(i).getYear() <= values[0] && values[1] == 0)
-                            || (year.length() == 5 && productList.get(i).getYear() >= values[0] && values[1] == 4)
-                            || (year.length() == 9 && productList.get(i).getYear() >= values[0]
-                                    && productList.get(i).getYear() <= values[2] && values[1] == 4)
-                            || (year.length() == 4 && productList.get(i).getYear() == values[0] && values[1] == 1)) {
-                        logger.log(productList.get(i).datadump());
-                    }
-
-                }
-            }
-        }
-
-    }
-
-    /**
-     * @param name - This method simply checks if user input one word name or it
-     *             consists of more than one word.
-     * @return validSpace - If one name then vallidSpace returns false else true
-     */
-    public static boolean spaceCount(String name) {
-        boolean validSpace = false;
-        for (int i = 0; i < name.length(); i++) {
-            char ch = name.charAt(i);
-            if (ch == ' ')
-                validSpace = true;
-        }
-        return validSpace;
-    }
-
-    public static String search_ID() {
-        logger.log("Do you wish to enter the product ID: (1) Yes (2) No ");
-        int option = readIntegerOption();
-        String product_ID = "";
-
-        if (option == 1) {
-            product_ID = consoleView.readValidatedInput(
-                    "Enter the product ID: \n",
-                    new ProductIDRule(),
-                    "Wrong input.Please try again");
-        } else {
-            product_ID = "";
-        }
-
-        return product_ID;
-    }
-
-    public static String search_Name() {
-        logger.log("Do you wish to enter product name: (1)Yes (2)No");
-        int option = readIntegerOption();
-        String product_name = "";
-
-        if (option == 1) {
-            product_name = consoleView.readValidatedInput(
-                    "Enter the product name: \n",
-                    new NameRule(),
-                    "Wrong input.Please try again");
-        } else {
-            product_name = "";
-        }
-
-        return product_name;
-    }
-
-    /**
-     * @return product_year - The method simply gets valid value for year from user
-     *         and returns it
-     *         I used this method straight from my assignment - 1 without
-     *         modifications
-     */
-    public static String search_Year() {
-        String product_year = "";
-        logger.log("Do you wish to enter product year:\n(1)Yes (2)No");
-
-        int option;
-
-        outerloop: do {
-            option = readIntegerOption();
-
-            if (option == 1) {
-                do {
-
-                    logger.log("Enter the product year: ");
-                    product_year = consoleView.readInput();
-
-                    if ((product_year.isEmpty() == false) && (product_year.matches("[a-zA-Z]+") == false)) {
-                        break outerloop;
-                    }
-
-                } while (product_year.isEmpty() == true && product_year.matches("[a-zA-Z]+") == true);
-
-            }
-
-            if (option == 2) {
-                product_year = "";
                 break;
-            }
+            } while(true);
 
-            else {
-                logger.log("Wrong input");
-            }
-
-        } while (option != 1 || option != 2);
-
-        return product_year;
-
-    }
-
-    private static int readIntegerOption() {
-        while (true) {
-            try {
-                return Integer.parseInt(consoleView.readInput().trim());
-            } catch (NumberFormatException exception) {
-                logger.print("Please enter one of the options: ");
+            Command command = Command.findByType(option);
+            IOperationHandler operationHandler = operationHandlers.get(command);
+            if (operationHandler != null) {
+                operationHandler.execute();
             }
         }
     }
 
-    /**
-     * @param product_year
-     * @return val - array of years in case user has input: 2001 - 2008, -2001.
-     *         2001-
-     *         I used this method straight from my assignment - 1 without
-     *         modifications
-     */
-    public static int[] breakYear(String product_year) {
+    private static Map<Command, IOperationHandler> createOperationHandlers() {
+        Map<Command, IOperationHandler> operationHandlers = new HashMap<Command, IOperationHandler>();
+        operationHandlers.put(Command.ADD, new AddOperationHandler(
+                new ProductAdditionService(productService), 
+                productList, 
+                consoleView, 
+                logger));
 
-        String substr1;
-        String substr2;
-
-        int[] val = new int[3];
-        val[0] = 0;
-        val[1] = 0;
-        val[2] = 0;
-
-        if (product_year.isEmpty() == false) {
-            if (product_year.contains("-") == false) {
-                substr1 = product_year.substring(0, 4);
-                val[0] = Integer.parseInt(substr1);
-                val[2] = 0;
-                val[1] = 1;// No - sign
-            }
-
-            if (product_year.contains("-")) {
-                if (product_year.length() == 5) {
-
-                    if (product_year.indexOf('-') == 0) // if - is placed at the beginnning. for example -2008
-                    {
-                        substr1 = product_year.substring(1, 5);
-                        val[0] = Integer.parseInt(substr1);
-                        val[2] = 0;
-                        val[1] = 0; // - found at index 0
-                    }
-
-                    if (product_year.indexOf('-') == 4) // if - placed at the end of the string
-                    {
-                        substr1 = product_year.substring(0, 4);
-                        // what about val[1]
-                        val[0] = Integer.parseInt(substr1);
-                        val[1] = 4; // - found at index 4
-                        val[2] = 0;
-                    }
-                }
-
-                if (product_year.length() == 9) {
-                    substr1 = product_year.substring(0, 4);
-                    substr2 = product_year.substring(5, 9);
-                    val[0] = Integer.parseInt(substr1);
-                    val[2] = Integer.parseInt(substr2);
-                    val[1] = 4;
-                }
-            }
-
-            else {
-                val[0] = Integer.parseInt(product_year);
-            }
-
-        }
-        return val;
+        operationHandlers.put(Command.SEARCH, new SearchOperationHandler(
+                new ProductSearchService(productService), consoleView, logger));
+        operationHandlers.put(Command.VIEW, new ViewOperationHandler(productList, logger));
+        operationHandlers.put(Command.QUIT, new QuitOperationHandler(productList, logger));
+        return operationHandlers;
     }
 }

@@ -3,8 +3,8 @@ package estore.business;
 import java.util.ArrayList;
 import java.util.List;
 
-import estore.dataaccess.IProductCatalogRepository;
-import estore.dataaccess.Product;
+import estore.data.IProductCatalogRepository;
+import estore.data.Product;
 
 /**
  * Concrete business implementation that coordinates catalog operations.
