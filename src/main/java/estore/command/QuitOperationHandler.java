@@ -1,24 +1,22 @@
 package estore.command;
 
-import java.util.ArrayList;
-
 import estore.CatalogFileWriter;
-import estore.data.Product;
+import estore.data.IProductCatalogRepository;
 import estore.logging.ILogger;
 
 public class QuitOperationHandler implements IOperationHandler {
-    private final ArrayList<Product> productList;
+    private final IProductCatalogRepository catalogRepository;
     private final ILogger logger;
 
-    public QuitOperationHandler(ArrayList<Product> productList, ILogger logger) {
-        this.productList = productList;
+    public QuitOperationHandler(IProductCatalogRepository catalogRepository, ILogger logger) {
+        this.catalogRepository = catalogRepository;
         this.logger = logger;
     }
 
     @Override
     public void execute() {
         logger.log("Selected option Quit\n");
-        new CatalogFileWriter(productList, logger).write();
+        new CatalogFileWriter(catalogRepository, logger).write();
         System.exit(0);
     }
 }

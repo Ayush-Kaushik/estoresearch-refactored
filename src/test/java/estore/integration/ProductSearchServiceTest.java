@@ -33,4 +33,20 @@ public class ProductSearchServiceTest {
         assertEquals(1, results.size());
         assertEquals("123456", results.get(0).getID());
     }
+
+    @Test
+    public void shouldKeepCatalogStateInsideRepository() {
+        InMemoryProductCatalogRepository catalogRepository = new InMemoryProductCatalogRepository();
+        catalogRepository.add(new Book("123456", "Learning Java", 45.99, 2023, "Jane Doe", "Education Press"));
+        catalogRepository.add(new Book("654321", "Other Book", 20.00, 2022, "Test Author", "Other Press"));
+
+        assertEquals(2, catalogRepository.findAll().size());
+
+        IProductService productService = new ProductService(catalogRepository);
+        ProductSearchService searchService = new ProductSearchService(productService);
+        List<Product> results = searchService.search(new SearchQuery("", "Learning Java", ""));
+
+        assertEquals(1, results.size());
+        assertEquals("123456", results.get(0).getID());
+    }
 }

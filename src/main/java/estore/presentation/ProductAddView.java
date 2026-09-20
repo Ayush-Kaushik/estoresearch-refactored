@@ -1,81 +1,72 @@
 package estore.presentation;
 
-import java.util.List;
-
-import estore.business.ProductAdditionService;
-import estore.data.Product;
+import estore.business.BookCreationRequest;
+import estore.business.ElectronicsCreationRequest;
+import estore.business.IProductService;
+import estore.business.ProductFactory;
 import estore.logging.ILogger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;
 import estore.presentation.validation.ProductIDRule;
 import estore.presentation.validation.YearRule;
 
-/** Presents the prompts and results for adding a product. */
 public class ProductAddView {
-    private final ProductAdditionService productAdditionService;
-    private final List<Product> products;
+    private final IProductService productService;
     private final ConsoleView consoleView;
     private final ILogger logger;
 
     public ProductAddView(
-        ProductAdditionService productAdditionService, 
-        List<Product> products, 
-        ConsoleView consoleView,
-        ILogger logger) {
-        this.productAdditionService = productAdditionService;
-        this.products = products;
+            IProductService productService,
+            ConsoleView consoleView,
+            ILogger logger) {
+        this.productService = productService;
         this.consoleView = consoleView;
         this.logger = logger;
     }
 
     public void add() {
-        boolean done = false;
         int option = -1;
 
-        while (!done) {
-            try {
-                logger.print("Select the numbers corresponding to the options below: (1)Book (2)Electronics \n");
-                option = Integer.parseInt(consoleView.readInput());
+        do{
+            logger.print("Select the numbers corresponding to the options below: (1)Book (2)Electronics \n");
+            option = Integer.parseInt(consoleView.readInput());
 
-                if (option == 1 || option == 2) {
-                    done = true;
-                } else {
-                    logger.log("*** Invalid option ***");
-                    continue;
-                }
-            } catch (Exception e) {
-                logger.log(e.getMessage());
+            if(option != 1 || option != 2) {
+                logger.log("*** Invalid option ***");
+                continue;
             }
-        }
+        }while(option != 1 || option != 2);
 
         String productId = readProductId();
         int year = Integer.parseInt(consoleView.readValidatedInput(
-            "Enter year:\n", new YearRule(), "**** Year has to be 4 digit ****"));
+                "Enter year:\n", new YearRule(), "Year has to be 4 digit"));
         String name = consoleView.readValidatedInput(
-            "Enter the name of the item:\n", new NameRule(), "*** User must input a name ***");
+                "Enter the name of the item:\n", new NameRule(), "User must input a name");
         String priceInput = consoleView.readValidatedInput(
-            "Enter the price of item or leave blank: ", new PriceRule(), "*** Enter numbers values only ***");
+                "Enter the price of item or leave blank: ", new PriceRule(), "User must input decimal numbers");
         double price = priceInput.isEmpty() ? 0.0 : Double.parseDouble(priceInput);
 
         if (option == 1) {
-            String author = readAuthor();
-            String publisher = readPublisher();
-            productAdditionService.addBook(productId, year, name, price, author, publisher);
-
-            logger.log("*** ----------------------------------------------------------------------------------------------------- ***");
-            logger.log("Adding this entry in list:" + " " + productId + " " + name + " "
-                    + price + " " + year + " " + author + " " + publisher);
+            BookCreationRequest request = createBookCreationRequest(productId, year, name, price);
+            productService.addProduct(ProductFactory.createProduct(request));
         }
 
         if (option == 2) {
-            String maker = readMaker();
-            productAdditionService.addElectronics(productId, year, name, price, maker);
-
-            int number = products.size() - 1;
-            logger.log("Index of the value added in array list: " + number);
-            logger.print("Adding this entry in list: " + productId + " " + name + " "
-                    + price + " " + year + " " + maker);
+            ElectronicsCreationRequest request = createElectronicsCreationRequest(productId, year, name, price);
+            productService.addProduct(ProductFactory.createProduct(request));
         }
+    }
+
+    public BookCreationRequest createBookCreationRequest(String productId, int year, String name, double price) {
+        String author = readAuthor();
+        String publisher = readPublisher();
+        return new BookCreationRequest(productId, name, price, year, author, publisher);
+    }
+
+    public ElectronicsCreationRequest createElectronicsCreationRequest(String productId, int year, String name,
+            double price) {
+        String maker = readMaker();
+        return new ElectronicsCreationRequest(productId, name, price, year, maker);
     }
 
     private String readAuthor() {
@@ -91,34 +82,13 @@ public class ProductAddView {
     }
 
     private String readOptionalValue(String prompt) {
-        try {
-            logger.log(prompt);
-            return consoleView.readInput();
-        } catch (Exception e) {
-            logger.log(e.getMessage());
-            return "";
-        }
+        return consoleView.readInput();
     }
 
     private String readProductId() {
-        while (true) {
-            String productId = consoleView.readValidatedInput(
-                    "Enter the ID:\n", new ProductIDRule(), "*** ID can only contain numbers of length 6 ***");
-            if (containsProductId(productId)) {
-                logger.log("*** ID already exists in the list ***");
-            } else {
-                return productId;
-            }
-        }
-    }
-
-    private boolean containsProductId(String productId) {
-        for (Product product : products) {
-            if (product.getID().contains(productId)) {
-                return true;
-            }
-        }
-        
-        return false;
+        return consoleView.readValidatedInput(
+             "Enter the ID:\n", 
+             new ProductIDRule(),
+             "ID can only contain numbers of length 6");
     }
 }

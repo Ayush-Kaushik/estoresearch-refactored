@@ -1,23 +1,25 @@
 package estore.command;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import estore.data.Book;
 import estore.data.Electronics;
+import estore.data.IProductCatalogRepository;
 import estore.data.Product;
 import estore.logging.ILogger;
 
 public class ViewOperationHandler implements IOperationHandler {
-    private final ArrayList<Product> productList;
+    private final IProductCatalogRepository catalogRepository;
     private final ILogger logger;
 
-    public ViewOperationHandler(ArrayList<Product> productList, ILogger logger) {
-        this.productList = productList;
+    public ViewOperationHandler(IProductCatalogRepository catalogRepository, ILogger logger) {
+        this.catalogRepository = catalogRepository;
         this.logger = logger;
     }
 
     @Override
     public void execute() {
+        List<Product> productList = catalogRepository.findAll();
         int bookCount = 0;
         int electronicsCount = 0;
         for (Product product : productList) {

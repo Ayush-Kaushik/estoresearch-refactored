@@ -6,12 +6,6 @@ import java.util.List;
 import estore.data.IProductCatalogRepository;
 import estore.data.Product;
 
-/**
- * Concrete business implementation that coordinates catalog operations.
- *
- * It depends on a repository abstraction instead of concrete persistence
- * details, preserving separation of concerns.
- */
 public class ProductService implements IProductService {
     private final IProductCatalogRepository catalogRepository;
 
