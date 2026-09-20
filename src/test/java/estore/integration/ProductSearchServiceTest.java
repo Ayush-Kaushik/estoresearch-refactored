@@ -1,4 +1,4 @@
-package estore;
+package estore.integration;
 
 import static org.junit.Assert.assertEquals;
 

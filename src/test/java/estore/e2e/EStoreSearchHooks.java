@@ -1,4 +1,4 @@
-package estore;
+package estore.e2e;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;

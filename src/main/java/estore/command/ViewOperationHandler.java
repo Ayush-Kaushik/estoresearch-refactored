@@ -18,12 +18,6 @@ public class ViewOperationHandler implements IOperationHandler {
 
     @Override
     public void execute() {
-
-        if (productList.isEmpty()) {
-            this.logger.log("Catalog is empty");
-            return;
-        }
-
         int bookCount = 0;
         int electronicsCount = 0;
         for (Product product : productList) {

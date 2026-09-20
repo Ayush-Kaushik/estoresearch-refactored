@@ -1,4 +1,4 @@
-package estore;
+package estore.e2e;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;

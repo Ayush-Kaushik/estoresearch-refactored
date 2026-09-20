@@ -1,4 +1,4 @@
-package estore;
+package estore.e2e;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
