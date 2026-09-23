@@ -5,23 +5,22 @@ import java.util.List;
 import estore.business.ProductSearchService;
 import estore.business.SearchQuery;
 import estore.data.Product;
-import estore.logging.ILogger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.ProductIDRule;
 
 public class ProductSearchView {
     private final ProductSearchService productSearchService;
-    private final ConsoleView consoleView;
-    private final ILogger logger;
+    private final IConsole console;
 
-    public ProductSearchView(ProductSearchService productSearchService, ConsoleView consoleView, ILogger logger) {
+    public ProductSearchView(
+            ProductSearchService productSearchService,
+            IConsole console) {
         this.productSearchService = productSearchService;
-        this.consoleView = consoleView;
-        this.logger = logger;
+        this.console = console;
     }
 
     public void search() {
-        logger.log("Enter the specs and find the matching product");
+        console.printMessage(ConsoleMessages.SEARCH_SPECIFICATIONS);
 
         String id = readId();
         String name = readName();
@@ -29,33 +28,33 @@ public class ProductSearchView {
 
         List<Product> products = productSearchService.search(new SearchQuery(id, name, year));
         for (Product product : products) {
-            logger.log(product.datadump());
+            console.printMessage(product.datadump());
         }
     }
 
     private String readId() {
-        logger.log("Do you wish to enter the product ID: (1) Yes (2) No ");
+        console.printMessage(ConsoleMessages.ENTER_ID_OPTION);
         int option = readIntegerOption();
 
         if (option == 1) {
-            return consoleView.readValidatedInput(
-                    "Enter the product ID: \n",
+            return console.readValidatedInput(
+                    ConsolePrompts.PRODUCT_ID,
                     new ProductIDRule(),
-                    "Wrong input.Please try again");
+                    ConsoleMessages.WRONG_INPUT_MESSAGE);
         }
 
         return "";
     }
 
     private String readName() {
-        logger.log("Do you wish to enter product name: (1)Yes (2)No");
+        console.printMessage(ConsoleMessages.ENTER_NAME_OPTION);
         int option = readIntegerOption();
 
         if (option == 1) {
-            return consoleView.readValidatedInput(
-                    "Enter the product name: \n",
+            return console.readValidatedInput(
+                    ConsolePrompts.PRODUCT_NAME,
                     new NameRule(),
-                    "Wrong input.Please try again");
+                    ConsoleMessages.WRONG_INPUT_MESSAGE);
         }
 
         return "";
@@ -63,7 +62,7 @@ public class ProductSearchView {
 
     private String readYear() {
         String productYear = "";
-        logger.log("Do you wish to enter product year:\n(1)Yes (2)No");
+        console.printMessage(ConsoleMessages.ENTER_YEAR_OPTION);
 
         int option;
         outerloop: do {
@@ -71,8 +70,8 @@ public class ProductSearchView {
 
             if (option == 1) {
                 do {
-                    logger.log("Enter the product year: ");
-                    productYear = consoleView.readInput();
+                    console.printPrompt(ConsolePrompts.PRODUCT_YEAR);
+                    productYear = console.readInput();
                     if (!productYear.isEmpty() && !productYear.matches("[a-zA-Z]+")) {
                         break outerloop;
                     }
@@ -84,7 +83,7 @@ public class ProductSearchView {
                 break;
             }
 
-            logger.log("Wrong input");
+            console.printMessage(ConsoleMessages.WRONG_INPUT);
         } while (option != 1 || option != 2);
 
         return productYear;
@@ -93,9 +92,9 @@ public class ProductSearchView {
     private int readIntegerOption() {
         while (true) {
             try {
-                return Integer.parseInt(consoleView.readInput().trim());
+                return Integer.parseInt(console.readInput().trim());
             } catch (NumberFormatException exception) {
-                logger.print("Please enter one of the options: ");
+                console.printPrompt(ConsolePrompts.INVALID_OPTION_PROMPT);
             }
         }
     }

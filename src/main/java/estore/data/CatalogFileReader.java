@@ -1,14 +1,9 @@
-package estore;
+package estore.data;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
-
-import estore.data.Book;
-import estore.data.Electronics;
-import estore.data.IProductCatalogRepository;
-import estore.data.Product;
 
 /**
  * Loads catalog products from the application's text-file format and stores them

@@ -18,9 +18,6 @@ public class Book extends Product {
         return this.publisher;
     }
 
-    /**
-     * @return special string format which is used to write output to text file
-     */
     @Override
     public String toString() {
         return String.format(
@@ -28,13 +25,9 @@ public class Book extends Product {
                 getID(), getName(), getPrice(), getYear(), getAuthor(), getPublisher());
     }
 
-    /**
-     * @return special string format which is used to display the result of search
-     */
     @Override
     public String datadump() {
         return "item ID: " + getID() + ", " + "Name of item:" + ", " + getName() + ", " + "Year: " + getYear() + ", "
                 + "Price: " + getPrice() + ", " + "Author: " + getAuthor() + ", " + "Publisher: " + getPublisher();
     }
-
 }

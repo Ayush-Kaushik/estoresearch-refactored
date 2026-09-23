@@ -4,7 +4,6 @@ import estore.business.BookCreationRequest;
 import estore.business.ElectronicsCreationRequest;
 import estore.business.IProductService;
 import estore.business.ProductFactory;
-import estore.logging.ILogger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;
 import estore.presentation.validation.ProductIDRule;
@@ -12,38 +11,44 @@ import estore.presentation.validation.YearRule;
 
 public class ProductAddView {
     private final IProductService productService;
-    private final ConsoleView consoleView;
-    private final ILogger logger;
+    private final IConsole console;
 
     public ProductAddView(
             IProductService productService,
-            ConsoleView consoleView,
-            ILogger logger) {
+            IConsole console) {
         this.productService = productService;
-        this.consoleView = consoleView;
-        this.logger = logger;
+        this.console = console;
     }
 
     public void add() {
         int option = -1;
 
-        do{
-            logger.print("Select the numbers corresponding to the options below: (1)Book (2)Electronics \n");
-            option = Integer.parseInt(consoleView.readInput());
+        do {
+            console.printPrompt(ConsolePrompts.PRODUCT_TYPE_MENU);
+            option = Integer.parseInt(console.readInput());
 
-            if(option != 1 || option != 2) {
-                logger.log("*** Invalid option ***");
+            if (option != 1 && option != 2) {
+                console.printMessage(ConsoleMessages.INVALID_OPTION);
                 continue;
             }
-        }while(option != 1 || option != 2);
+        } while (option != 1 && option != 2);
 
         String productId = readProductId();
-        int year = Integer.parseInt(consoleView.readValidatedInput(
-                "Enter year:\n", new YearRule(), "Year has to be 4 digit"));
-        String name = consoleView.readValidatedInput(
-                "Enter the name of the item:\n", new NameRule(), "User must input a name");
-        String priceInput = consoleView.readValidatedInput(
-                "Enter the price of item or leave blank: ", new PriceRule(), "User must input decimal numbers");
+        int year = Integer.parseInt(console.readValidatedInput(
+                ConsolePrompts.YEAR_PROMPT,
+                new YearRule(),
+                "Year has to be 4 digit"));
+
+        String name = console.readValidatedInput(
+                ConsolePrompts.NAME_PROMPT,
+                new NameRule(),
+                "User must input a name");
+
+        String priceInput = console.readValidatedInput(
+                ConsolePrompts.PRICE_PROMPT,
+                new PriceRule(),
+                "User must input decimal numbers");
+
         double price = priceInput.isEmpty() ? 0.0 : Double.parseDouble(priceInput);
 
         if (option == 1) {
@@ -70,25 +75,25 @@ public class ProductAddView {
     }
 
     private String readAuthor() {
-        return readOptionalValue("Enter the author of item or leave blank: ");
+        return readOptionalValue(ConsolePrompts.AUTHOR_PROMPT);
     }
 
     private String readPublisher() {
-        return readOptionalValue("Enter the Publisher of item or leave blank: ");
+        return readOptionalValue(ConsolePrompts.PUBLISHER_PROMPT);
     }
 
     private String readMaker() {
-        return readOptionalValue("Enter the Maker of item or leave blank: ");
+        return readOptionalValue(ConsolePrompts.MAKER_PROMPT);
     }
 
     private String readOptionalValue(String prompt) {
-        return consoleView.readInput();
+        return console.readInput();
     }
 
     private String readProductId() {
-        return consoleView.readValidatedInput(
-             "Enter the ID:\n", 
-             new ProductIDRule(),
-             "ID can only contain numbers of length 6");
+        return console.readValidatedInput(
+                ConsolePrompts.ID_PROMPT,
+                new ProductIDRule(),
+                "ID can only contain numbers of length 6");
     }
 }

@@ -1,14 +1,12 @@
-package estore;
+package estore.data;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
-import estore.data.IProductCatalogRepository;
-import estore.data.Product;
-import estore.logging.ConsoleLogger;
 import estore.logging.ILogger;
+import estore.logging.Logger;
 
 /**
  * Writes the repository-backed catalog in the application's text-file format.
@@ -19,7 +17,7 @@ public class CatalogFileWriter {
     private final ILogger logger;
 
     public CatalogFileWriter(IProductCatalogRepository catalogRepository) {
-        this(catalogRepository, new ConsoleLogger());
+        this(catalogRepository, new Logger());
     }
 
     public CatalogFileWriter(IProductCatalogRepository catalogRepository, ILogger logger) {

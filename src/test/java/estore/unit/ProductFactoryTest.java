@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import estore.business.BookCreationRequest;
 import estore.business.ElectronicsCreationRequest;
-import estore.business.ProductCreationRequest;
+import estore.business.IProductCreationRequest;
 import estore.business.ProductFactory;
 import estore.data.Book;
 import estore.data.Electronics;
@@ -17,7 +17,7 @@ public class ProductFactoryTest {
 
     @Test
     public void shouldCreateBookFromBookCreationRequest() {
-        ProductCreationRequest request = new BookCreationRequest(
+        IProductCreationRequest request = new BookCreationRequest(
                 "123456", "Learning Java", 45.99, 2023, "Jane Doe", "Education Press");
 
         Product product = ProductFactory.createProduct(request);
@@ -30,7 +30,7 @@ public class ProductFactoryTest {
 
     @Test
     public void shouldCreateElectronicsFromElectronicsCreationRequest() {
-        ProductCreationRequest request = new ElectronicsCreationRequest(
+        IProductCreationRequest request = new ElectronicsCreationRequest(
                 "654321", "Laptop", 999.99, 2024, "Dell");
 
         Product product = ProductFactory.createProduct(request);

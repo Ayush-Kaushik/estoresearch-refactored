@@ -5,6 +5,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import estore.presentation.ConsoleMessages;
+
 import static org.junit.Assert.assertTrue;
 
 public class ReadProductCatalogSteps {
@@ -37,27 +39,27 @@ public class ReadProductCatalogSteps {
 
     @Then("the program should indicate that that the catalog contains {int} products")
     public void theProgramShouldIndicateCatalogCount(int count) throws Exception {
-        assertOutputContains("Total products: " + count, world);
+        assertOutputContains(ConsoleMessages.TOTAL_PRODUCTS + count, world);
     }
 
     @Then("the program should display the catalog metadata")
     public void theProgramShouldDisplayCatalogMetadata() throws Exception {
-        assertOutputContains("Catalog metadata", world);
+        assertOutputContains(ConsoleMessages.CATALOG_METADATA, world);
     }
 
     @Then("catalog metadata should indicate that the catalog contains {int} products")
     public void catalogMetadataShouldIndicateCatalogCount(int count) throws Exception {
-        assertOutputContains("Total products: " + count, world);
+        assertOutputContains(ConsoleMessages.TOTAL_PRODUCTS + count, world);
     }
 
     @Then("catalog metadata should indicate {int} books products")
     public void catalogMetadataShouldIndicateBooks(int count) throws Exception {
-        assertOutputContains("Books: " + count, world);
+        assertOutputContains(ConsoleMessages.BOOKS + count, world);
     }
 
     @Then("catalog metadata should indicate {int} electronics products")
     public void catalogMetadataShouldIndicateElectronics(int count) throws Exception {
-        assertOutputContains("Electronics: " + count, world);
+        assertOutputContains(ConsoleMessages.ELECTRONICS + count, world);
     }
 
     @Then("catalog metadata should indicate {int} electronics product")

@@ -1,6 +1,6 @@
 package estore.business;
 
-public interface ProductCreationRequest {
+public interface IProductCreationRequest {
     String getProductId();
 
     String getName();

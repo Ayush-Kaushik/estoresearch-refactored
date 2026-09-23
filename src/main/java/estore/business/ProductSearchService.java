@@ -33,7 +33,7 @@ public class ProductSearchService {
 
     public static int[] parseYearRange(String year) {
         if (year == null || year.isEmpty()) {
-            return new int[] {0, 0, 0};
+            return new int[] { 0, 0, 0 };
         }
 
         int[] values = new int[3];

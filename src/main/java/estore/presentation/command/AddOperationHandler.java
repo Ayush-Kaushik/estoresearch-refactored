@@ -1,26 +1,22 @@
-package estore.command;
+package estore.presentation.command;
 
 import estore.business.IProductService;
-import estore.logging.ILogger;
-import estore.presentation.ConsoleView;
+import estore.presentation.IConsole;
 import estore.presentation.ProductAddView;
 
 public class AddOperationHandler implements IOperationHandler {
     private final IProductService productService;
-    private final ConsoleView consoleView;
-    private final ILogger logger;
+    private final IConsole console;
 
     public AddOperationHandler(
         IProductService productService,
-        ConsoleView consoleView,
-        ILogger logger) {
+        IConsole console) {
         this.productService = productService;
-        this.consoleView = consoleView;
-        this.logger = logger;
+        this.console = console;
     }
 
     @Override
     public void execute() {
-        new ProductAddView(productService, consoleView, logger).add();
+        new ProductAddView(productService, console).add();
     }
 }

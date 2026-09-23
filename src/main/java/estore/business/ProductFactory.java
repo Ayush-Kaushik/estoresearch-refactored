@@ -8,7 +8,7 @@ public final class ProductFactory {
     private ProductFactory() {
     }
 
-    public static Product createProduct(ProductCreationRequest request) {
+    public static Product createProduct(IProductCreationRequest request) {
         if (request instanceof BookCreationRequest) {
             BookCreationRequest bookRequest = (BookCreationRequest) request;
             return new Book(

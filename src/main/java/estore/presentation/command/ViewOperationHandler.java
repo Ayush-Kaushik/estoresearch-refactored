@@ -1,4 +1,4 @@
-package estore.command;
+package estore.presentation.command;
 
 import java.util.List;
 
@@ -6,15 +6,18 @@ import estore.data.Book;
 import estore.data.Electronics;
 import estore.data.IProductCatalogRepository;
 import estore.data.Product;
-import estore.logging.ILogger;
+import estore.presentation.ConsoleMessages;
+import estore.presentation.IConsole;
 
 public class ViewOperationHandler implements IOperationHandler {
     private final IProductCatalogRepository catalogRepository;
-    private final ILogger logger;
+    private final IConsole console;
 
-    public ViewOperationHandler(IProductCatalogRepository catalogRepository, ILogger logger) {
+    public ViewOperationHandler(
+        IProductCatalogRepository catalogRepository, 
+        IConsole console) {
         this.catalogRepository = catalogRepository;
-        this.logger = logger;
+        this.console = console;
     }
 
     @Override
@@ -30,9 +33,9 @@ public class ViewOperationHandler implements IOperationHandler {
             }
         }
 
-        logger.log("Catalog metadata");
-        logger.log("Total products: " + productList.size());
-        logger.log("Books: " + bookCount);
-        logger.log("Electronics: " + electronicsCount);
+        console.printMessage(ConsoleMessages.CATALOG_METADATA);
+        console.printMessage(ConsoleMessages.TOTAL_PRODUCTS + productList.size());
+        console.printMessage(ConsoleMessages.BOOKS + bookCount);
+        console.printMessage(ConsoleMessages.ELECTRONICS + electronicsCount);
     }
 }

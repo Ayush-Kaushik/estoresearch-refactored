@@ -7,30 +7,35 @@ import java.util.Map;
 import estore.business.IProductService;
 import estore.business.ProductSearchService;
 import estore.business.ProductService;
-import estore.command.AddOperationHandler;
-import estore.command.Command;
-import estore.command.IOperationHandler;
-import estore.command.QuitOperationHandler;
-import estore.command.SearchOperationHandler;
-import estore.command.ViewOperationHandler;
+import estore.data.CatalogFileReader;
+import estore.data.IProductCatalogRepository;
 import estore.data.InMemoryProductCatalogRepository;
-import estore.logging.ConsoleLogger;
 import estore.logging.ILogger;
-import estore.presentation.ConsoleView;
+import estore.logging.Logger;
+import estore.presentation.Console;
+import estore.presentation.ConsoleMessages;
+import estore.presentation.ConsolePrompts;
+import estore.presentation.IConsole;
+import estore.presentation.command.AddOperationHandler;
+import estore.presentation.command.Command;
+import estore.presentation.command.IOperationHandler;
+import estore.presentation.command.QuitOperationHandler;
+import estore.presentation.command.SearchOperationHandler;
+import estore.presentation.command.ViewOperationHandler;
 import estore.presentation.validation.MenuOptionRule;
 import estore.presentation.validation.Rule;
 
 public class EStoreSearch {
 
-    private static final InMemoryProductCatalogRepository catalogRepository = new InMemoryProductCatalogRepository();
+    private static final IProductCatalogRepository catalogRepository = new InMemoryProductCatalogRepository();
     private static final IProductService productService = new ProductService(catalogRepository);
-    private static final ConsoleView consoleView = new ConsoleView();
-    private static final ILogger logger = new ConsoleLogger();
+    private static final IConsole console = new Console();
+    private static final ILogger logger = new Logger();
 
     public static void main(String[] args) {
 
         if (args.length == 0) {
-            logger.log("Please provide the catalog file name as a command line argument.");
+            logger.error("Please provide the catalog file name as a command line argument.");
             System.exit(0);
         }
 
@@ -43,7 +48,7 @@ public class EStoreSearch {
             CatalogFileReader catalogFileReader = new CatalogFileReader(catalogRepository);
             catalogFileReader.read(args[0]);
         } catch (FileNotFoundException e) {
-            logger.log("Problem opening file: " + args[0]);
+            logger.error("Problem opening file: " + args[0]);
             System.exit(0);
         }
     }
@@ -52,21 +57,17 @@ public class EStoreSearch {
         String option = "-1";
         Map<Command, IOperationHandler> operationHandlers = createOperationHandlers();
 
+        console.printMessage(ConsoleMessages.WELCOME_MESSAGE);
+
         while (!option.equals("3")) {
             do {
-                logger.log("\n-------Welcome to E-Search --------");
-                logger.print(
-                        "Select the numbers or type command corresponding to the options below:" + "\n" +
-                                "(1)Add" + "\n" +
-                                "(2)Search" + "\n" +
-                                "(3)Quit" + "\n" +
-                                "(4)View Metadata" + "\n");
+                console.printPrompt(ConsolePrompts.MAIN_MENU);
 
-                option = consoleView.readInput();
+                option = console.readInput();
                 Rule rule = new MenuOptionRule();
 
                 if (!rule.validate(option)) {
-                    logger.log("*** Invalid option selected ***");
+                    console.printMessage(ConsoleMessages.INVALID_OPTION_SELECTED);
                     continue;
                 }
 
@@ -78,20 +79,22 @@ public class EStoreSearch {
             if (operationHandler != null) {
                 operationHandler.execute();
             }
+
+            console.printMessage(ConsoleMessages.HORIZONTAL_LINE);
         }
     }
 
     private static Map<Command, IOperationHandler> createOperationHandlers() {
         Map<Command, IOperationHandler> operationHandlers = new HashMap<Command, IOperationHandler>();
         operationHandlers.put(
-                Command.ADD,
-                new AddOperationHandler(productService, consoleView, logger));
+            Command.ADD,
+            new AddOperationHandler(productService, console));
 
         operationHandlers.put(
-            Command.SEARCH, 
-            new SearchOperationHandler(new ProductSearchService(productService), consoleView, logger));
+            Command.SEARCH,
+            new SearchOperationHandler(new ProductSearchService(productService), console));
 
-        operationHandlers.put(Command.VIEW, new ViewOperationHandler(catalogRepository, logger));
+        operationHandlers.put(Command.VIEW, new ViewOperationHandler(catalogRepository, console));
         operationHandlers.put(Command.QUIT, new QuitOperationHandler(catalogRepository, logger));
         return operationHandlers;
     }

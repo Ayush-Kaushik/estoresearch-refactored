@@ -1,4 +1,4 @@
-package estore.command;
+package estore.presentation.command;
 
 import java.util.HashMap;
 import java.util.Map;

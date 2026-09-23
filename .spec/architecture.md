@@ -77,7 +77,7 @@ architectural layers:
     estore/
     ├── presentation/
     ├── business/
-    └── dataaccess/
+    └── data/
 
 Code should be placed in the package corresponding to its primary
 responsibility.
@@ -96,6 +96,6 @@ Contains application behavior and business rules.
 
 ## Data Access
 
-`estore.dataaccess`
+`estore.data`
 
 Contains persistence and data retrieval concerns.

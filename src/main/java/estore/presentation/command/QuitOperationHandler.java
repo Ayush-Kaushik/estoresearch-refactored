@@ -1,6 +1,6 @@
-package estore.command;
+package estore.presentation.command;
 
-import estore.CatalogFileWriter;
+import estore.data.CatalogFileWriter;
 import estore.data.IProductCatalogRepository;
 import estore.logging.ILogger;
 
@@ -15,7 +15,6 @@ public class QuitOperationHandler implements IOperationHandler {
 
     @Override
     public void execute() {
-        logger.log("Selected option Quit\n");
         new CatalogFileWriter(catalogRepository, logger).write();
         System.exit(0);
     }

@@ -2,27 +2,14 @@ package estore.presentation;
 
 import java.util.Scanner;
 
-import estore.logging.ConsoleLogger;
-import estore.logging.ILogger;
 import estore.presentation.validation.Rule;
 
-/**
- * Presentation-layer entry point for console interaction.
- *
- * This class intentionally contains only user-interface concerns. The actual
- * product logic remains in the business layer.
- */
-public class ConsoleView {
+/** Handles user-visible console interaction without coupling with logging internals. */
+public class Console implements IConsole {
     private final Scanner scanner;
-    private final ILogger logger;
 
-    public ConsoleView() {
-        this(new ConsoleLogger());
-    }
-
-    public ConsoleView(ILogger logger) {
+    public Console() {
         this.scanner = new Scanner(System.in);
-        this.logger = logger;
     }
 
     public String readInput() {
@@ -41,10 +28,10 @@ public class ConsoleView {
     }
 
     public void printMessage(String message) {
-        logger.log(message);
+        System.out.println(message);
     }
 
     public void printPrompt(String prompt) {
-        logger.print(prompt);
+        System.out.print(prompt);
     }
 }

@@ -1,4 +1,4 @@
-package estore.command;
+package estore.presentation.command;
 
 public interface IOperationHandler {
     void execute();

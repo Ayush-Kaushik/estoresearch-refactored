@@ -1,6 +1,6 @@
 package estore.business;
 
-public class BookCreationRequest implements ProductCreationRequest {
+public class BookCreationRequest implements IProductCreationRequest {
     private final String productId;
     private final String name;
     private final double price;
