@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>mygroupid</groupId>
   <artifactId>estore</artifactId>
-  <version>0.0-SNAPSHOT</version>
+  <version>0.0</version>
   <name>estore</name>
 
   <properties>
@@ -31,6 +31,12 @@
       <version>${cucumber.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-picocontainer</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+</dependency>
   </dependencies>
     <build>
     <plugins>
