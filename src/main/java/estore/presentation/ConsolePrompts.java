@@ -18,4 +18,14 @@ public final class ConsolePrompts {
     public static final String PUBLISHER_PROMPT = "Enter the Publisher of item or leave blank: ";
     public static final String MAKER_PROMPT = "Enter the Maker of item or leave blank: ";
     public static final String ID_PROMPT = "Enter the ID:";
+
+    public static final String ADD_PRODUCT_OPTION = "1";
+    public static final String ADD_BOOK_OPTION = "1";
+    public static final String ADD_ELECTRONICS_OPTION = "2";
+    public static final String SEARCH_OPTION = "2";
+    public static final String QUIT_OPTION = "3";
+    public static final String VIEW_METADATA_OPTION = "4";
+
+    public static final String SHOULD_ENTER_SEARCH_QUERY_PARAMETER = "1";
+    public static final String SKIP_ENTER_SEARCH_QUERY_PARAMETER = "2";
 }

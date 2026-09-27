@@ -3,14 +3,15 @@ package estore.e2e;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import io.cucumber.java.an.E;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EStoreSearchWorld {
 
     private EStoreSearchProcess application;
     private Path scenarioDirectory;
     private Path catalogFile;
+    private List<ApplicationInteraction> interactions;
 
     /**
      * This is invoked by the hook to run before each scenario
@@ -23,7 +24,9 @@ public class EStoreSearchWorld {
     public void startScenario() throws IOException {
 
         String artifact = System.getProperty("estore.artifact");
-        this.application = new EStoreSearchProcess(artifact);
+        interactions = new ArrayList<ApplicationInteraction>();
+        
+        this.application = new EStoreSearchProcess(artifact, interactions);
         this.scenarioDirectory = Files.createTempDirectory("estore-scenario-");
         
         // Note: This does not create the file, it merely creates the placeholder location

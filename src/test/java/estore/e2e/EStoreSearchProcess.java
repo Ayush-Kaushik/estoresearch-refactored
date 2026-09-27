@@ -8,22 +8,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class EStoreSearchProcess {
 
     private final String artifact;
+    private final List<ApplicationInteraction> interactions;
 
     private Process process;
     private BufferedWriter input;
     private ByteArrayOutputStream output;
     private Thread outputReader;
 
-    public EStoreSearchProcess(String artifact) {
+    public EStoreSearchProcess(String artifact, List<ApplicationInteraction> interactions) {
         if (artifact == null || artifact.isEmpty()) {
             throw new IllegalStateException("The packaged E-Search artifact is not configured");
         }
 
         this.artifact = artifact;
+        this.interactions = interactions;
     }
 
     public void start(String catalogFile) throws IOException {
@@ -52,17 +55,25 @@ public class EStoreSearchProcess {
         output = new ByteArrayOutputStream();
 
         startOutputReader();
+
+        String interactionOutput = captureOutput();
+        recordInteraction(null, interactionOutput);
+        resetOutputStream();
     }
 
-    public void sendInput(String input) throws IOException {
+    public void sendInput(String userInput) throws IOException {
         ensureRunning();
 
-        this.input.write(input);
+        this.input.write(userInput);
         this.input.newLine();
         this.input.flush();
+
+        String interactionOutput = captureOutput();
+        recordInteraction(userInput, interactionOutput);
+        resetOutputStream();
     }
 
-    public String getOutput() {
+    private String captureOutput() {
         if (output == null) {
             return "";
         }
@@ -71,6 +82,21 @@ public class EStoreSearchProcess {
             output.toByteArray(),
             StandardCharsets.UTF_8
         );
+    }
+
+    private void recordInteraction(String input, String output) {
+        int currentSequence = this.interactions.size();
+        this.interactions.add(new ApplicationInteraction(currentSequence, input, output));
+    }
+
+    private void resetOutputStream() {
+        this.output.reset();
+    }
+
+    public String getOutput() {
+        int lastInteractionOutputSequence = this.interactions.size() + 1;
+        ApplicationInteraction lastInteraction = this.interactions.get(lastInteractionOutputSequence);
+        return lastInteraction.getOutput();
     }
 
     public boolean isRunning() {

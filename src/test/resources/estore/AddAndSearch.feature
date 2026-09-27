@@ -6,15 +6,18 @@ Feature: Add a product and search for it
   Scenario: Operator runs the program, adds a book, then searches by name
     Given a catalog file with no products
     When the operator starts E-Search
-    And the operator adds a book with:
-      | productID | 123456          |
-      | year      | 2023            |
-      | name      | Learning Java   |
-      | price     | 45.99           |
-      | authors   | Jane Doe        |
-      | publisher | Education Press |
+    When the operator adds products with:
+      | type        | productID | year | name          | price  | authors  | publisher       | manufacturer |
+      | book        | 123456    | 2023 | Learning Java | 45.99  | Jane Doe | Education Press |              |
+      | electronics | 234567    | 2024 | Laptop        | 999.99 |          |                 | Lenovo       |
+      | book        | 345678    | 2022 | Java Testing  | 39.99  | John Doe | Tech Press      |              |
     And the operator searches for products named "Learning Java"
+    Then the search result should contain 1 products
+    And the search result should contain
+      | productID | name          |
+      | 123456    | Learning Java |
+
+    # Think about adding this step as in most scenarios the program will quit at the end
+    # And we will assert
+    # or we quit the program and gather all the details
     And the operator quits
-    Then the program output includes "Adding this entry in list"
-    And the search results include product id "123456"
-    And the search results include "Learning Java"
