@@ -40,6 +40,12 @@ jobs:
           path: website/build
           if-no-files-found: error
 
+      - name: Inspect build output
+        run: |
+          pwd
+          ls -la website
+          ls -la website/build
+
   deploy:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
