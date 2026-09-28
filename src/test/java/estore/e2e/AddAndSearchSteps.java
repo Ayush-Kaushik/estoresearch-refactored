@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import estore.presentation.ConsolePrompts;
 import io.cucumber.datatable.DataTable;
@@ -27,7 +31,7 @@ public class AddAndSearchSteps {
     }
 
     @When("the operator starts E-Search")
-    public void theOperatorStartsESearch() throws IOException {
+    public void theOperatorStartsESearch() throws IOException, TimeoutException {
         this.eStoreSearchWorld.startApplication();
     }
 
@@ -51,7 +55,7 @@ public class AddAndSearchSteps {
 
                 default:
                     throw new IllegalArgumentException(
-                        "Unsupported product type: " + product.get("type"));
+                            "Unsupported product type: " + product.get("type"));
             }
         }
     }
@@ -100,22 +104,39 @@ public class AddAndSearchSteps {
     @Then("the search result should contain {int} products")
     public void theSearchResultContains(int productCount) {
         EStoreSearchProcess application = this.eStoreSearchWorld.getApplication();
-
         String output = application.getOutput();
+        int actualCount = output.split("item ID: ", -1).length - 1;
+        assertEquals("Unexpected number of products in search output: " + output, productCount, actualCount);
     }
 
     @Then("the program output includes {string}")
     public void theProgramOutputIncludes(String expected) {
-
+        assertTrue("Expected program output to contain: " + expected,
+                this.eStoreSearchWorld.getApplication().getOutput().contains(expected));
     }
 
     @And("the search results include product id {string}")
     public void theSearchResultsIncludeProductId(String productId) {
+        assertTrue("Expected search output to contain product ID: " + productId,
+                this.eStoreSearchWorld.getApplication().getOutput().contains("item ID: " + productId));
+    }
 
+    @And("the search result should contain")
+    public void theSearchResultShouldContain(DataTable table) {
+        String output = this.eStoreSearchWorld.getApplication().getOutput();
+        List<Map<String, String>> expectedProducts = table.asMaps(String.class, String.class);
+        for (Map<String, String> product : expectedProducts) {
+            assertTrue("Expected search output to contain product ID: " + product.get("productID"),
+                    output.contains("item ID: " + product.get("productID")));
+            assertTrue("Expected search output to contain product name: " + product.get("name"),
+                    output.contains(product.get("name")));
+        }
     }
 
     @And("the search results include {string}")
     public void theSearchResultsInclude(String text) {
+        assertTrue("Expected search output to contain: " + text,
+                this.eStoreSearchWorld.getApplication().getOutput().contains(text));
 
     }
 }

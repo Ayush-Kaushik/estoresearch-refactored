@@ -1,7 +1,10 @@
 package estore.e2e;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 
 public class EStoreSearchHooks {
@@ -14,5 +17,15 @@ public class EStoreSearchHooks {
     @Before 
     public void beforeScenario() throws IOException {
         this.eStoreSearchWorld.startScenario();
+    }
+
+    @AfterStep
+    public void captureInteraction() throws IOException, TimeoutException {
+        this.eStoreSearchWorld.capturePendingInteractions();
+    }
+
+    @After
+    public void afterScenario() throws IOException {
+        this.eStoreSearchWorld.stopScenario();
     }
 }

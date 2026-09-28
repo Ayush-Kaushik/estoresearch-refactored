@@ -13,16 +13,22 @@ public class Console implements IConsole {
     }
 
     public String readInput() {
+        if (ConsoleMessages.isTestModeEnabled()) {
+            System.out.print(ConsoleMessages.TEST_MODE_DELIMITER);
+            System.out.flush();
+        }
         return scanner.nextLine();
     }
 
     public String readValidatedInput(String prompt, Rule rule, String validationMessage) {
         while (true) {
             printPrompt(prompt);
+
             String input = readInput();
             if (rule.validate(input)) {
                 return input;
             }
+
             printMessage(validationMessage);
         }
     }

@@ -1,10 +1,14 @@
 package estore.e2e;
 
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class EStoreSearchWorld {
 
@@ -34,13 +38,48 @@ public class EStoreSearchWorld {
         this.catalogFile = scenarioDirectory.resolve("catalog.txt");
     }
 
-    public void startApplication() throws IOException {
+    public void startApplication() throws IOException, TimeoutException {
         String file = catalogFile.toString();
         application.start(file);
     }
 
     public void stopApplication() {
-        application.stop();
+        if (application != null) {
+            application.stop();
+        }
+    }
+
+    public void capturePendingInteractions() throws IOException, TimeoutException {
+        if (application != null && application.hasPendingInputs()) {
+            application.capturePendingInteractions();
+        }
+    }
+
+    public void stopScenario() throws IOException {
+        stopApplication();
+        if (scenarioDirectory == null || !Files.exists(scenarioDirectory)) {
+            return;
+        }
+
+        Files.walkFileTree(scenarioDirectory, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
+                Files.deleteIfExists(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path directory, IOException exception) throws IOException {
+                if (exception != null) {
+                    throw exception;
+                }
+                Files.deleteIfExists(directory);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        scenarioDirectory = null;
+        catalogFile = null;
+        application = null;
     }
 
     public EStoreSearchProcess getApplication() {
