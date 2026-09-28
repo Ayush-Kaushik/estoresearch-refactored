@@ -1,0 +1,19 @@
+{
+  "name": "estoresearch-docs",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "sync:docs": "node ./scripts/sync-docs.mjs",
+    "start": "npm run sync:docs && docusaurus start --no-open",
+    "build": "npm run sync:docs && docusaurus build",
+    "serve": "docusaurus serve --dir build --host 0.0.0.0",
+    "clear": "docusaurus clear"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.6.3",
+    "@docusaurus/preset-classic": "^3.6.3",
+    "clsx": "^2.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

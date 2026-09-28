@@ -57,5 +57,12 @@ One paragraph: what the user can do after this ships.
 - [ ] ...
 ```
 
+## Known gaps in the current code
+
+This section tracks product behaviours that are intentionally unimplemented or still inconsistent with the specification. Use it as a short checklist when reviewing whether current app behaviour matches the intended product contract.
+
+- [ ] Confirm or document any gaps discovered during implementation.
+- [ ] Update the spec and implementation together when behaviour intentionally changes.
+
 ---
 

@@ -1,0 +1,33 @@
+:root {
+  --ifm-color-primary: #2d6cdf;
+  --ifm-color-primary-dark: #255bc4;
+  --ifm-color-primary-darker: #1f4ead;
+  --ifm-color-primary-darkest: #183a88;
+  --ifm-color-primary-light: #4b82eb;
+  --ifm-color-primary-lighter: #6d96ef;
+  --ifm-footer-background-color: #1c2432;
+}
+
+html[data-theme='dark'] {
+  --ifm-background-color: #111827;
+  --ifm-background-surface-color: #1f2937;
+}
+
+docs-doc-page main { max-width: 1000px; }
+
+.markdown > h1:first-child {
+  margin-top: 0;
+}
+
+.theme-doc-markdown {
+  line-height: 1.75;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+.table-of-contents {
+  position: sticky;
+  top: 4rem;
+}
