@@ -44,7 +44,6 @@ jobs:
         run: |
           pwd
           ls -la
-          ls -la /home/runner/work/estoresearch-refactored/estoresearch-refactored/website
 
   deploy:
     needs: build
