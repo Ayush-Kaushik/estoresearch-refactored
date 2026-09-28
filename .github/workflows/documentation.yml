@@ -43,8 +43,8 @@ jobs:
       - name: Inspect build output
         run: |
           pwd
-          ls -la website
-          ls -la website/build
+          ls -la
+          ls -la /home/runner/work/estoresearch-refactored/estoresearch-refactored/website
 
   deploy:
     needs: build
