@@ -42,6 +42,7 @@ website/node_modules/
 website/build/
 website/docs/
 website/.docusaurus
+website/static/coverage
 
 # Eclipse m2e generated files
 # Eclipse Core

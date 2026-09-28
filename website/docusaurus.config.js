@@ -52,6 +52,11 @@ module.exports = {
           position: 'left',
           label: 'Docs',
         },
+        {
+          label: 'Coverage',
+          href: '/coverage/',
+          position: 'left',
+        },
       ],
     },
     footer: {
