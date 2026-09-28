@@ -49,6 +49,9 @@ jobs:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
     environment: website-production
     permissions:
       contents: read
@@ -58,5 +61,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy website/build --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+          command: pages deploy build --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
           
