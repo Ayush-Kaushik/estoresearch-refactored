@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -43,8 +45,20 @@ public class EStoreSearchProcess {
             throw new IllegalStateException("E-Search is already running.");
         }
 
+        String jacocoAgent = System.getProperty("estore.jacoco.agent");
+        String executionDataFile = System.getProperty("estore.jacoco.destfile");
+        if (jacocoAgent == null || jacocoAgent.isEmpty()
+                || executionDataFile == null || executionDataFile.isEmpty()) {
+            throw new IllegalStateException("JaCoCo agent and execution-data paths must be configured");
+        }
+
+        Path agentPath = Paths.get(jacocoAgent).toAbsolutePath();
+        Path executionDataPath = Paths.get(executionDataFile).toAbsolutePath();
+        Files.createDirectories(executionDataPath.getParent());
+
         ProcessBuilder processBuilder = new ProcessBuilder(
             "java",
+            "-javaagent:" + agentPath + "=destfile=" + executionDataPath,
             "-jar",
             Paths.get(artifact).toAbsolutePath().toString(),
             catalogFile
