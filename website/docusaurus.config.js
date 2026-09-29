@@ -53,9 +53,19 @@ module.exports = {
           label: 'Docs',
         },
         {
-          label: 'Coverage',
-          href: '/coverage/',
+          to: '/engineering-evidence/coverage-overview',
           position: 'left',
+          label: 'Coverage',
+        },
+        {
+          to: '/engineering-evidence/e2e-coverage',
+          position: 'left',
+          label: 'E2E Coverage',
+        },
+        {
+          to: '/engineering-evidence/test-results-overview',
+          position: 'left',
+          label: 'Test Results',
         },
       ],
     },

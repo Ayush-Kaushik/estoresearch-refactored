@@ -43,6 +43,7 @@ module.exports = {
       collapsed: false,
       items: [
         'engineering-evidence/coverage-overview',
+        'engineering-evidence/e2e-coverage',
         'engineering-evidence/security-overview',
         'engineering-evidence/test-results-overview',
       ],
