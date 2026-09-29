@@ -9,6 +9,10 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Writes application events to a timestamped file logger. */
 public class Logger implements ILogger {
@@ -19,6 +23,9 @@ public class Logger implements ILogger {
 
     private final Path logDirectory;
     private final Path logFile;
+    private final BlockingQueue<String> queue;
+    private final Thread worker;
+    private final AtomicBoolean running;
 
     public Logger() {
         this(System.getProperty("user.dir"));
@@ -27,6 +34,26 @@ public class Logger implements ILogger {
     public Logger(String directory) {
         this.logDirectory = Paths.get(directory);
         this.logFile = resolveLogFile(this.logDirectory);
+        this.queue = new LinkedBlockingQueue<String>();
+        this.running = new AtomicBoolean(true);
+        this.worker = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (running.get() || !queue.isEmpty()) {
+                    try {
+                        String entry = queue.poll(250, TimeUnit.MILLISECONDS);
+                        if (entry == null) {
+                            continue;
+                        }
+                        writeLogEntry(entry);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }, "estore-logger-worker");
+        this.worker.setDaemon(true);
+        this.worker.start();
     }
 
     @Override
@@ -59,6 +86,31 @@ public class Logger implements ILogger {
         writeLog("ERROR", message);
     }
 
+    @Override
+    public void close() {
+        if (!running.compareAndSet(true, false)) {
+            return;
+        }
+
+        drainQueue();
+        worker.interrupt();
+
+        try {
+            worker.join(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void drainQueue() {
+        while (!queue.isEmpty()) {
+            String entry = queue.poll();
+            if (entry != null) {
+                writeLogEntry(entry);
+            }
+        }
+    }
+
     private Path resolveLogFile(Path directory) {
         try {
             Files.createDirectories(directory);
@@ -71,10 +123,17 @@ public class Logger implements ILogger {
     }
 
     private void writeLog(String level, String message) {
+        if (!running.get()) {
+            return;
+        }
+
         String timestamp = LocalDateTime.now().format(TIMESTAMP_FORMATTER);
         String source = getCallerClassName();
         String entry = timestamp + " [" + source + "] " + level + " - " + message;
+        queue.offer(entry);
+    }
 
+    private void writeLogEntry(String entry) {
         try (BufferedWriter writer = Files.newBufferedWriter(logFile, StandardCharsets.UTF_8,
                 java.nio.file.StandardOpenOption.CREATE,
                 java.nio.file.StandardOpenOption.APPEND)) {

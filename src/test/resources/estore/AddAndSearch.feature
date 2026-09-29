@@ -1,10 +1,10 @@
 Feature: Add a product and search for it
   As a store operator
-  I want to start E-Search, add a book, and find it again
+  I want to start E-Search, add a book, and find it
   So that the catalog can be updated and queried in one session
 
   Scenario: Operator runs the program, adds a book, then searches by name
-    Given a catalog file with no products
+    Given a new catalog file
     When the operator starts E-Search
     When the operator adds products with:
       | type        | productID | year | name          | price  | authors  | publisher       | manufacturer |

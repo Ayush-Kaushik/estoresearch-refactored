@@ -20,12 +20,12 @@ public class ReadProductCatalogSteps {
         this.eStoreSearchWorld = eStoreSearchWorld;
     }
 
-    @Given("a new catalog file with products")
+    @Given("a new catalog file")
     public void aNewCatalogFileWithProducts() throws IOException {
         Files.createFile(eStoreSearchWorld.getCatalogFile());
     }
 
-    @And("catalog file contains {int} books products")
+    @And("catalog file contains {int} books")
     public void catalogFileContainsBooks(int count) throws IOException {
         for (int index = 0; index < count; index++) {
             appendProduct("book", 100001 + index, "Book " + (index + 1),
@@ -33,7 +33,7 @@ public class ReadProductCatalogSteps {
         }
     }
 
-    @And("catalog file contains {int} electronics product")
+    @And("catalog file contains {int} electronics")
     public void catalogFileContainsElectronics(int count) throws IOException {
         for (int index = 0; index < count; index++) {
             appendProduct("electronics", 200001 + index, "Electronics " + (index + 1),
@@ -46,51 +46,41 @@ public class ReadProductCatalogSteps {
         eStoreSearchWorld.getApplication().sendInput(ConsolePrompts.VIEW_METADATA_OPTION);
     }
 
-    @Then("the program should indicate that that the catalog contains {int} products")
-    public void theProgramShouldIndicateCatalogCount(int count) {
-        assertOutputContains("Total products: " + count);
-    }
-
     @Then("the program should display the catalog metadata")
     public void theProgramShouldDisplayCatalogMetadata() {
         assertOutputContains("Catalog metadata");
     }
 
-    @Then("catalog metadata should indicate that the catalog contains {int} products")
+    @Then("catalog metadata should indicate {int} products")
     public void catalogMetadataShouldIndicateCatalogCount(int count) {
         assertOutputContains("Total products: " + count);
     }
 
-    @Then("catalog metadata should indicate {int} books products")
+    @Then("catalog metadata should indicate {int} books")
     public void catalogMetadataShouldIndicateBooks(int count) {
         assertOutputContains("Books: " + count);
     }
 
-    @Then("catalog metadata should indicate {int} electronics products")
+    @Then("catalog metadata should indicate {int} electronics")
     public void catalogMetadataShouldIndicateElectronics(int count) {
         assertOutputContains("Electronics: " + count);
     }
 
-    @Then("catalog metadata should indicate {int} electronics product")
-    public void catalogMetadataShouldIndicateOneElectronics(int count) {
-        assertOutputContains("Electronics: " + count);
-        }
-
-        private void appendProduct(String type, int id, String name, String typeSpecificFields) throws IOException {
+    private void appendProduct(String type, int id, String name, String typeSpecificFields) throws IOException {
         String product = "type = \"" + type + "\"\n"
-            + "productID = \"" + id + "\"\n"
-            + "name = \"" + name + "\"\n"
-            + "price = \"10.00\"\n"
-            + "year = \"2024\"\n"
-            + typeSpecificFields
-            + "\n";
+                + "productID = \"" + id + "\"\n"
+                + "name = \"" + name + "\"\n"
+                + "price = \"10.00\"\n"
+                + "year = \"2024\"\n"
+                + typeSpecificFields
+                + "\n";
         Files.write(eStoreSearchWorld.getCatalogFile(), product.getBytes(StandardCharsets.UTF_8),
-            StandardOpenOption.APPEND);
-        }
+                StandardOpenOption.APPEND);
+    }
 
-        private void assertOutputContains(String expected) {
+    private void assertOutputContains(String expected) {
         String output = eStoreSearchWorld.getApplication().getOutput();
         assertTrue("Expected program output to contain '" + expected + "' but was: " + output,
-            output.contains(expected));
+                output.contains(expected));
     }
 }

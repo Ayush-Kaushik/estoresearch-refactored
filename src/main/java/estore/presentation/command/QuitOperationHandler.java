@@ -15,7 +15,9 @@ public class QuitOperationHandler implements IOperationHandler {
 
     @Override
     public void execute() {
+        logger.info("Application shutdown requested");
         new CatalogFileWriter(catalogRepository, logger).write();
+        logger.close();
         System.exit(0);
     }
 }

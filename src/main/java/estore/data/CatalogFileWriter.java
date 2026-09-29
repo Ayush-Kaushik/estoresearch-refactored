@@ -30,6 +30,7 @@ public class CatalogFileWriter {
      * format and console messages.
      */
     public void write() {
+        logger.info("Starting catalog export to java.txt");
         try {
             PrintWriter outputStream = new PrintWriter(new FileOutputStream("java.txt"));
             List<Product> products = catalogRepository.findAll();
@@ -38,10 +39,10 @@ public class CatalogFileWriter {
                 outputStream.println(product.toString());
             }
 
-            logger.log("Successful write to file");
             outputStream.close();
+            logger.log("Successful write to file with " + products.size() + " products");
         } catch (FileNotFoundException e) {
-            logger.log("Unable to open file");
+            logger.error("Unable to open file for export");
             System.exit(0);
         }
     }

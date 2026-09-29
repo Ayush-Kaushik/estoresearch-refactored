@@ -32,7 +32,17 @@ public class EStoreSearch {
     private static final IConsole console = new Console();
     private static final ILogger logger = new Logger();
 
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                logger.close();
+            }
+        }, "estore-logger-shutdown"));
+    }
+
     public static void main(String[] args) {
+        logger.info("Application starting");
 
         if (args.length == 0) {
             logger.error("Please provide the catalog file name as a command line argument.");
@@ -45,8 +55,9 @@ public class EStoreSearch {
 
     public static void readCatalog(String[] args) {
         try {
-            CatalogFileReader catalogFileReader = new CatalogFileReader(catalogRepository);
+            CatalogFileReader catalogFileReader = new CatalogFileReader(catalogRepository, logger);
             catalogFileReader.read(args[0]);
+            logger.info("Catalog loaded successfully from file: " + args[0]);
         } catch (FileNotFoundException e) {
             logger.error("Problem opening file: " + args[0]);
             System.exit(0);
@@ -54,6 +65,7 @@ public class EStoreSearch {
     }
 
     public static void runProgram() {
+        logger.info("Entering main application loop");
         String option = "-1";
         Map<Command, IOperationHandler> operationHandlers = createOperationHandlers();
 
@@ -88,13 +100,13 @@ public class EStoreSearch {
         Map<Command, IOperationHandler> operationHandlers = new HashMap<Command, IOperationHandler>();
         operationHandlers.put(
             Command.ADD,
-            new AddOperationHandler(productService, console));
+            new AddOperationHandler(productService, console, logger));
 
         operationHandlers.put(
             Command.SEARCH,
-            new SearchOperationHandler(new ProductSearchService(productService), console));
+            new SearchOperationHandler(new ProductSearchService(productService, logger), console, logger));
 
-        operationHandlers.put(Command.VIEW, new ViewOperationHandler(catalogRepository, console));
+        operationHandlers.put(Command.VIEW, new ViewOperationHandler(catalogRepository, console, logger));
         operationHandlers.put(Command.QUIT, new QuitOperationHandler(catalogRepository, logger));
         return operationHandlers;
     }

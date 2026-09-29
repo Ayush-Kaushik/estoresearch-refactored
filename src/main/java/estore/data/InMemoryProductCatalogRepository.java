@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import estore.logging.ILogger;
+import estore.logging.Logger;
+
 /**
  * In-memory repository implementation.
  *
@@ -15,35 +18,46 @@ import java.util.List;
 public class InMemoryProductCatalogRepository implements IProductCatalogRepository {
     private final List<Product> products;
     private final HashMap<String, ArrayList<Integer>> index;
+    private final ILogger logger;
 
     public InMemoryProductCatalogRepository() {
-        this(new ArrayList<Product>(), new HashMap<String, ArrayList<Integer>>());
+        this(new ArrayList<Product>(), new HashMap<String, ArrayList<Integer>>(), new Logger());
     }
 
     public InMemoryProductCatalogRepository(List<Product> products, HashMap<String, ArrayList<Integer>> index) {
+        this(products, index, new Logger());
+    }
+
+    public InMemoryProductCatalogRepository(List<Product> products, HashMap<String, ArrayList<Integer>> index,
+            ILogger logger) {
         this.products = products;
         this.index = index;
+        this.logger = logger;
     }
 
     @Override
     public void add(Product product) {
+        logger.info("Adding product to repository: " + product.getID());
         products.add(product);
         rebuildIndex();
     }
 
     @Override
     public List<Product> search(String id, String name, String year) {
+        logger.info("Repository search id=" + id + ", name=" + name + ", year=" + year);
         List<Product> results = new ArrayList<>();
         for (Product product : products) {
             if (matches(product, id, name, year)) {
                 results.add(product);
             }
         }
+        logger.info("Repository search returned " + results.size() + " matches");
         return results;
     }
 
     @Override
     public void delete(String id) {
+        logger.info("Deleting product from repository: " + id);
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getID().equals(id)) {
                 products.remove(i);
@@ -55,6 +69,7 @@ public class InMemoryProductCatalogRepository implements IProductCatalogReposito
 
     @Override
     public List<Product> findAll() {
+        logger.info("Fetching all products from repository");
         return Collections.unmodifiableList(new ArrayList<>(products));
     }
 

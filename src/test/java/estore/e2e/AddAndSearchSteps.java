@@ -1,11 +1,9 @@
 package estore.e2e;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
@@ -23,11 +21,6 @@ public class AddAndSearchSteps {
 
     public AddAndSearchSteps(EStoreSearchWorld eStoreSearchWorld) {
         this.eStoreSearchWorld = eStoreSearchWorld;
-    }
-
-    @Given("a catalog file with no products")
-    public void aCatalogFileWithNoProducts() throws IOException {
-        Files.createFile(this.eStoreSearchWorld.getCatalogFile());
     }
 
     @When("the operator starts E-Search")

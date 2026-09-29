@@ -4,6 +4,8 @@ import estore.business.BookCreationRequest;
 import estore.business.ElectronicsCreationRequest;
 import estore.business.IProductService;
 import estore.business.ProductFactory;
+import estore.logging.ILogger;
+import estore.logging.Logger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;
 import estore.presentation.validation.ProductIDRule;
@@ -12,15 +14,25 @@ import estore.presentation.validation.YearRule;
 public class ProductAddView {
     private final IProductService productService;
     private final IConsole console;
+    private final ILogger logger;
 
     public ProductAddView(
             IProductService productService,
             IConsole console) {
+        this(productService, console, new Logger());
+    }
+
+    public ProductAddView(
+            IProductService productService,
+            IConsole console,
+            ILogger logger) {
         this.productService = productService;
         this.console = console;
+        this.logger = logger;
     }
 
     public void add() {
+        logger.info("Starting product addition workflow");
         int option = -1;
 
         do {
@@ -53,11 +65,13 @@ public class ProductAddView {
 
         if (option == 1) {
             BookCreationRequest request = createBookCreationRequest(productId, year, name, price);
+            logger.info("Adding book product with id=" + productId);
             productService.addProduct(ProductFactory.createProduct(request));
         }
 
         if (option == 2) {
             ElectronicsCreationRequest request = createElectronicsCreationRequest(productId, year, name, price);
+            logger.info("Adding electronics product with id=" + productId);
             productService.addProduct(ProductFactory.createProduct(request));
         }
     }
