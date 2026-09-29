@@ -55,8 +55,9 @@ public class EStoreSearchWorld {
         }
     }
 
-    public void stopScenario() throws IOException {
+    public void stopScenario(String scenarioName) throws IOException {
         stopApplication();
+        printScenarioOutput(scenarioName);
         if (scenarioDirectory == null || !Files.exists(scenarioDirectory)) {
             return;
         }
@@ -80,6 +81,23 @@ public class EStoreSearchWorld {
         scenarioDirectory = null;
         catalogFile = null;
         application = null;
+    }
+
+    private void printScenarioOutput(String scenarioName) {
+        System.out.println("\n===== Scenario output: " + scenarioName + " =====");
+        if (interactions != null) {
+            for (ApplicationInteraction interaction : interactions) {
+                System.out.println("--- Interaction " + interaction.getSequence() + " ---");
+                if (interaction.getInput() != null) {
+                    System.out.println("Input: " + interaction.getInput());
+                }
+                System.out.print(interaction.getOutput());
+                if (!interaction.getOutput().endsWith("\n")) {
+                    System.out.println();
+                }
+            }
+        }
+        System.out.println("===== End scenario output: " + scenarioName + " =====");
     }
 
     public EStoreSearchProcess getApplication() {

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeoutException;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 
 public class EStoreSearchHooks {
     private final EStoreSearchWorld eStoreSearchWorld;
@@ -25,7 +26,7 @@ public class EStoreSearchHooks {
     }
 
     @After
-    public void afterScenario() throws IOException {
-        this.eStoreSearchWorld.stopScenario();
+    public void afterScenario(Scenario scenario) throws IOException {
+        this.eStoreSearchWorld.stopScenario(scenario.getName());
     }
 }

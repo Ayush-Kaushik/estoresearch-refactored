@@ -6,20 +6,16 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import estore.logging.ILogger;
-import estore.logging.Logger;
 
 /**
- * Loads catalog products from the application's text-file format and stores them
+ * Loads catalog products from the application's text-file format and stores
+ * them
  * through the repository, which owns the in-memory data structure and indexes.
  */
 public class CatalogFileReader {
 
     private final IProductCatalogRepository catalogRepository;
     private final ILogger logger;
-
-    public CatalogFileReader(IProductCatalogRepository catalogRepository) {
-        this(catalogRepository, new Logger());
-    }
 
     public CatalogFileReader(IProductCatalogRepository catalogRepository, ILogger logger) {
         this.catalogRepository = catalogRepository;
@@ -40,22 +36,24 @@ public class CatalogFileReader {
         try {
             while (inputStream.hasNextLine()) {
                 String line = inputStream.nextLine();
-                String[] values = line.split("=");
-                if (values.length == 2) {
-                    String key = values[0].trim();
-                    char[] array = values[1].trim().toCharArray();
-                    array[0] = ' ';
-                    array[array.length - 1] = ' ';
-                    String value = new String(array).trim();
-                    inputMap.put(key, value);
-                } else {
+
+                if (line.trim().isEmpty()) {
                     addProductToRepository(inputMap);
                     inputMap.clear();
+                    continue;
                 }
-            }
 
-            if (!inputMap.isEmpty()) {
-                addProductToRepository(inputMap);
+                String[] values = line.split("=");
+
+                if (values.length == 2) {
+                    String key = values[0].trim();
+                    String value = values[1].trim();
+                    logger.debug("processed: " + key + " " + value);
+                    inputMap.put(key, value);
+                } else {
+                    logger.debug("invalid catalog line item" + line);
+                    inputMap.clear();
+                }
             }
         } finally {
             inputStream.close();
@@ -64,6 +62,7 @@ public class CatalogFileReader {
 
     private void addProductToRepository(HashMap<String, String> inputMap) {
         Product product = createProduct(inputMap);
+
         if (product != null) {
             logger.info("Loaded product into catalog: " + product.getID());
             catalogRepository.add(product);
@@ -81,12 +80,12 @@ public class CatalogFileReader {
             String author = inputMap.get("authors");
             String publisher = inputMap.get("publisher");
             return new Book(
-                id,
-                name,
-                Double.parseDouble(price),
-                Integer.parseInt(year),
-                author == null ? "" : author,
-                publisher == null ? "" : publisher);
+                    id,
+                    name,
+                    Double.parseDouble(price),
+                    Integer.parseInt(year),
+                    author == null ? "" : author,
+                    publisher == null ? "" : publisher);
         }
 
         if (type != null && type.equals("electronics")) {
