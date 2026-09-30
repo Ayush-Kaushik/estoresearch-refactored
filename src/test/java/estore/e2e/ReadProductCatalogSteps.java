@@ -7,6 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
+import estore.data.Book;
+import estore.data.Electronics;
+import estore.data.Product;
 import estore.presentation.ConsolePrompts;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -28,16 +31,24 @@ public class ReadProductCatalogSteps {
     @And("catalog file contains {int} books")
     public void catalogFileContainsBooks(int count) throws IOException {
         for (int index = 0; index < count; index++) {
-            appendProduct("book", 100001 + index, "Book " + (index + 1),
-                    "authors = \"Scenario Author\"\npublisher = \"Scenario Press\"\n");
+            int id = 100001 + index;
+            String name = "Book " + (index + 1);
+
+            Product book = new Book("" + id, name, index, id, "Scenario Author", "Scenario Press");
+            appendProduct(book);
         }
     }
 
     @And("catalog file contains {int} electronics")
     public void catalogFileContainsElectronics(int count) throws IOException {
         for (int index = 0; index < count; index++) {
-            appendProduct("electronics", 200001 + index, "Electronics " + (index + 1),
-                    "maker = \"Scenario Maker\"\n");
+            int id = 200001 + index;
+            String name = "Electronics " + (index + 1);
+            int year = 2000 + index;
+            double price = 10.0 + index;
+
+            Product electronic = new Electronics("" + id, name, price, year, "Scenario Maker");
+            appendProduct(electronic);
         }
     }
 
@@ -66,15 +77,10 @@ public class ReadProductCatalogSteps {
         assertOutputContains("Electronics: " + count);
     }
 
-    private void appendProduct(String type, int id, String name, String typeSpecificFields) throws IOException {
-        String product = "type = \"" + type + "\"\n"
-                + "productID = \"" + id + "\"\n"
-                + "name = \"" + name + "\"\n"
-                + "price = \"10.00\"\n"
-                + "year = \"2024\"\n"
-                + typeSpecificFields
-                + "\n";
-        Files.write(eStoreSearchWorld.getCatalogFile(), product.getBytes(StandardCharsets.UTF_8),
+    private void appendProduct(Product product) throws IOException {
+        String serializedProduct = product.toString() + System.lineSeparator();
+        Files.write(eStoreSearchWorld.getCatalogFile(), serializedProduct.getBytes(StandardCharsets.UTF_8),
+                StandardOpenOption.CREATE,
                 StandardOpenOption.APPEND);
     }
 

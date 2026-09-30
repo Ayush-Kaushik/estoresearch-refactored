@@ -48,6 +48,9 @@ public class CatalogFileReader {
                 if (values.length == 2) {
                     String key = values[0].trim();
                     String value = values[1].trim();
+                    if (value.length() >= 2 && value.startsWith("\"") && value.endsWith("\"")) {
+                        value = value.substring(1, value.length() - 1);
+                    }
                     logger.debug("processed: " + key + " " + value);
                     inputMap.put(key, value);
                 } else {

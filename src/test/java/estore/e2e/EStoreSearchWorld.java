@@ -1,6 +1,8 @@
 package estore.e2e;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.Files;
@@ -58,6 +60,7 @@ public class EStoreSearchWorld {
     public void stopScenario(String scenarioName) throws IOException {
         stopApplication();
         printScenarioOutput(scenarioName);
+        printScenarioLogs(scenarioName);
         if (scenarioDirectory == null || !Files.exists(scenarioDirectory)) {
             return;
         }
@@ -98,6 +101,30 @@ public class EStoreSearchWorld {
             }
         }
         System.out.println("===== End scenario output: " + scenarioName + " =====");
+    }
+
+    private void printScenarioLogs(String scenarioName) throws IOException {
+        if (scenarioDirectory == null || !Files.exists(scenarioDirectory)) {
+            return;
+        }
+
+        System.out.println("\n===== Scenario application log: " + scenarioName + " =====");
+        boolean foundLog = false;
+        try (DirectoryStream<Path> logFiles = Files.newDirectoryStream(scenarioDirectory, "log_*.txt")) {
+            for (Path logFile : logFiles) {
+                foundLog = true;
+                String contents = new String(Files.readAllBytes(logFile), StandardCharsets.UTF_8);
+                System.out.println("--- " + logFile.getFileName() + " ---");
+                System.out.print(contents);
+                if (!contents.endsWith("\n")) {
+                    System.out.println();
+                }
+            }
+        }
+        if (!foundLog) {
+            System.out.println("(No application log was created.)");
+        }
+        System.out.println("===== End scenario application log: " + scenarioName + " =====");
     }
 
     public EStoreSearchProcess getApplication() {
