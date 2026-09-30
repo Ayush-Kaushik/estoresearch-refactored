@@ -89,6 +89,25 @@ public class AddAndSearchSteps {
         application.sendInput(ConsolePrompts.SKIP_ENTER_SEARCH_QUERY_PARAMETER); // skip adding year
     }
 
+    @When("the operator searches using ID {string}, name {string}, and year {string}")
+    public void theOperatorSearchesUsingCriteria(String id, String name, String year) throws IOException {
+        EStoreSearchProcess application = this.eStoreSearchWorld.getApplication();
+
+        application.sendInput(ConsolePrompts.SEARCH_OPTION);
+        sendSearchParameter(application, id);
+        sendSearchParameter(application, name);
+        sendSearchParameter(application, year);
+    }
+
+    private void sendSearchParameter(EStoreSearchProcess application, String parameter) throws IOException {
+        if (parameter.isEmpty()) {
+            application.sendInput(ConsolePrompts.SKIP_ENTER_SEARCH_QUERY_PARAMETER);
+        } else {
+            application.sendInput(ConsolePrompts.SHOULD_ENTER_SEARCH_QUERY_PARAMETER);
+            application.sendInput(parameter);
+        }
+    }
+
     @When("the operator quits")
     public void theOperatorQuits() {
         this.eStoreSearchWorld.stopApplication();
