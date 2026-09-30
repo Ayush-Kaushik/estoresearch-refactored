@@ -92,9 +92,27 @@ public class InMemoryProductCatalogRepository implements IProductCatalogReposito
         if (name != null && !name.isEmpty() && !product.getName().toLowerCase().contains(name.toLowerCase())) {
             return false;
         }
-        if (year != null && !year.isEmpty() && !String.valueOf(product.getYear()).contains(year)) {
+        if (year != null && !year.isEmpty() && !matchesYear(product.getYear(), year)) {
             return false;
         }
         return true;
+    }
+
+    private boolean matchesYear(int productYear, String query) {
+        if (query.matches("\\d{4}")) {
+            return productYear == Integer.parseInt(query);
+        }
+        if (query.matches("-\\d{4}")) {
+            return productYear <= Integer.parseInt(query.substring(1));
+        }
+        if (query.matches("\\d{4}-")) {
+            return productYear >= Integer.parseInt(query.substring(0, 4));
+        }
+        if (query.matches("\\d{4}-\\d{4}")) {
+            int minimumYear = Integer.parseInt(query.substring(0, 4));
+            int maximumYear = Integer.parseInt(query.substring(5, 9));
+            return productYear >= minimumYear && productYear <= maximumYear;
+        }
+        return false;
     }
 }
