@@ -32,16 +32,4 @@ public class ProductService implements IProductService {
         logger.info("Searching products with id=" + id + ", name=" + name + ", year=" + year);
         return catalogRepository.search(id, name, year);
     }
-
-    @Override
-    public void deleteProduct(String id) {
-        logger.info("Deleting product with id=" + id);
-        catalogRepository.delete(id);
-    }
-
-    @Override
-    public List<Product> getAllProducts() {
-        logger.info("Retrieving all products");
-        return new ArrayList<>(catalogRepository.findAll());
-    }
 }
