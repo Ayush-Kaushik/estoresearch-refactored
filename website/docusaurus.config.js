@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 module.exports = {
   title: 'E-Search',
   tagline: 'Documentation for the Java E-Store Search application',
-  url: 'https://example.com',
+  url: 'https://estoresearch.pages.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
@@ -43,7 +43,7 @@ module.exports = {
       title: 'E-Search',
       logo: {
         alt: 'E-Search logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.jpg',
       },
       items: [
         {
