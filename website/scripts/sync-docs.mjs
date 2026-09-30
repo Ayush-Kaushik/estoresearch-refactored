@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..', '..');
 const websiteRoot = path.resolve(__dirname, '..');
 const docsRoot = path.join(websiteRoot, 'docs');
+const cucumberReportSource = path.join(repoRoot, 'target', 'cucumber-report.html');
+const cucumberReportTarget = path.join(websiteRoot, 'static', 'cucumber-report.html');
 
 const readGitRemote = () => {
   try {
@@ -127,6 +129,11 @@ const writeDoc = (sourceFile, targetRelativePath, title, sidebarLabel) => {
 
 ensureDocsDir();
 
+if (!fs.existsSync(cucumberReportSource)) {
+  throw new Error('Cucumber report not found at target/cucumber-report.html. Run `mvn verify` before building the website.');
+}
+fs.copyFileSync(cucumberReportSource, cucumberReportTarget);
+
 writeDoc(path.join(repoRoot, 'README.md'), 'getting-started/project-overview.md', 'Project overview', 'Overview');
 writeDoc(path.join(repoRoot, '.spec', 'README.md'), 'specifications/specifications-overview.md', 'Specifications overview', 'Overview');
 writeDoc(path.join(repoRoot, '.spec', 'architecture.md'), 'architecture/architecture-overview.md', 'Architecture overview', 'Architecture');
@@ -140,6 +147,5 @@ const coveragePage = `---\ntitle: JaCoCo coverage report\nsidebar_label: Coverag
 fs.writeFileSync(path.join(docsRoot, 'engineering-evidence', 'coverage-overview.md'), coveragePage, 'utf8');
 fs.writeFileSync(path.join(docsRoot, 'engineering-evidence', 'e2e-coverage.md'), `---\ntitle: Cucumber HTML report\nsidebar_label: Behavior Test Report\n---\n\n# Cucumber HTML report\n\n<iframe src="/cucumber-report.html" title="Cucumber HTML report" style={{ width: '100%', height: '75vh', minHeight: '640px', border: 0 }} />\n`, 'utf8');
 fs.writeFileSync(path.join(docsRoot, 'engineering-evidence', 'security-overview.md'), `---\ntitle: Security overview\nsidebar_label: Security\n---\n\n# Security overview\n\nThis section is reserved for generated security scan reports and remediation notes. The repository remains the source of truth for dependency and policy decisions; generated scans belong in the static reporting layer.\n`, 'utf8');
-fs.writeFileSync(path.join(docsRoot, 'engineering-evidence', 'test-results-overview.md'), `---\ntitle: Surefire test report\nsidebar_label: Surefire test report\n---\n\n# Surefire test report\n\n<iframe src="/test-results/surefire.html" title="Surefire test results" style={{ width: '100%', height: '75vh', minHeight: '640px', border: 0 }} />\n`, 'utf8');
 
 console.log('Docs synced from canonical Markdown into website/docs');

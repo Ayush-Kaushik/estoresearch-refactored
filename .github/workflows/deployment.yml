@@ -1,0 +1,140 @@
+name: Java Tests and Documentation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build package and run all tests
+        run: mvn -B clean verify surefire-report:report
+
+      - name: Generate JaCoCo reports
+        if: always()
+        run: mvn -B jacoco:merge@merge-coverage jacoco:report@e2e-report jacoco:report@overall-report
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: target/reports/
+
+      - name: Upload behavior test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behavior-test-report
+          path: target/cucumber-report.html
+          if-no-files-found: warn
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            target/site/jacoco/
+            target/site/jacoco-e2e/
+          if-no-files-found: warn
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download coverage reports
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-reports
+
+      - name: Download behavior test report
+        uses: actions/download-artifact@v4
+        with:
+          name: behavior-test-report
+          path: target
+
+      - name: Copy coverage reports into Docusaurus static files
+        run: |
+          test -f ../coverage-reports/jacoco/index.html
+          test -f ../coverage-reports/jacoco-e2e/index.html
+          mkdir -p static/coverage/e2e
+          cp -a ../coverage-reports/jacoco/. static/coverage/
+          cp -a ../coverage-reports/jacoco-e2e/. static/coverage/e2e/
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Docusaurus site
+        run: npm run build
+
+      - name: Inspect build output
+        run: |
+          pwd
+          ls -la
+          ls -la build
+      - name: Upload static site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docusaurus-site
+          path: website/build
+          if-no-files-found: error
+
+  deploy:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    environment: website-production
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Download static site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docusaurus-site
+          path: website/build
+
+      - name: Inspect downloaded site
+        run: |
+          pwd
+          ls -la website/build
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy website/build --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}

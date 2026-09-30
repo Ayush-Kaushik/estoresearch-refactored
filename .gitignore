@@ -47,6 +47,7 @@ website/build/
 website/docs/
 website/.docusaurus
 website/static/coverage
+website/static/cucumber-report.html
 
 # Eclipse m2e generated files
 # Eclipse Core
