@@ -7,7 +7,6 @@ import estore.data.Electronics;
 import estore.data.IProductCatalogRepository;
 import estore.data.Product;
 import estore.logging.ILogger;
-import estore.logging.Logger;
 import estore.presentation.ConsoleMessages;
 import estore.presentation.IConsole;
 
@@ -15,12 +14,6 @@ public class ViewOperationHandler implements IOperationHandler {
     private final IProductCatalogRepository catalogRepository;
     private final IConsole console;
     private final ILogger logger;
-
-    public ViewOperationHandler(
-        IProductCatalogRepository catalogRepository,
-        IConsole console) {
-        this(catalogRepository, console, new Logger());
-    }
 
     public ViewOperationHandler(
         IProductCatalogRepository catalogRepository,

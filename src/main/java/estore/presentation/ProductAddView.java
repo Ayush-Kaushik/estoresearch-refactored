@@ -5,7 +5,6 @@ import estore.business.ElectronicsCreationRequest;
 import estore.business.IProductService;
 import estore.business.ProductFactory;
 import estore.logging.ILogger;
-import estore.logging.Logger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;
 import estore.presentation.validation.ProductIDRule;
@@ -15,12 +14,6 @@ public class ProductAddView {
     private final IProductService productService;
     private final IConsole console;
     private final ILogger logger;
-
-    public ProductAddView(
-            IProductService productService,
-            IConsole console) {
-        this(productService, console, new Logger());
-    }
 
     public ProductAddView(
             IProductService productService,

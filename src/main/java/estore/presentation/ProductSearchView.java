@@ -6,7 +6,6 @@ import estore.business.ProductSearchService;
 import estore.business.SearchQuery;
 import estore.data.Product;
 import estore.logging.ILogger;
-import estore.logging.Logger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.ProductIDRule;
 
@@ -14,12 +13,6 @@ public class ProductSearchView {
     private final ProductSearchService productSearchService;
     private final IConsole console;
     private final ILogger logger;
-
-    public ProductSearchView(
-            ProductSearchService productSearchService,
-            IConsole console) {
-        this(productSearchService, console, new Logger());
-    }
 
     public ProductSearchView(
             ProductSearchService productSearchService,

@@ -2,7 +2,6 @@ package estore.presentation.command;
 
 import estore.business.IProductService;
 import estore.logging.ILogger;
-import estore.logging.Logger;
 import estore.presentation.IConsole;
 import estore.presentation.ProductAddView;
 
@@ -10,12 +9,6 @@ public class AddOperationHandler implements IOperationHandler {
     private final IProductService productService;
     private final IConsole console;
     private final ILogger logger;
-
-    public AddOperationHandler(
-        IProductService productService,
-        IConsole console) {
-        this(productService, console, new Logger());
-    }
 
     public AddOperationHandler(
         IProductService productService,

@@ -2,7 +2,6 @@ package estore.presentation.command;
 
 import estore.business.ProductSearchService;
 import estore.logging.ILogger;
-import estore.logging.Logger;
 import estore.presentation.IConsole;
 import estore.presentation.ProductSearchView;
 
@@ -10,12 +9,6 @@ public class SearchOperationHandler implements IOperationHandler {
     private final ProductSearchService productSearchService;
     private final IConsole console;
     private final ILogger logger;
-
-    public SearchOperationHandler(
-            ProductSearchService productSearchService,
-            IConsole console) {
-        this(productSearchService, console, new Logger());
-    }
 
     public SearchOperationHandler(
             ProductSearchService productSearchService,

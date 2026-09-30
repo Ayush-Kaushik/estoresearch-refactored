@@ -56,18 +56,6 @@ public class InMemoryProductCatalogRepository implements IProductCatalogReposito
     }
 
     @Override
-    public void delete(String id) {
-        logger.info("Deleting product from repository: " + id);
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getID().equals(id)) {
-                products.remove(i);
-                rebuildIndex();
-                return;
-            }
-        }
-    }
-
-    @Override
     public List<Product> findAll() {
         logger.info("Fetching all products from repository");
         return Collections.unmodifiableList(new ArrayList<>(products));

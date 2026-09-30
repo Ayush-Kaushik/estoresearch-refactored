@@ -13,7 +13,5 @@ public interface IProductCatalogRepository {
 
     List<Product> search(String id, String name, String year);
 
-    void delete(String id);
-
     List<Product> findAll();
 }
