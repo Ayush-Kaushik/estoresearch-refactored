@@ -110,8 +110,8 @@ This documentation site publishes the canonical engineering documentation for th
 - [Testing infrastructure](./testing/test-infrastructure.md)
 
 ## Repository source of truth
-
-The application source of truth remains the project repository itself. The canonical docs live in the root [README.md](${repoUrl}) and the product/specification files in the repo under [.spec](${repoUrl}/tree/${branchName}/.spec). Docusaurus acts as the presentation layer used for publishing this material to a static website.
+s
+The application source of truth remains the project repository itself. The canonical docs live in the root [README.md](${repoUrl}) and the product/specification files in the repo under [.spec](${repoUrl}/tree/${branchName}/.spec).
 `;
   fs.writeFileSync(path.join(docsRoot, 'index.md'), landing, 'utf8');
 };

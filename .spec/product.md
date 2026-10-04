@@ -51,7 +51,7 @@ Prompt:
 
 ```
 -------Welcome to E-Search --------
-Select the numbers or type command corresponding to the options below: (1)Add (2)Search (3)Quit
+Select the numbers or type command corresponding to the options below: (1)Add (2)Search (3)Quit (4) View Metadata
 ```
 
 | Operator input | Action |
@@ -59,6 +59,7 @@ Select the numbers or type command corresponding to the options below: (1)Add (2
 | `1`, `add`, `a` | Add |
 | `2`, `search`, `s` | Search |
 | `3`, `quit`, `q` | Export and exit |
+| `4`, `metadata`, `m` | View Metadata |
 
 Matching is case-insensitive after trim. Invalid input: `*** enter only numbers or commands ***` and re-prompt.
 

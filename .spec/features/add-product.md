@@ -5,10 +5,6 @@
 Allow the operator to add a new Book or Electronics product
 to the in-memory catalog through the Add command.
 
-## Current behaviour
-
-Briefly describe what exists today, if relevant.
-
 ## Required behaviour
 
 ### Product type

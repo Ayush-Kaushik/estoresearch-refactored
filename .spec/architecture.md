@@ -74,10 +74,12 @@ Business logic should not directly perform console input/output, and presentatio
 The codebase is organized into packages corresponding to the
 architectural layers:
 
+```
     estore/
     ├── presentation/
     ├── business/
     └── data/
+```
 
 Code should be placed in the package corresponding to its primary
 responsibility.
