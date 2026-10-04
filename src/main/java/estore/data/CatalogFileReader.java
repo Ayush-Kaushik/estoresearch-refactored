@@ -79,24 +79,30 @@ public class CatalogFileReader {
         String price = inputMap.get("price");
         String year = inputMap.get("year");
 
-        if (type != null && type.equals("book")) {
-            String author = inputMap.get("authors");
-            String publisher = inputMap.get("publisher");
-            return new Book(
-                    id,
-                    name,
-                    Double.parseDouble(price),
-                    Integer.parseInt(year),
-                    author == null ? "" : author,
-                    publisher == null ? "" : publisher);
+        if(type == null || id == null || name == null || price == null || year == null) {
+            logger.debug("Invalid product data: " + inputMap);
+            return null;
         }
 
-        if (type != null && type.equals("electronics")) {
-            String maker = inputMap.get("maker");
-            return new Electronics(id, name, Double.parseDouble(price), Integer.parseInt(year),
-                    maker == null ? "" : maker);
-        }
+        switch (type) {
+            case "book":
+                String author = inputMap.get("authors");
+                String publisher = inputMap.get("publisher");
+                return new Book(
+                        id,
+                        name,
+                        Double.parseDouble(price),
+                        Integer.parseInt(year),
+                        author == null ? "" : author,
+                        publisher == null ? "" : publisher);
 
-        return null;
+            case "electronics":
+                String maker = inputMap.get("maker");
+                return new Electronics(id, name, Double.parseDouble(price), Integer.parseInt(year),
+                        maker == null ? "" : maker);
+            default:
+                logger.debug("Unknown product type: " + type);
+                return null;
+        }
     }
 }
