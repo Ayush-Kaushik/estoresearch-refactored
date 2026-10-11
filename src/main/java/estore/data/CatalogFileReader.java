@@ -31,9 +31,8 @@ public class CatalogFileReader {
     public void read(String fileName) throws FileNotFoundException {
         logger.info("Reading catalog from file: " + fileName);
         HashMap<String, String> inputMap = new HashMap<String, String>();
-        Scanner inputStream = new Scanner(new FileInputStream(fileName));
 
-        try {
+        try (Scanner inputStream = new Scanner(new FileInputStream(fileName))) {
             while (inputStream.hasNextLine()) {
                 String line = inputStream.nextLine();
 
@@ -58,8 +57,6 @@ public class CatalogFileReader {
                     inputMap.clear();
                 }
             }
-        } finally {
-            inputStream.close();
         }
     }
 

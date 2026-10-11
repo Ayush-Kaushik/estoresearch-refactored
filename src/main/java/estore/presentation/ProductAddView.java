@@ -94,6 +94,7 @@ public class ProductAddView {
     }
 
     private String readOptionalValue(String prompt) {
+        console.printPrompt(prompt);
         return console.readInput();
     }
 
