@@ -17,7 +17,10 @@
     <sonar.coverage.jacoco.xmlReportPaths>
         ${project.build.directory}/site/jacoco/jacoco.xml
     </sonar.coverage.jacoco.xmlReportPaths>
-  <sonar.organization>ayush-kaushik</sonar.organization>
+    <sonar.sources>src/main/java</sonar.sources>
+    <sonar.exclusions>.github/**,src/test/**</sonar.exclusions>
+    <sonar.test.exclusions>src/test/**</sonar.test.exclusions>
+    <sonar.organization>ayush-kaushik</sonar.organization>
   </properties>
   <dependencies>
     <dependency>
