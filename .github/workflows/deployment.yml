@@ -62,7 +62,7 @@ jobs:
           mvn -B
           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.projectKey=Ayush-Kaushik_estoresearch-refactored
-          -Dsonar.organization=Ayush-Kaushik
+          -Dsonar.organization=ayush-kaushik
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
