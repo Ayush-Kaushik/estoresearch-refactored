@@ -1,10 +1,11 @@
-name: Java Tests and Documentation
+name: Java Tests, SonarQube and Documentation
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    types: [ opened, synchronize, reopened ]
   workflow_dispatch:
 
 permissions:
@@ -12,17 +13,34 @@ permissions:
 
 jobs:
   test:
+    name: Test and analyze
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
         with:
           distribution: temurin
           java-version: 17
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: Build package and run all tests
         run: mvn -B clean verify surefire-report:report
@@ -31,12 +49,28 @@ jobs:
         if: always()
         run: mvn -B jacoco:merge@merge-coverage jacoco:report@e2e-report jacoco:report@overall-report
 
+      - name: Verify JaCoCo XML report exists
+        run: test -f target/site/jacoco/jacoco.xml
+
+      - name: SonarQube Cloud analysis
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >
+          mvn -B
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=Ayush-Kaushik_estoresearch-refactored
+          -Dsonar.organization=Ayush-Kaushik
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
       - name: Upload HTML test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: target/reports/
+          if-no-files-found: warn
 
       - name: Upload behavior test report
         if: always()
@@ -57,8 +91,10 @@ jobs:
           if-no-files-found: warn
 
   build:
+    name: Build documentation
     needs: test
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: website
@@ -86,6 +122,7 @@ jobs:
           mkdir -p static/coverage/e2e
           cp -a ../coverage-reports/jacoco/. static/coverage/
           cp -a ../coverage-reports/jacoco-e2e/. static/coverage/e2e/
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -104,6 +141,7 @@ jobs:
           pwd
           ls -la
           ls -la build
+
       - name: Upload static site artifact
         uses: actions/upload-artifact@v4
         with:
@@ -112,6 +150,7 @@ jobs:
           if-no-files-found: error
 
   deploy:
+    name: Deploy documentation
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -132,6 +171,7 @@ jobs:
         run: |
           pwd
           ls -la website/build
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
         with:
