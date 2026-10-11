@@ -17,6 +17,7 @@ public class Console implements IConsole {
             System.out.print(ConsoleMessages.TEST_MODE_DELIMITER);
             System.out.flush();
         }
+        
         return scanner.nextLine();
     }
 

@@ -8,6 +8,7 @@ import estore.data.Product;
 import estore.logging.ILogger;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.ProductIDRule;
+import estore.presentation.validation.SearchProductYearRule;
 
 public class ProductSearchView {
     private final ProductSearchService productSearchService;
@@ -67,30 +68,32 @@ public class ProductSearchView {
     }
 
     private String readYear() {
+        int option;
         String productYear = "";
+
         console.printMessage(ConsoleMessages.ENTER_YEAR_OPTION);
 
-        int option;
-        outerloop: do {
+        do {
             option = readIntegerOption();
 
+            if (option != 1 && option != 2) {
+                console.printMessage(ConsoleMessages.WRONG_INPUT);
+                continue;
+            }
+
             if (option == 1) {
-                do {
-                    console.printPrompt(ConsolePrompts.PRODUCT_YEAR);
-                    productYear = console.readInput();
-                    if (!productYear.isEmpty() && !productYear.matches("[a-zA-Z]+")) {
-                        break outerloop;
-                    }
-                } while (productYear.isEmpty() && productYear.matches("[a-zA-Z]+"));
+
+                productYear = console.readValidatedInput(
+                        ConsolePrompts.PRODUCT_YEAR,
+                        new SearchProductYearRule(),
+                        ConsoleMessages.WRONG_INPUT_MESSAGE);
             }
 
             if (option == 2) {
                 productYear = "";
-                break;
             }
 
-            console.printMessage(ConsoleMessages.WRONG_INPUT);
-        } while (option != 1 || option != 2);
+        } while (option != 1 && option != 2);
 
         return productYear;
     }

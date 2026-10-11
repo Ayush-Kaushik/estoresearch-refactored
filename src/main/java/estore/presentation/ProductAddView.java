@@ -5,10 +5,10 @@ import estore.business.ElectronicsCreationRequest;
 import estore.business.IProductService;
 import estore.business.ProductFactory;
 import estore.logging.ILogger;
+import estore.presentation.validation.AddProductYearRule;
 import estore.presentation.validation.NameRule;
 import estore.presentation.validation.PriceRule;
 import estore.presentation.validation.ProductIDRule;
-import estore.presentation.validation.YearRule;
 
 public class ProductAddView {
     private final IProductService productService;
@@ -41,7 +41,7 @@ public class ProductAddView {
         String productId = readProductId();
         int year = Integer.parseInt(console.readValidatedInput(
                 ConsolePrompts.YEAR_PROMPT,
-                new YearRule(),
+                new AddProductYearRule(),
                 "Year has to be 4 digit"));
 
         String name = console.readValidatedInput(
