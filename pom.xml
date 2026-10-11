@@ -13,6 +13,12 @@
     <cucumber.version>7.18.1</cucumber.version>
     <jacoco.version>0.8.12</jacoco.version>
     <surefireArgLine></surefireArgLine>
+
+    <!-- SonarQube Cloud coverage report -->
+    <sonar.coverage.jacoco.xmlReportPaths>
+        ${project.build.directory}/site/jacoco/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
+    
   </properties>
   <dependencies>
     <dependency>
