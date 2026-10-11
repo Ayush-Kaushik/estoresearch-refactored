@@ -131,7 +131,7 @@ Key implementation areas:
 ### Build
 
 ```bash
-mvn test
+mvn verify
 ```
 
 ### Run the app

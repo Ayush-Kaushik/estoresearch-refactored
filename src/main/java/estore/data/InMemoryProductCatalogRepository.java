@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import estore.logging.ILogger;
 import estore.logging.Logger;
@@ -45,14 +46,13 @@ public class InMemoryProductCatalogRepository implements IProductCatalogReposito
     @Override
     public List<Product> search(String id, String name, String year) {
         logger.info("Repository search id=" + id + ", name=" + name + ", year=" + year);
-        List<Product> results = new ArrayList<>();
-        for (Product product : products) {
-            if (matches(product, id, name, year)) {
-                results.add(product);
-            }
-        }
-        logger.info("Repository search returned " + results.size() + " matches");
-        return results;
+        
+        List<Product> result = products.stream()
+            .filter(product -> matches(product, id, name, year))
+            .collect(Collectors.toList());
+
+        logger.info("Repository search returned " + result.size() + " matches");
+        return result;
     }
 
     @Override
