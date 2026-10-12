@@ -24,6 +24,10 @@ public class MenuOptionRule extends Rule {
 
     @Override
     public boolean validate(String input) {
+        if (input == null) {
+            return false;
+        }
+
         String normalizedInput = input.toLowerCase().trim();
         return validSelections.containsKey(normalizedInput);
     }

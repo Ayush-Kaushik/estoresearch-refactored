@@ -69,7 +69,7 @@ public class EStoreSearch {
         String option = "-1";
         Map<Command, IOperationHandler> operationHandlers = createOperationHandlers();
 
-        console.printMessage(ConsoleMessages.WELCOME_MESSAGE);
+        console.printMessage(ConsoleMessages.WELCOME_MESSAGE + Command.getOptions());
 
         while (!option.equals("3")) {
             do {
@@ -106,7 +106,7 @@ public class EStoreSearch {
             Command.SEARCH,
             new SearchOperationHandler(new ProductSearchService(productService, logger), console, logger));
 
-        operationHandlers.put(Command.VIEW, new ViewOperationHandler(catalogRepository, console, logger));
+        operationHandlers.put(Command.METADATA, new ViewOperationHandler(catalogRepository, console, logger));
         operationHandlers.put(Command.QUIT, new QuitOperationHandler(catalogRepository, logger));
         return operationHandlers;
     }

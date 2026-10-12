@@ -7,7 +7,7 @@ public enum Command {
     ADD(1, "add", "a"),
     SEARCH(2, "search", "s"),
     QUIT(3, "quit", "q"),
-    VIEW(4, "metadata", "m");
+    METADATA(4, "metadata", "m");
 
     private final int index;
     private final String[] aliases;
@@ -37,7 +37,7 @@ public enum Command {
             options.append("(").append(command.index).append(")")
                     .append(command.name().charAt(0))
                     .append(command.name().substring(1).toLowerCase())
-                    .append("\n");
+                    .append(" ");
         }
         return options.toString();
     }
