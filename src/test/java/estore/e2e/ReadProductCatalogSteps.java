@@ -28,6 +28,17 @@ public class ReadProductCatalogSteps {
         Files.createFile(eStoreSearchWorld.getCatalogFile());
     }
 
+    @And("catalog file contains an unsupported product type")
+    public void catalogFileContainsUnsupportedProductType() throws IOException {
+        String unsupportedProduct = "type = \"unsupported\"" + System.lineSeparator()
+                + "productID = \"300001\"" + System.lineSeparator()
+                + "name = \"Unsupported Product\"" + System.lineSeparator()
+                + "price = \"10.0\"" + System.lineSeparator()
+                + "year = \"2024\"" + System.lineSeparator() + System.lineSeparator();
+        Files.write(eStoreSearchWorld.getCatalogFile(), unsupportedProduct.getBytes(StandardCharsets.UTF_8),
+                StandardOpenOption.APPEND);
+    }
+
     @And("catalog file contains {int} books")
     public void catalogFileContainsBooks(int count) throws IOException {
         for (int index = 0; index < count; index++) {
